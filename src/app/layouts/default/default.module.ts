@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DefaultRoutingModule } from './default-routing.module';
 import { DefaultComponent } from './default.component';
-import { ComponentsModule } from 'src/app/components/components.module';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   declarations: [DefaultComponent],
