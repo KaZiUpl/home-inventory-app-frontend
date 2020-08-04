@@ -21,7 +21,17 @@ export class UserService {
   getLocalUser(): TokenOutput {
     if (window.sessionStorage.getItem('user') === null) {
       return JSON.parse(window.localStorage.getItem('user'));
-    } else return JSON.parse(window.sessionStorage.getItem('user'));
+    } else {
+      return JSON.parse(window.sessionStorage.getItem('user'));
+    }
+  }
+
+  removeLocalUser(): any {
+    if (window.sessionStorage.getItem('user') !== null) {
+      window.sessionStorage.removeItem('user');
+    } else {
+      window.localStorage.removeItem('user');
+    }
   }
 
   register(login: string, email: string, password: string): Observable<any> {
@@ -43,7 +53,7 @@ export class UserService {
       password: password,
     };
     return this.httpClient.post<TokenOutput>(
-      environment.apiUrl + 'users/token',
+      environment.apiUrl + 'users/auth',
       body
     );
   }

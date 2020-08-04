@@ -22,12 +22,12 @@ const routes: Routes = [
             (m) => m.DashboardModule
           ),
       },
-      {
-        path: 'auth',
-        loadChildren: () =>
-          import('./pages/auth/auth.module').then((m) => m.AuthModule),
-      },
     ],
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./pages/auth/auth.module').then((m) => m.AuthModule),
   },
 ];
 
