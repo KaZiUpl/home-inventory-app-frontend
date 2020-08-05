@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar} from '@angular/material/snack-bar';
 
 import { UserService } from 'src/app/services/user.service';
 import { TokenOutput } from 'src/app/models/token.model';
@@ -14,10 +15,11 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, private snackBarService: MatSnackBar) {
     this.loginForm = new FormGroup({
       login: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required]),
+      remember: new FormControl(null, [])
     });
   }
 
@@ -29,13 +31,17 @@ export class LoginComponent implements OnInit {
     }
 
     this.userService
-      .login(this.loginForm.value.login, this.loginForm.value.password, false)
+      .login(this.loginForm.value.login, this.loginForm.value.password, this.loginForm.value.remember)
       .subscribe(
         (user: TokenOutput) => {
-          this.userService.setLocalUser(user, false);
+          this.userService.setLocalUser(user, this.loginForm.value.remember);
           this.router.navigate(['dashboard']);
         },
-        (error: HttpErrorResponse) => console.log(error)
+        (error: HttpErrorResponse) => {
+          this.snackBarService.open(error.error.message,null,{
+            duration: 3000
+          });
+        }
       );
   }
 }

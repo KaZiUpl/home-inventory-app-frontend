@@ -1,15 +1,59 @@
-<form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit()">
-  <mat-form-field appearance="outline">
-    <mat-label>Login</mat-label>
-    <input matInput type="text" formControlName="login" />
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>
-      Password
-    </mat-label>
-    <input matInput type="password" formControlName="password" />
-  </mat-form-field>
-  <button mat-raised-button type="submit">
-      Submit
-  </button>
-</form>
+<div class="box">
+  <div class="row middle-xs center-xs">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <mat-card>
+        <mat-card-title>
+          Sign in
+        </mat-card-title>
+        <mat-card-subtitle>
+          Want an account?
+          <a [routerLink]="['/auth/register']" routerLinkActive="router-link-active"
+            >Create one!</a
+          >
+        </mat-card-subtitle>
+        <form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit()">
+          <mat-card-content>
+            <div class="box">
+              <div class="row">
+                <div class="col-xs-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Login</mat-label>
+                    <input matInput type="text" formControlName="login" />
+                    <mat-error *ngIf="loginForm.get('login').hasError('required')"
+                      >This field is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-xs-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>
+                      Password
+                    </mat-label>
+                    <input matInput type="password" formControlName="password" />
+                    <mat-error *ngIf="loginForm.get('password').hasError('required')"
+                      >This field is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-xs-12 text-left">
+                  <mat-checkbox formControlName="remember">remember me</mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="box">
+              <div class="row">
+                <div class="col-xs-12 text-right">
+                  <button mat-raised-button type="submit" color="primary">
+                    Sign in
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card-actions>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+</div>

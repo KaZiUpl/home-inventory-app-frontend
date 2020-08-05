@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCheckboxModule} from '@angular/material/checkbox';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
@@ -22,7 +25,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatSnackBarModule,
   ],
+  entryComponents: [LoginComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
