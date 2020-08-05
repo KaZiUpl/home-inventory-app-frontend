@@ -61,7 +61,6 @@ export class UserService {
   }
 
   refreshToken(): Observable<TokenOutput> {
-    
     const user = this.getLocalUser();
     const body = {
       token: user.refresh_token,
@@ -91,10 +90,17 @@ export class UserService {
 
   getAccessToken(): string {
     const user = this.getLocalUser();
-    if(user === null) {
+    if (user === null) {
       return '';
     }
-    
+
     return user.access_token;
+  }
+
+  changeLogin(login: string): Observable<any> {
+    const body = {
+      login: login,
+    };
+    return this.httpClient.put(environment.apiUrl + 'users/login', body);
   }
 }

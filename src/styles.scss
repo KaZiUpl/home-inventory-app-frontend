@@ -2,17 +2,13 @@
 
 /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
+body, html {
   height: 100%;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-* {
-  box-sizing: border-box;
+  background-color: #eee;
 }
 
 .text-center {
@@ -23,6 +19,10 @@ body {
 }
 .text-left {
   text-align: left;
+}
+
+.my-1 {
+  margin: 10px 0;
 }
 
 .mat-form-field {

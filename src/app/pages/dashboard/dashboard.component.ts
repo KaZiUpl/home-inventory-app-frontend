@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserOutput } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,17 +11,37 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(private userService: UserService, private router: Router) {}
+  profileForm: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(
+    private userService: UserService,
+    private snackBarService: MatSnackBar
+  ) {
+    this.profileForm = new FormGroup({
+      login: new FormControl(null, [Validators.required]),
+    });
+  }
 
-  logout(): void {
-    this.userService.logout().subscribe(
+  ngOnInit(): void {
+    this.userService.getUserInfo().subscribe((user: UserOutput) => {
+      this.profileForm.patchValue({ login: user.login });
+    });
+  }
+
+  onProfileFormSubmit() {
+    if (this.profileForm.invalid) {
+      return;
+    }
+
+    this.userService.changeLogin(this.profileForm.value.login).subscribe(
       (response: any) => {
-        this.userService.removeLocalUser();
-        this.router.navigate(['auth']);
+        this.snackBarService.open(response.message, null, { duration: 1500 });
       },
-      (error: HttpErrorResponse) => console.log(error)
+      (error: HttpErrorResponse) => {
+        this.snackBarService.open(error.error.message, null, {
+          duration: 2000,
+        });
+      }
     );
   }
 }
