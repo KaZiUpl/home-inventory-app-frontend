@@ -98,9 +98,10 @@ export class UserService {
   }
 
   changeLogin(login: string): Observable<any> {
+    let user = this.getLocalUser();
     const body = {
       login: login,
     };
-    return this.httpClient.put(environment.apiUrl + 'users/login', body);
+    return this.httpClient.put(environment.apiUrl + 'users/'+user.id+'/login', body);
   }
 }

@@ -41,7 +41,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (
       user === null ||
       req.url.includes('auth/refresh') ||
-      req.url.includes('users/logout')
+      req.url.includes('logout')
     ) {
       return next.handle(req);
     }
