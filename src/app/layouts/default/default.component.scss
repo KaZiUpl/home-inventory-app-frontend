@@ -1,7 +1,7 @@
-#default-wrapper {
-    height: 100%;
+mat-toolbar {
+    position: fixed;
+    z-index: 10;
 }
-
 mat-sidenav-container, mat-sidenav-content, mat-sidenav {
     height: 100%;
 }

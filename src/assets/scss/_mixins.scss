@@ -1,0 +1,19 @@
+@mixin create-media-query($breakpoint, $min-max) {
+  @if ($breakpoint == 0) {
+    @content;
+  } @else {
+    @media screen and ( #{$min-max}-width: $breakpoint * 1px) {
+      @content;
+    }
+  }
+}
+
+@mixin create-col-classes($modifier, $grid-col-number, $breakpoint) {
+  @include create-media-query($breakpoint, "min") {
+    @for $i from 1 through $grid-col-number {
+      .col#{$modifier}-#{$i} {
+        flex-basis: (100 / ($grid-col-number / $i)) * 1%;
+      }
+    }
+  }
+}

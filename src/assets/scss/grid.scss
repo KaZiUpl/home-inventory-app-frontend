@@ -1,0 +1,62 @@
+@import "./_mixins.scss";
+
+$grid-col-number: 12;
+$grid-bp-sm: 576;
+$grid-bp-md: 768;
+$grid-bp-lg: 992;
+$grid-bp-xl: 1200;
+$map-grid-props: (
+  "": 0,
+  "-sm": $grid-bp-sm,
+  "-md": $grid-bp-md,
+  "-lg": $grid-bp-lg,
+  "-xl": $grid-bp-xl,
+);
+
+.container {
+  max-width: $grid-bp-md * 1px;
+  margin: 0 auto;
+
+  &-fluid {
+    margin: 0;
+    max-width: 100%;
+  }
+}
+/* row class */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+/* create column classes based on breakpoints */
+@each $modifier, $breakpoint in $map-grid-props {
+  @include create-col-classes($modifier, $grid-col-number, $breakpoint);
+}
+.col {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+@for $i from 1 through 4 {
+  .h-#{$i * 25} {
+    height: $i * 25%;
+  }
+}
+
+/* create hidden classes */
+@each $modifier, $breakpoint in $map-grid-props {
+  @if ($modifier == "") {
+    $modifier: "-xs";
+  }
+  @include create-media-query($breakpoint - 1, "max") {
+    .hidden#{$modifier}-down {
+      display: none !important;
+    }
+  }
+  @include create-media-query($breakpoint, "min") {
+    .hidden#{$modifier}-up {
+      display: none !important;
+    }
+  }
+}

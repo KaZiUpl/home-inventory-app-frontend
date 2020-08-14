@@ -1,16 +1,33 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <button mat-raised-button type="button" (click)="logout()">
+      Logout
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
-    asd
+    <mat-list>
+      <mat-list-item></mat-list-item>
+      <h3 matSubheader>Folders</h3>
+      <mat-list-item>
+        <mat-icon matListIcon>folder</mat-icon>
+        <h4 matLine>folder.name</h4>
+        <p matLine class="demo-2">folder.updated</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <h3 matSubheader>Notes</h3>
+      <mat-list-item>
+        <mat-icon matListIcon>note</mat-icon>
+        <h4 matLine>note.name</h4>
+        <p matLine class="demo-2">note.updated</p>
+      </mat-list-item>
+    </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <button mat-raised-button type="button" (click)="logout()">
-        Logout
-      </button>
-    </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
