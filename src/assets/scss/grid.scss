@@ -1,4 +1,4 @@
-@import "./_mixins.scss";
+@import "./mixins.scss";
 
 $grid-col-number: 12;
 $grid-bp-sm: 576;
@@ -33,9 +33,9 @@ $map-grid-props: (
   @include create-col-classes($modifier, $grid-col-number, $breakpoint);
 }
 .col {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
 }
 
 @for $i from 1 through 4 {
