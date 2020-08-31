@@ -42,7 +42,7 @@ export class UserService {
       email: email,
       password: password,
     };
-    return this.httpClient.post(environment.apiUrl + 'users', body);
+    return this.httpClient.post(environment.apiUrl + '/users', body);
   }
 
   login(
@@ -55,7 +55,7 @@ export class UserService {
       password: password,
     };
     return this.httpClient.post<TokenOutput>(
-      environment.apiUrl + 'users/auth',
+      environment.apiUrl + '/users/auth',
       body
     );
   }
@@ -67,7 +67,7 @@ export class UserService {
     };
 
     return this.httpClient.post<TokenOutput>(
-      environment.apiUrl + 'users/auth/refresh',
+      environment.apiUrl + '/users/auth/refresh',
       body
     );
   }
@@ -78,13 +78,13 @@ export class UserService {
       token: user.refresh_token,
     };
 
-    return this.httpClient.post(environment.apiUrl + 'users/logout', body);
+    return this.httpClient.post(environment.apiUrl + '/users/logout', body);
   }
 
   getUserInfo(): Observable<UserFullOutput> {
     const user = this.getLocalUser();
     return this.httpClient.get<UserFullOutput>(
-      environment.apiUrl + 'users/' + user.id
+      environment.apiUrl + '/users/' + user.id
     );
   }
 
@@ -103,7 +103,7 @@ export class UserService {
       login: login,
     };
     return this.httpClient.put(
-      environment.apiUrl + 'users/' + user.id + '/login',
+      environment.apiUrl + '/users/' + user.id + '/login',
       body
     );
   }
