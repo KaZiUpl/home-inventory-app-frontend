@@ -8,21 +8,14 @@
 <mat-sidenav-container>
   <mat-sidenav [permanentAt]="960" #sidenav>
     <mat-list>
-      <h3 matSubheader>Folders</h3>
-      <mat-list-item>
-        <mat-icon matListIcon>folder</mat-icon>
-        <h4 matLine>folder.name</h4>
-        <p matLine class="demo-2">folder.updated</p>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <h3 matSubheader>Notes</h3>
-      <mat-list-item>
-        <mat-icon matListIcon>note</mat-icon>
-        <h4 matLine>note.name</h4>
-        <p matLine class="demo-2">note.updated</p>
+      <h3 matSubheader>Houses</h3>
+      <mat-list-item *ngFor="let house of houseList">
+        <mat-icon matListIcon>house</mat-icon>
+        <h4 matLine>{{ house.name }}</h4>
       </mat-list-item>
     </mat-list>
-    <div class="container">
+    <mat-divider></mat-divider>
+    <div class="container my-1">
       <div class="row">
         <div class="col text-center">
           <button mat-raised-button type="button" (click)="logout()">
