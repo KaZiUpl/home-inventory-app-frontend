@@ -3,7 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserOutput } from 'src/app/models/user.model';
+import { UserFullOutput } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUserInfo().subscribe((user: UserOutput) => {
+    this.userService.getUserInfo().subscribe((user: UserFullOutput) => {
       this.profileForm.patchValue({ login: user.login });
     });
   }

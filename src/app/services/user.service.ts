@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { TokenOutput } from '../models/token.model';
-import { UserOutput } from '../models/user.model';
+import { UserFullOutput } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -81,9 +81,9 @@ export class UserService {
     return this.httpClient.post(environment.apiUrl + 'users/logout', body);
   }
 
-  getUserInfo(): Observable<UserOutput> {
+  getUserInfo(): Observable<UserFullOutput> {
     const user = this.getLocalUser();
-    return this.httpClient.get<UserOutput>(
+    return this.httpClient.get<UserFullOutput>(
       environment.apiUrl + 'users/' + user.id
     );
   }
@@ -102,6 +102,9 @@ export class UserService {
     const body = {
       login: login,
     };
-    return this.httpClient.put(environment.apiUrl + 'users/'+user.id+'/login', body);
+    return this.httpClient.put(
+      environment.apiUrl + 'users/' + user.id + '/login',
+      body
+    );
   }
 }
