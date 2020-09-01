@@ -22,6 +22,11 @@ const routes: Routes = [
             (m) => m.DashboardModule
           ),
       },
+      {
+        path: 'houses',
+        loadChildren: () =>
+          import('./pages/house/house.module').then((m) => m.HouseModule),
+      },
     ],
   },
   {

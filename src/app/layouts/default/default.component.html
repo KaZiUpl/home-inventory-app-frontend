@@ -7,14 +7,18 @@
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav [permanentAt]="960" #sidenav>
-    <mat-list>
+    <mat-nav-list>
       <h3 matSubheader>Houses</h3>
-      <mat-list-item *ngFor="let house of houseList">
+      <a
+        mat-list-item
+        *ngFor="let house of houseList"
+        [routerLink]="['/houses/', house._id]"
+        routerLinkActive="active"
+      >
         <mat-icon matListIcon>house</mat-icon>
         <h4 matLine>{{ house.name }}</h4>
-      </mat-list-item>
-    </mat-list>
-    <mat-divider></mat-divider>
+      </a>
+    </mat-nav-list>
     <div class="container my-1">
       <div class="row">
         <div class="col text-center">

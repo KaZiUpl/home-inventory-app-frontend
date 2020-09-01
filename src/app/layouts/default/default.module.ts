@@ -10,7 +10,7 @@ import { DefaultRoutingModule } from './default-routing.module';
 import { DefaultComponent } from './default.component';
 import { ComponentsModule } from '../../components/components.module';
 import { AuthModule } from '../../pages/auth/auth.module';
-import { ResponsiveSidenavModule} from '../../directives/responsive-sidenav/responsive-sidenav.module';
+import { ResponsiveSidenavModule } from '../../directives/responsive-sidenav/responsive-sidenav.module';
 @NgModule({
   declarations: [DefaultComponent],
   imports: [

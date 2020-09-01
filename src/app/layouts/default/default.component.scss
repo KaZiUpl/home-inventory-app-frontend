@@ -1,3 +1,4 @@
+@import "../../../assets/scss/mixins";
 mat-toolbar {
   position: fixed;
   z-index: 10;
@@ -11,4 +12,12 @@ mat-sidenav-content {
 mat-sidenav {
   width: 250px;
   margin-top: 64px;
+}
+
+.mat-list-item {
+  @include transition(all 0.2s ease);
+  &.active {
+    background-color: #eee;
+    @include transition(all 0.2s ease);
+  }
 }
