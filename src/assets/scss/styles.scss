@@ -1,13 +1,12 @@
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "./grid.scss";
-
-body, html {
+body,
+html {
   height: 100%;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #eee;
 }
 
 .text-center {
@@ -23,6 +22,9 @@ body {
 .justify-content-center {
   justify-content: center;
 }
+.justify-content-between {
+  justify-content: space-between;
+}
 .align-items-center {
   align-items: center;
 }
@@ -32,8 +34,5 @@ body {
 }
 
 .mat-form-field {
-    width: 100%;
+  width: 100%;
 }
-
-
-

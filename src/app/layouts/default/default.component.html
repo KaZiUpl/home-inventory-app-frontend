@@ -8,7 +8,13 @@
 <mat-sidenav-container>
   <mat-sidenav [permanentAt]="960" #sidenav>
     <mat-nav-list>
-      <h3 matSubheader>Houses</h3>
+      <h3
+        matSubheader
+        class="d-flex justify-content-between align-items-center"
+      >
+        <span>Houses</span>
+        <a [routerLink]="['/houses']">View all</a>
+      </h3>
       <a
         mat-list-item
         *ngFor="let house of houseList"

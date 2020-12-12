@@ -1,1 +1,13 @@
-<p>house works!</p>
+<div class="container-fluid h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-9">
+      <mat-card>
+        <mat-card-title>{{ house.name }}</mat-card-title>
+        <mat-card-subtitle>{{ house.description }}</mat-card-subtitle>
+        <mat-card-content>
+          <p *ngFor="let room of house.rooms">{{ room.name }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
