@@ -3,6 +3,10 @@ mat-toolbar {
   position: fixed;
   z-index: 10;
 }
+mat-toolbar,
+mat-toolbar-multiple-rows {
+  min-height: 64px !important;
+}
 mat-sidenav-container {
   height: 100%;
 }
