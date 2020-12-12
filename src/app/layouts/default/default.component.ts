@@ -27,6 +27,10 @@ export class DefaultComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  addNewItem(): void {
+    console.log('add new item clicked');
+  }
+
   logout(): void {
     this.userService.logout().subscribe(
       (response: any) => {

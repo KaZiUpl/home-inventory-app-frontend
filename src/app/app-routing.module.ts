@@ -27,6 +27,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/house/house.module').then((m) => m.HouseModule),
       },
+      {
+        path: 'items',
+        loadChildren: () =>
+          import('./pages/item/item.module').then((m) => m.ItemModule),
+      },
     ],
   },
   {
