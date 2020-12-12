@@ -1,5 +1,22 @@
-<div class="container-fluid h-100">
-  <div class="row h-100 justify-content-center align-items-center">
-    <p>house-list works!</p>
+<div class="container-fluid">
+  <div class="row h-100 justify-content-center my-1">
+    <mat-card>
+      <mat-card-title>Your houses</mat-card-title>
+      <mat-card-content>
+        <table>
+          <th>Room name</th>
+          <th>No of rooms</th>
+          <th>No of collaborators</th>
+          <th>House owner</th>
+
+          <tr *ngFor="let house of houseList">
+            <td>{{ house.name }}</td>
+            <td>{{ house.rooms.length }}</td>
+            <td>{{ house.collaborators.length }}</td>
+            <td>{{ house.owner.login }}</td>
+          </tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
