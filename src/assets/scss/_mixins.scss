@@ -13,6 +13,7 @@
     @for $i from 1 through $grid-col-number {
       .col#{$modifier}-#{$i} {
         flex-basis: (100 / ($grid-col-number / $i)) * 1%;
+        position: relative;
       }
     }
   }

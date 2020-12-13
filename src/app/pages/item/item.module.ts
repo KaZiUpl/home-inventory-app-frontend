@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { ItemRoutingModule } from './item-routing.module';
 import { ItemComponent } from './item.component';
@@ -17,7 +18,12 @@ import { NewItemComponent } from './components/new-item/new-item.component';
 import { EditItemComponent } from './components/edit-item/edit-item.component';
 
 @NgModule({
-  declarations: [ItemComponent, ItemListComponent, NewItemComponent, EditItemComponent],
+  declarations: [
+    ItemComponent,
+    ItemListComponent,
+    NewItemComponent,
+    EditItemComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -30,6 +36,7 @@ import { EditItemComponent } from './components/edit-item/edit-item.component';
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
+    MatDividerModule,
   ],
 })
 export class ItemModule {}
