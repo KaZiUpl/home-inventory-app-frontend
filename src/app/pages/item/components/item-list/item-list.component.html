@@ -1,9 +1,105 @@
 <div class="container-fluid">
   <div class="row h-100 justify-content-center my-1">
-    <mat-card>
+    <mat-card class="col-12 col-md-10 col-lg-9 col-xl-6">
       <mat-card-title>Item list</mat-card-title>
       <mat-card-content>
-        <p>item-list works!</p>
+        <div class="row md-1">
+          <div class="col-12 col-sm-12 col-md-8">
+            <div class="row">
+              <form class="col-10" [formGroup]="searchForm">
+                <mat-form-field appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    name="search"
+                    formControlName="search"
+                  />
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </form>
+              <div class="col-2 text-center">
+                <button mat-fab color="primary">
+                  <mat-icon>qr_code_scanner</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col text-right d-flex align-items-center">
+            <button mat-raised-button color="primary">
+              <mat-icon>add</mat-icon>New item
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mat-elevation-z8">
+              <mat-table matSort [dataSource]="itemsDataSource">
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <mat-header-cell
+                    class="font-weight-bold text-primary"
+                    *matHeaderCellDef
+                    mat-sort-header
+                  >
+                    Name
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let item">
+                    {{ item.name }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Description Column -->
+                <ng-container matColumnDef="description">
+                  <mat-header-cell
+                    class="font-weight-bold text-primary"
+                    *matHeaderCellDef
+                    mat-sort-header
+                  >
+                    Description
+                  </mat-header-cell>
+                  <mat-cell
+                    *matCellDef="let item"
+                    [innerHTML]="item.description"
+                  >
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Buttons Column -->
+                <ng-container matColumnDef="buttons">
+                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                  <mat-cell *matCellDef="let item">
+                    <div class="row">
+                      <div class="col text-right">
+                        <button type="button" mat-icon-button>
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button type="button" mat-icon-button>
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                  *matHeaderRowDef="['name', 'description', 'buttons']"
+                ></mat-header-row>
+                <mat-row
+                  *matRowDef="
+                    let row;
+                    columns: ['name', 'description', 'buttons']
+                  "
+                ></mat-row>
+              </mat-table>
+              <mat-paginator
+                [pageSizeOptions]="pageSizes"
+                showFirstLastButtons
+                (page)="onPaginatorChange($event)"
+              ></mat-paginator>
+            </div>
+          </div>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

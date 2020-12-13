@@ -13,6 +13,9 @@ $map-grid-props: (
   "-xl": $grid-bp-xl,
 );
 
+d-flex {
+  display: flex;
+}
 .container {
   max-width: $grid-bp-md * 1px;
   margin: 0 auto;
@@ -36,6 +39,8 @@ $map-grid-props: (
   flex-basis: 0;
   flex-grow: 1;
   max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 5px;
 }
 
 @for $i from 1 through 4 {
