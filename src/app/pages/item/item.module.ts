@@ -10,12 +10,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { ItemRoutingModule } from './item-routing.module';
 import { ItemComponent } from './item.component';
 import { ItemListComponent } from './components/item-list/item-list.component';
 import { NewItemComponent } from './components/new-item/new-item.component';
 import { EditItemComponent } from './components/edit-item/edit-item.component';
+import { ComponentsModule } from '../../components/components.module';
+import { BarcodeDialogComponent } from '../../components/barcode-dialog/barcode-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import { EditItemComponent } from './components/edit-item/edit-item.component';
   ],
   imports: [
     CommonModule,
+    ComponentsModule,
     ReactiveFormsModule,
     FormsModule,
     ItemRoutingModule,
@@ -37,6 +41,8 @@ import { EditItemComponent } from './components/edit-item/edit-item.component';
     MatTableModule,
     MatPaginatorModule,
     MatDividerModule,
+    MatDialogModule,
   ],
+  entryComponents: [BarcodeDialogComponent],
 })
 export class ItemModule {}

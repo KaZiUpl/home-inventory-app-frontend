@@ -3,9 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ItemService } from '../../../../services/item.service';
 import { ItemFullOutput } from '../../../../models/item.model';
+import { BarcodeDialogComponent } from '../../../../components/barcode-dialog/barcode-dialog.component';
 
 @Component({
   selector: 'app-edit-item',
@@ -20,13 +22,15 @@ export class EditItemComponent implements OnInit {
     private itemService: ItemService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private snackBarService: MatSnackBar
+    private snackBarService: MatSnackBar,
+    private barcodeDialog: MatDialog
   ) {
     this.itemForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
       description: new FormControl(null, []),
       manufacturer: new FormControl(null, []),
       code: new FormControl(null, []),
+      photo: new FormControl(null, []),
     });
     this.item._id = activatedRoute.snapshot.paramMap.get('id');
 
@@ -77,5 +81,15 @@ export class EditItemComponent implements OnInit {
         });
       }
     );
+  }
+
+  onScanBarcode(): void {
+    const dialogRef = this.barcodeDialog.open(BarcodeDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.itemForm.controls.code.patchValue(result);
+      }
+    });
   }
 }

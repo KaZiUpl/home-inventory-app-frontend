@@ -61,7 +61,7 @@
                       </mat-form-field>
                     </div>
                     <div class="col-3 text-center">
-                      <button mat-fab type="button">
+                      <button mat-fab type="button" (click)="onScanBarcode()">
                         <mat-icon>qr_code_scanner</mat-icon>
                       </button>
                     </div>
@@ -76,7 +76,7 @@
                       matInput
                       type="text"
                       name="code"
-                      formControlName="code"
+                      formControlName="photo"
                     />
                   </mat-form-field>
                 </div>
