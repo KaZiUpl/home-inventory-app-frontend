@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Scan a barcode</h2>
+<mat-dialog-content>
+  <div id="barcode-scanner">
+    <video src=""></video>
+    <canvas class="drawingBuffer"></canvas>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="row">
+    <div class="col-12 text-right">
+      <button mat-raised-button (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+</mat-dialog-actions>
