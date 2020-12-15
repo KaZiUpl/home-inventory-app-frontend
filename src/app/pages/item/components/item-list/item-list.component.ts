@@ -10,9 +10,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ItemService } from '../../../../services/item.service';
 import { ItemSimpleOutput } from '../../../../models/item.model';
+import { BarcodeDialogComponent } from '../../../../components/barcode-dialog/barcode-dialog.component';
 
 @Component({
   selector: 'app-item-list',
@@ -35,7 +37,8 @@ export class ItemListComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.searchForm = new FormGroup({
       search: new FormControl(null, []),
@@ -127,7 +130,7 @@ export class ItemListComponent implements OnInit, OnDestroy {
   onItemDelete(id: string): void {
     this.itemService.deleteItem(id).subscribe(
       (response: any) => {
-        //delete item from datasource
+        //delete item from data source
         this.itemsDataSource.data = this.itemsDataSource.data.filter(
           (item) => item._id != id
         );
@@ -138,5 +141,24 @@ export class ItemListComponent implements OnInit, OnDestroy {
         });
       }
     );
+  }
+
+  onSearchBarcode(): void {
+    const dialogRef = this.dialog.open(BarcodeDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.itemService.getItemList({ ean: result }).subscribe(
+          (items: ItemSimpleOutput[]) => {
+            this.itemsDataSource.data = items;
+          },
+          (error: HttpErrorResponse) => {
+            this.snackBar.open(error.error.message, null, {
+              duration: 3000,
+            });
+          }
+        );
+      }
+    });
   }
 }

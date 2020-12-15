@@ -65,7 +65,7 @@ export class EditItemComponent implements OnInit {
       description: this.itemForm.value.description,
       manufacturer: this.itemForm.value.manufacturer,
     };
-    if (this.itemForm.value.ean != undefined) {
+    if (this.itemForm.value.code != undefined) {
       itemBody['ean'] = this.itemForm.value.code;
     }
 
