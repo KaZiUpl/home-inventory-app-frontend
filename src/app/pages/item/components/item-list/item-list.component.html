@@ -6,7 +6,11 @@
         <div class="row md-1">
           <div class="col-12 col-sm-12 col-md-8">
             <div class="row">
-              <form class="col-10" [formGroup]="searchForm">
+              <form
+                class="col-10"
+                [formGroup]="searchForm"
+                (ngSubmit)="(onSubmit)"
+              >
                 <mat-form-field appearance="outline">
                   <mat-label>Search</mat-label>
                   <input
@@ -15,7 +19,15 @@
                     name="search"
                     formControlName="search"
                   />
-                  <mat-icon matSuffix>search</mat-icon>
+                  <button
+                    mat-button
+                    *ngIf="searchForm.value.search"
+                    matSuffix
+                    mat-icon-button
+                    (click)="searchForm.controls.search.patchValue('')"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
                 </mat-form-field>
               </form>
               <div class="col-2 text-center">
@@ -26,7 +38,7 @@
             </div>
           </div>
           <div class="col text-right d-flex align-items-center">
-            <button mat-raised-button color="primary">
+            <button mat-raised-button color="accent">
               <mat-icon>add</mat-icon>New item
             </button>
           </div>

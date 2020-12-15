@@ -82,11 +82,6 @@ export class ItemListComponent implements OnInit, OnDestroy {
               });
             }
           }
-          // check for search filter
-          if (params.params.search) {
-            this.itemsDataSource.filter = params.params.search;
-            this.searchValue = params.params.search;
-          } else this.itemsDataSource.filter = null;
         });
       },
       (error: HttpErrorResponse) => {
@@ -160,5 +155,9 @@ export class ItemListComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  onSubmit(): void {
+    console.log('asda');
   }
 }
