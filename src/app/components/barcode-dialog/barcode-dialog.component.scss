@@ -9,5 +9,5 @@ canvas.drawingBuffer {
   display: none !important;
 }
 mat-dialog-content {
-  height: 470px;
+  height: calc(100%+50px);
 }

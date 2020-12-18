@@ -1,16 +1,24 @@
 <h2 mat-dialog-title>Scan a barcode</h2>
 <mat-dialog-content>
-  <div class="row">
+  <div class="row" *ngIf="quaggaStatus == 1">
     <div class="col-12 text-center">
       <div id="barcode-scanner">
         <video src=""></video>
         <canvas class="drawingBuffer"></canvas>
       </div>
     </div>
+  </div>
+  <div class="row my-1" *ngIf="quaggaStatus == 1">
     <div class="col-12 text-right">
       <mat-slide-toggle labelPosition="before" (change)="torchToggle($event)"
         >Flashlight</mat-slide-toggle
       >
+    </div>
+  </div>
+
+  <div class="row" *ngIf="quaggaStatus == -1">
+    <div class="col">
+      <p>FALLBACK</p>
     </div>
   </div>
 </mat-dialog-content>

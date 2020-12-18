@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { pipe } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -10,15 +10,15 @@ import Quagga from 'quagga';
   templateUrl: './barcode-dialog.component.html',
   styleUrls: ['./barcode-dialog.component.scss'],
 })
-export class BarcodeDialogComponent implements OnInit {
+export class BarcodeDialogComponent implements AfterViewInit {
   private lastScannedCode: string;
   private lastScannedCodeDate: number;
-  private quaggaStatus: number;
+  quaggaStatus: number = 1;
   private torchStatus: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<BarcodeDialogComponent>) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.dialogRef
       .keydownEvents()
       .pipe(filter((value) => value.key == 'Escape'))
@@ -35,8 +35,14 @@ export class BarcodeDialogComponent implements OnInit {
       !(typeof navigator.mediaDevices.getUserMedia === 'function')
     ) {
       console.log('getUserMedia is not supported');
+      this.quaggaStatus = -1;
       return;
+    } else {
+      this.quaggaInitVideo();
     }
+  }
+
+  quaggaInitVideo(): void {
     Quagga.init(
       {
         inputStream: {
