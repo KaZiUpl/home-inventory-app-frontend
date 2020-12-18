@@ -1,8 +1,17 @@
 <h2 mat-dialog-title>Scan a barcode</h2>
 <mat-dialog-content>
-  <div id="barcode-scanner">
-    <video src=""></video>
-    <canvas class="drawingBuffer"></canvas>
+  <div class="row">
+    <div class="col-12 text-center">
+      <div id="barcode-scanner">
+        <video src=""></video>
+        <canvas class="drawingBuffer"></canvas>
+      </div>
+    </div>
+    <div class="col-12 text-right">
+      <mat-slide-toggle labelPosition="before" (change)="torchToggle($event)"
+        >Flashlight</mat-slide-toggle
+      >
+    </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

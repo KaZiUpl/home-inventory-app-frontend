@@ -1,11 +1,13 @@
-#barcode-scanner::ng-deep video,
+#barcode-scanner video,
 canvas {
   width: 100%;
   height: auto;
 }
 
-#barcode-scanner::ng-deep video.drawingBuffer,
+#barcode-scanner video.drawingBuffer,
 canvas.drawingBuffer {
   display: none !important;
-  border: 3px solid #f80;
+}
+mat-dialog-content {
+  height: 470px;
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { pipe } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import Quagga from 'quagga';
 
@@ -12,10 +14,22 @@ export class BarcodeDialogComponent implements OnInit {
   private lastScannedCode: string;
   private lastScannedCodeDate: number;
   private quaggaStatus: number;
+  private torchStatus: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<BarcodeDialogComponent>) {}
 
   ngOnInit(): void {
+    this.dialogRef
+      .keydownEvents()
+      .pipe(filter((value) => value.key == 'Escape'))
+      .subscribe((result) => {
+        this.cancel();
+      });
+
+    this.dialogRef.backdropClick().subscribe((result) => {
+      this.cancel();
+    });
+
     if (
       !navigator.mediaDevices ||
       !(typeof navigator.mediaDevices.getUserMedia === 'function')
@@ -31,8 +45,8 @@ export class BarcodeDialogComponent implements OnInit {
           },
           area: {
             // defines rectangle of the detection/localization area
-            top: '20%', // top offset
-            bottom: '20%', // bottom offset
+            top: '22%', // top offset
+            bottom: '22%', // bottom offset
           },
           target: document.querySelector('#barcode-scanner'),
         },
@@ -68,5 +82,13 @@ export class BarcodeDialogComponent implements OnInit {
       Quagga.stop();
     }
     this.dialogRef.close(code);
+  }
+
+  torchToggle(event) {
+    this.torchStatus = event.checked;
+    const track = Quagga.CameraAccess.getActiveTrack();
+    if (track && typeof track.getCapabilities === 'function') {
+      track.applyConstraints({ advanced: [{ torch: this.torchStatus }] });
+    }
   }
 }
