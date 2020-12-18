@@ -44,7 +44,15 @@ export class ItemListComponent implements OnInit, OnDestroy {
       search: new FormControl(null, []),
     });
 
-    itemService.getItemList().subscribe(
+    let searchFilters = {};
+    let nameParam = activatedRoute.snapshot.queryParamMap.get('name');
+
+    if (nameParam) {
+      searchFilters['name'] = nameParam;
+      this.searchForm.patchValue({ search: nameParam });
+    }
+
+    itemService.getItemList(searchFilters).subscribe(
       (items: ItemSimpleOutput[]) => {
         this.items = items;
 
@@ -100,6 +108,13 @@ export class ItemListComponent implements OnInit, OnDestroy {
         this.itemService.getItemList({ name: value }).subscribe(
           (response: any) => {
             this.itemsDataSource.data = response;
+            this.router.navigate([], {
+              relativeTo: this.activatedRoute,
+              queryParams: {
+                name: value,
+              },
+              queryParamsHandling: 'merge',
+            });
           },
           (error: HttpErrorResponse) => {
             this.snackBar.open(error.error.message, null, {
@@ -155,9 +170,5 @@ export class ItemListComponent implements OnInit, OnDestroy {
         );
       }
     });
-  }
-
-  onSubmit(): void {
-    console.log('asda');
   }
 }
