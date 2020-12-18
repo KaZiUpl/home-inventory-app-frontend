@@ -11,7 +11,7 @@ const routes: Routes = [
     component: ItemComponent,
     children: [
       { path: '', component: ItemListComponent },
-      { path: 'new-item', component: NewItemComponent },
+      { path: 'new', component: NewItemComponent },
       { path: ':id/edit', component: EditItemComponent },
     ],
   },

@@ -35,7 +35,11 @@
             </div>
           </div>
           <div class="col text-right d-flex align-items-center">
-            <button mat-raised-button color="accent">
+            <button
+              mat-raised-button
+              color="accent"
+              [routerLink]="['/items/new']"
+            >
               <mat-icon>add</mat-icon>New item
             </button>
           </div>
