@@ -111,7 +111,7 @@ export class ItemListComponent implements OnInit, OnDestroy {
             this.router.navigate([], {
               relativeTo: this.activatedRoute,
               queryParams: {
-                name: value,
+                name: value.length > 0 ? value : null,
               },
               queryParamsHandling: 'merge',
             });
