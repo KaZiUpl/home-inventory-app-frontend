@@ -17,8 +17,26 @@
   </div>
 
   <div class="row" *ngIf="quaggaStatus == -1">
+    <div class="col-12">
+      <p>Read a barcode from an image</p>
+    </div>
     <div class="col">
-      <p>FALLBACK</p>
+      <form [formGroup]="fileForm" id="fileForm" (ngSubmit)="readFromFile()">
+        <mat-form-field appearance="outline">
+          <mat-label>Add image</mat-label>
+          <ngx-mat-file-input
+            matInput
+            placeholder="PDF file only"
+            [accept]="'.jpg,.jpeg,.png'"
+            formControlName="file"
+          ></ngx-mat-file-input>
+          <mat-icon matSuffix>image</mat-icon>
+          <mat-error *ngIf="fileForm.get('file').hasError('required')"
+            >You have to input an image</mat-error
+          >
+        </mat-form-field>
+        <img id="asd" />
+      </form>
     </div>
   </div>
 </mat-dialog-content>
@@ -26,6 +44,15 @@
   <div class="row">
     <div class="col-12 text-right">
       <button mat-raised-button (click)="cancel()">Cancel</button>
+      <button
+        mat-raised-button
+        type="submit"
+        form="fileForm"
+        color="primary"
+        *ngIf="quaggaStatus == -1"
+      >
+        Read
+      </button>
     </div>
   </div>
 </mat-dialog-actions>

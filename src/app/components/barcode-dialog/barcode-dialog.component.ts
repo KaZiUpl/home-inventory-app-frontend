@@ -1,7 +1,10 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { pipe } from 'rxjs';
+import { pipe, from } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FileInput } from 'ngx-material-file-input';
 
 import Quagga from 'quagga';
 
@@ -15,8 +18,12 @@ export class BarcodeDialogComponent implements AfterViewInit {
   private lastScannedCodeDate: number;
   quaggaStatus: number = 1;
   private torchStatus: boolean = false;
+  fileForm: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<BarcodeDialogComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<BarcodeDialogComponent>,
+    private snackBarService: MatSnackBar
+  ) {}
 
   ngAfterViewInit(): void {
     this.dialogRef
@@ -28,6 +35,10 @@ export class BarcodeDialogComponent implements AfterViewInit {
 
     this.dialogRef.backdropClick().subscribe((result) => {
       this.cancel();
+    });
+
+    this.fileForm = new FormGroup({
+      file: new FormControl(null, [Validators.required]),
     });
 
     if (
@@ -96,5 +107,35 @@ export class BarcodeDialogComponent implements AfterViewInit {
     if (track && typeof track.getCapabilities === 'function') {
       track.applyConstraints({ advanced: [{ torch: this.torchStatus }] });
     }
+  }
+
+  readFromFile(): void {
+    if (this.fileForm.invalid) return;
+
+    let fileInput: FileInput = this.fileForm.value.file;
+
+    let base = new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileInput.files[0]);
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.onerror = function () {
+        reject(reader.error);
+      };
+    });
+
+    from(base).subscribe((data) => {
+      Quagga.decodeSingle(
+        {
+          readers: ['ean_reader'],
+          locate: true, // try to locate the barcode in the image
+          src: data,
+        },
+        function (result) {
+          console.log(result);
+        }
+      );
+    });
   }
 }
