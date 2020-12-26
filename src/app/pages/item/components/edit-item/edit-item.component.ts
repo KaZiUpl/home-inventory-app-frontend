@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { FileInput } from 'ngx-material-file-input';
+import { from } from 'rxjs';
 
 import { ItemService } from '../../../../services/item.service';
 import { ItemFullOutput } from '../../../../models/item.model';
@@ -17,6 +19,7 @@ import { BarcodeDialogComponent } from '../../../../components/barcode-dialog/ba
 export class EditItemComponent implements OnInit {
   item: ItemFullOutput = new ItemFullOutput();
   itemForm: FormGroup;
+  photoControl: FormControl = new FormControl();
 
   constructor(
     private itemService: ItemService,
@@ -60,6 +63,8 @@ export class EditItemComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.itemForm.invalid) return;
+
     let itemBody = {
       name: this.itemForm.value.name,
       description: this.itemForm.value.description,
@@ -90,6 +95,28 @@ export class EditItemComponent implements OnInit {
       if (result) {
         this.itemForm.controls.code.patchValue(result);
       }
+    });
+  }
+
+  // TODO: Finish photo upload (send request)
+  onPhotoAdd(): void {
+    if (this.photoControl.invalid) return;
+
+    let fileInput: FileInput = this.photoControl.value;
+
+    let base = new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileInput.files[0]);
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.onerror = function () {
+        reject(reader.error);
+      };
+    });
+
+    from(base).subscribe((data) => {
+      console.log(data);
     });
   }
 }

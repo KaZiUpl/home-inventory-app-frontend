@@ -46,10 +46,14 @@ export class ItemListComponent implements OnInit, OnDestroy {
     });
 
     let searchFilters = {};
-    let nameParam = activatedRoute.snapshot.queryParamMap.get('name');
+    let nameParam = activatedRoute.snapshot.queryParamMap.get('search');
 
     if (nameParam) {
-      searchFilters['name'] = nameParam;
+      if (nameParam.startsWith('code:')) {
+        searchFilters['ean'] = nameParam.split(':')[1];
+      } else {
+        searchFilters['name'] = nameParam;
+      }
       this.searchForm.patchValue({ search: nameParam });
     }
 
@@ -106,23 +110,47 @@ export class ItemListComponent implements OnInit, OnDestroy {
     this.searchFieldSub = this.searchForm.controls['search'].valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value: string) => {
-        this.itemService.getItemList({ name: value }).subscribe(
-          (response: any) => {
-            this.itemsDataSource.data = response;
-            this.router.navigate([], {
-              relativeTo: this.activatedRoute,
-              queryParams: {
-                name: value.length > 0 ? value : null,
-              },
-              queryParamsHandling: 'merge',
-            });
-          },
-          (error: HttpErrorResponse) => {
-            this.snackBar.open(error.error.message, null, {
-              duration: 3000,
-            });
-          }
-        );
+        if (value.startsWith('code:')) {
+          //search by code
+          let code = value.split(':')[1];
+          this.itemService.getItemList({ ean: value }).subscribe(
+            (response: ItemSimpleOutput[]) => {
+              this.itemsDataSource.data = response;
+              this.router.navigate([], {
+                relativeTo: this.activatedRoute,
+                queryParams: {
+                  search: value,
+                },
+                queryParamsHandling: 'merge',
+              });
+            },
+            (error: HttpErrorResponse) => {
+              this.snackBar.open(error.error.message, null, {
+                duration: 3000,
+              });
+            }
+          );
+        } else {
+          //search by name
+          this.itemService.getItemList({ name: value }).subscribe(
+            (response: ItemSimpleOutput[]) => {
+              this.itemsDataSource.data = response;
+              this.router.navigate([], {
+                relativeTo: this.activatedRoute,
+                queryParams: {
+                  search: value.length > 0 ? value : null,
+                },
+                queryParamsHandling: 'merge',
+              });
+            },
+            (error: HttpErrorResponse) => {
+              this.snackBar.open(error.error.message, null, {
+                duration: 3000,
+              });
+            }
+          );
+        }
+
         this.searchValue = value;
       });
   }
@@ -174,6 +202,14 @@ export class ItemListComponent implements OnInit, OnDestroy {
         this.itemService.getItemList({ ean: result }).subscribe(
           (items: ItemSimpleOutput[]) => {
             this.itemsDataSource.data = items;
+            this.searchForm.patchValue({ search: 'code:' + result });
+            this.router.navigate([], {
+              relativeTo: this.activatedRoute,
+              queryParams: {
+                search: 'code:' + result,
+              },
+              queryParamsHandling: 'merge',
+            });
           },
           (error: HttpErrorResponse) => {
             this.snackBar.open(error.error.message, null, {
