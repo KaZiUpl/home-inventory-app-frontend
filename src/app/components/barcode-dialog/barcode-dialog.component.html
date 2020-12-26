@@ -18,24 +18,24 @@
 
   <div class="row" *ngIf="quaggaStatus == -1">
     <div class="col-12">
-      <p>Read a barcode from an image</p>
+      <p>Input barcode number</p>
     </div>
-    <div class="col">
-      <form [formGroup]="fileForm" id="fileForm" (ngSubmit)="readFromFile()">
+    <div class="col-12">
+      <form [formGroup]="barcodeForm" id="barcodeForm" (ngSubmit)="addBarcode()">
         <mat-form-field appearance="outline">
-          <mat-label>Add image</mat-label>
-          <ngx-mat-file-input
-            matInput
-            placeholder="PDF file only"
-            [accept]="'.jpg,.jpeg,.png'"
-            formControlName="file"
-          ></ngx-mat-file-input>
-          <mat-icon matSuffix>image</mat-icon>
-          <mat-error *ngIf="fileForm.get('file').hasError('required')"
-            >You have to input an image</mat-error
-          >
+          <mat-label>Item barcode</mat-label>
+          <input type="text" matInput formControlName="barcode" inputmode="numeric" autocomplete="off" pattern="[0-9]+">
+          <button
+          mat-button
+          type="button"
+          matSuffix
+          mat-icon-button
+          (click)="barcodeForm.controls.barcode.patchValue('')"
+        ><mat-icon>clear</mat-icon></button>
+          <mat-error *ngIf="barcodeForm.get('barcode').hasError('required')"
+            >This field is required</mat-error>
+            <mat-error *ngIf="barcodeForm.get('barcode').hasError('pattern')">This is not a EAN-13 barcode</mat-error>
         </mat-form-field>
-        <img id="asd" />
       </form>
     </div>
   </div>
@@ -47,7 +47,7 @@
       <button
         mat-raised-button
         type="submit"
-        form="fileForm"
+        form="barcodeForm"
         color="primary"
         *ngIf="quaggaStatus == -1"
       >

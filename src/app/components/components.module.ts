@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     MaterialFileInputModule,
     MatSnackBarModule,
+    MatInputModule,
   ],
   exports: [BarcodeDialogComponent],
 })

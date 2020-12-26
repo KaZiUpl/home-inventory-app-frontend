@@ -18,7 +18,7 @@ export class BarcodeDialogComponent implements AfterViewInit {
   private lastScannedCodeDate: number;
   quaggaStatus: number = 1;
   private torchStatus: boolean = false;
-  fileForm: FormGroup;
+  barcodeForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<BarcodeDialogComponent>,
@@ -37,8 +37,8 @@ export class BarcodeDialogComponent implements AfterViewInit {
       this.cancel();
     });
 
-    this.fileForm = new FormGroup({
-      file: new FormControl(null, [Validators.required]),
+    this.barcodeForm = new FormGroup({
+      barcode: new FormControl(null, [Validators.required]),
     });
 
     if (
@@ -109,33 +109,15 @@ export class BarcodeDialogComponent implements AfterViewInit {
     }
   }
 
-  readFromFile(): void {
-    if (this.fileForm.invalid) return;
+  addBarcode():void  {
+    if(this.barcodeForm.invalid) return;
 
-    let fileInput: FileInput = this.fileForm.value.file;
+    //test if input contains only digits
+    if(!new RegExp('[0-9]+').test(this.barcodeForm.value.barcode)) {
+      this.barcodeForm.controls.barcode.setErrors({pattern: true});
+      return;
+    }
 
-    let base = new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(fileInput.files[0]);
-      reader.onload = function () {
-        resolve(reader.result);
-      };
-      reader.onerror = function () {
-        reject(reader.error);
-      };
-    });
-
-    from(base).subscribe((data) => {
-      Quagga.decodeSingle(
-        {
-          readers: ['ean_reader'],
-          locate: true, // try to locate the barcode in the image
-          src: data,
-        },
-        function (result) {
-          console.log(result);
-        }
-      );
-    });
+    this.accept(this.barcodeForm.value.barcode);
   }
 }
