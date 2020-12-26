@@ -10,9 +10,10 @@ import {MatInputModule} from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AcceptDialogComponent } from './accept-dialog/accept-dialog.component';
 
 @NgModule({
-  declarations: [BarcodeDialogComponent],
+  declarations: [BarcodeDialogComponent, AcceptDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -25,6 +26,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSnackBarModule,
     MatInputModule,
   ],
-  exports: [BarcodeDialogComponent],
+  exports: [BarcodeDialogComponent, AcceptDialogComponent],
 })
 export class ComponentsModule {}
