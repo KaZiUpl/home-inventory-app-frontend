@@ -8,12 +8,15 @@ import { AcceptDialogData } from '../../models/accept-dialog-data.model';
 @Component({
   selector: 'app-accept-dialog',
   templateUrl: './accept-dialog.component.html',
-  styleUrls: ['./accept-dialog.component.scss']
+  styleUrls: ['./accept-dialog.component.scss'],
 })
 export class AcceptDialogComponent implements OnInit {
-  dialogData: AcceptDialogData = new AcceptDialogData();
+  dialogData: AcceptDialogData;
 
-  constructor(public dialogRef: MatDialogRef<AcceptDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: AcceptDialogData) {
+  constructor(
+    public dialogRef: MatDialogRef<AcceptDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: AcceptDialogData
+  ) {
     this.dialogData = data;
   }
 
@@ -30,12 +33,11 @@ export class AcceptDialogComponent implements OnInit {
     });
   }
 
-
-  onCancelDialog():void {
+  onCancelDialog(): void {
     this.dialogRef.close(false);
   }
 
-  onAcceptDialog():void {
+  onAcceptDialog(): void {
     this.dialogRef.close(true);
   }
 }

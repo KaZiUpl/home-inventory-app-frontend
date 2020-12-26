@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ItemService } from '../../../../services/item.service';
 import { ItemSimpleOutput } from '../../../../models/item.model';
 import { BarcodeDialogComponent } from '../../../../components/barcode-dialog/barcode-dialog.component';
+import { AcceptDialogComponent } from '../../../../components/accept-dialog/accept-dialog.component';
 
 @Component({
   selector: 'app-item-list',
@@ -138,19 +139,31 @@ export class ItemListComponent implements OnInit, OnDestroy {
   }
 
   onItemDelete(id: string): void {
-    this.itemService.deleteItem(id).subscribe(
-      (response: any) => {
-        //delete item from data source
-        this.itemsDataSource.data = this.itemsDataSource.data.filter(
-          (item) => item._id != id
-        );
+    const dialogRef = this.dialog.open(AcceptDialogComponent, {
+      data: {
+        title: 'Delete item',
+        content:
+          'Do you want to delete this item? This action cannot be undone.',
       },
-      (error: HttpErrorResponse) => {
-        this.snackBar.open(error.error.message, null, {
-          duration: 3000,
-        });
+    });
+
+    dialogRef.afterClosed().subscribe((decision: boolean) => {
+      if (decision) {
+        this.itemService.deleteItem(id).subscribe(
+          (response: any) => {
+            //delete item from data source
+            this.itemsDataSource.data = this.itemsDataSource.data.filter(
+              (item) => item._id != id
+            );
+          },
+          (error: HttpErrorResponse) => {
+            this.snackBar.open(error.error.message, null, {
+              duration: 3000,
+            });
+          }
+        );
       }
-    );
+    });
   }
 
   onSearchBarcode(): void {
