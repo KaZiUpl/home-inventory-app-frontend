@@ -30,11 +30,11 @@ export class BarcodeDialogComponent implements AfterViewInit {
       .keydownEvents()
       .pipe(filter((value) => value.key == 'Escape'))
       .subscribe((result) => {
-        this.cancel();
+        this.onCancelDialog();
       });
 
     this.dialogRef.backdropClick().subscribe((result) => {
-      this.cancel();
+      this.onCancelDialog();
     });
 
     this.barcodeForm = new FormGroup({
@@ -80,21 +80,21 @@ export class BarcodeDialogComponent implements AfterViewInit {
           Quagga.start();
           this.quaggaStatus = 1;
           Quagga.onDetected((res) => {
-            this.accept(res.codeResult.code);
+            this.onAcceptDialog(res.codeResult.code);
           });
         }
       }
     );
   }
 
-  cancel(): void {
+  onCancelDialog(): void {
     if (this.quaggaStatus == 1) {
       Quagga.stop();
     }
     this.dialogRef.close();
   }
 
-  accept(code: any): void {
+  onAcceptDialog(code: any): void {
     if (this.quaggaStatus == 1) {
       Quagga.stop();
     }
@@ -118,6 +118,6 @@ export class BarcodeDialogComponent implements AfterViewInit {
       return;
     }
 
-    this.accept(this.barcodeForm.value.barcode);
+    this.onAcceptDialog(this.barcodeForm.value.barcode);
   }
 }
