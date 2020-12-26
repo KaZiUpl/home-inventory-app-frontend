@@ -4,7 +4,6 @@ import { pipe, from } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FileInput } from 'ngx-material-file-input';
 
 import Quagga from 'quagga';
 
@@ -14,8 +13,6 @@ import Quagga from 'quagga';
   styleUrls: ['./barcode-dialog.component.scss'],
 })
 export class BarcodeDialogComponent implements AfterViewInit {
-  private lastScannedCode: string;
-  private lastScannedCodeDate: number;
   quaggaStatus: number = 1;
   private torchStatus: boolean = false;
   barcodeForm: FormGroup;
@@ -109,12 +106,12 @@ export class BarcodeDialogComponent implements AfterViewInit {
     }
   }
 
-  addBarcode():void  {
-    if(this.barcodeForm.invalid) return;
+  addBarcode(): void {
+    if (this.barcodeForm.invalid) return;
 
     //test if input contains only digits
-    if(!new RegExp('[0-9]+').test(this.barcodeForm.value.barcode)) {
-      this.barcodeForm.controls.barcode.setErrors({pattern: true});
+    if (!new RegExp('[0-9]+').test(this.barcodeForm.value.barcode)) {
+      this.barcodeForm.controls.barcode.setErrors({ pattern: true });
       return;
     }
 
