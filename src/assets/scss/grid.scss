@@ -25,23 +25,27 @@ d-flex {
     max-width: 100%;
   }
 }
-/* row class */
 .row {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
-/* create column classes based on breakpoints */
-@each $modifier, $breakpoint in $map-grid-props {
-  @include create-col-classes($modifier, $grid-col-number, $breakpoint);
-}
-.col {
-  flex-basis: 0;
-  flex-grow: 1;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 0 5px;
-}
+/* row class */
+// .row {
+//   display: flex;
+//   flex-wrap: wrap;
+//   width: 100%;
+// }
+// /* create column classes based on breakpoints */
+// @each $modifier, $breakpoint in $map-grid-props {
+//   @include create-col-classes($modifier, $grid-col-number, $breakpoint);
+// }
+// .col {
+//   flex-basis: 0;
+//   flex-grow: 1;
+//   max-width: 100%;
+//   box-sizing: border-box;
+//   padding: 0 5px;
+// }
 
 @for $i from 1 through 4 {
   .h-#{$i * 25} {
