@@ -1,9 +1,7 @@
 <div class="row h-100 justify-content-center align-items-center">
-  <div class="col-3">
+  <div class="col-12 col-md-8 col-lg-4 col-xl-3">
     <mat-card>
-      <mat-card-title>
-        Sign in
-      </mat-card-title>
+      <mat-card-title> Sign in </mat-card-title>
       <mat-card-subtitle>
         Want an account?
         <a
@@ -26,9 +24,7 @@
             </div>
             <div class="col-12">
               <mat-form-field appearance="outline">
-                <mat-label>
-                  Password
-                </mat-label>
+                <mat-label> Password </mat-label>
                 <input matInput type="password" formControlName="password" />
                 <mat-error
                   *ngIf="loginForm.get('password').hasError('required')"
