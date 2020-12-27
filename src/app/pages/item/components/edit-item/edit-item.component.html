@@ -16,6 +16,9 @@
                       name="name"
                       formControlName="name"
                     />
+                    <mat-error *ngIf="itemForm.get('name').hasError('required')"
+                      >This field is required</mat-error
+                    >
                   </mat-form-field>
                 </div>
               </div>
@@ -46,26 +49,22 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-9">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Code</mat-label>
-                        <input
-                          matInput
-                          type="text"
-                          inputmode="numeric"
-                          name="code"
-                          formControlName="code"
-                        />
-                      </mat-form-field>
-                    </div>
-                    <div class="col-3 text-center">
-                      <button mat-fab type="button" (click)="onScanBarcode()">
-                        <mat-icon>qr_code_scanner</mat-icon>
-                      </button>
-                    </div>
-                  </div>
+                <div class="col-8">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Code</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      inputmode="numeric"
+                      name="code"
+                      formControlName="code"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <button mat-fab type="button" (click)="onScanBarcode()">
+                    <mat-icon>qr_code_scanner</mat-icon>
+                  </button>
                 </div>
               </div>
               <div class="row">
@@ -79,7 +78,7 @@
                       [formControl]="photoControl"
                     ></ngx-mat-file-input>
                     <mat-icon matSuffix>image</mat-icon>
-                    </mat-form-field>
+                  </mat-form-field>
                 </div>
               </div>
             </div>

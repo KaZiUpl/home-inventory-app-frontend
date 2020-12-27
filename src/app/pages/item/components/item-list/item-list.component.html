@@ -46,7 +46,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-12">
+          <div class="col">
             <div class="mat-elevation-z8">
               <mat-table matSort [dataSource]="itemsDataSource">
                 <!-- Name Column -->
@@ -64,10 +64,8 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
                     Description
                   </mat-header-cell>
-                  <mat-cell
-                    *matCellDef="let item"
-                    [innerHTML]="item.description"
-                  >
+                  <mat-cell *matCellDef="let item">
+                    {{ item.description }}
                   </mat-cell>
                 </ng-container>
 

@@ -45,6 +45,7 @@ import { BarcodeDialogComponent } from '../../components/barcode-dialog/barcode-
     MatDialogModule,
     MaterialFileInputModule,
   ],
+
   entryComponents: [BarcodeDialogComponent],
 })
 export class ItemModule {}
