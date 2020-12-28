@@ -71,7 +71,7 @@ export class BarcodeDialogComponent implements AfterViewInit {
       },
       (err) => {
         if (err) {
-          alert(err.message);
+          console.error('QuaggaJS: ' + err.message);
           this.quaggaStatus = -1;
         } else {
           Quagga.start();

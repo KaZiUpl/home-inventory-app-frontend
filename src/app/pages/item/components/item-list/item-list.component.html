@@ -46,69 +46,67 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
-            <div class="mat-elevation-z8">
-              <mat-table matSort [dataSource]="itemsDataSource">
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Name
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let item">
-                    {{ item.name }}
-                  </mat-cell>
-                </ng-container>
+          <div class="col-12 mat-elevation-z8">
+            <mat-table matSort [dataSource]="itemsDataSource">
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Name
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                  {{ item.name }}
+                </mat-cell>
+              </ng-container>
 
-                <!-- Description Column -->
-                <ng-container matColumnDef="description">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Description
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let item">
-                    {{ item.description }}
-                  </mat-cell>
-                </ng-container>
+              <!-- Description Column -->
+              <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Description
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                  {{ item.description }}
+                </mat-cell>
+              </ng-container>
 
-                <!-- Buttons Column -->
-                <ng-container matColumnDef="buttons">
-                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                  <mat-cell *matCellDef="let item" class="row">
-                    <div class="col-12 text-right">
-                      <button
-                        type="button"
-                        mat-icon-button
-                        [routerLink]="[item._id, 'edit']"
-                        routerLinkActive="router-link-active"
-                      >
-                        <mat-icon>edit</mat-icon>
-                      </button>
-                      <button
-                        type="button"
-                        (click)="onItemDelete(item._id)"
-                        mat-icon-button
-                      >
-                        <mat-icon>delete</mat-icon>
-                      </button>
-                    </div>
-                  </mat-cell>
-                </ng-container>
+              <!-- Buttons Column -->
+              <ng-container matColumnDef="buttons">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let item" class="row">
+                  <div class="col-12 text-right">
+                    <button
+                      type="button"
+                      mat-icon-button
+                      [routerLink]="[item._id, 'edit']"
+                      routerLinkActive="router-link-active"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      (click)="onItemDelete(item._id)"
+                      mat-icon-button
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </mat-cell>
+              </ng-container>
 
-                <mat-header-row
-                  *matHeaderRowDef="['name', 'description', 'buttons']"
-                ></mat-header-row>
-                <mat-row
-                  *matRowDef="
-                    let row;
-                    columns: ['name', 'description', 'buttons']
-                  "
-                ></mat-row>
-              </mat-table>
-              <mat-paginator
-                [pageSizeOptions]="pageSizes"
-                showFirstLastButtons
-                (page)="onPaginatorChange($event)"
-              ></mat-paginator>
-            </div>
+              <mat-header-row
+                *matHeaderRowDef="['name', 'description', 'buttons']"
+              ></mat-header-row>
+              <mat-row
+                *matRowDef="
+                  let row;
+                  columns: ['name', 'description', 'buttons']
+                "
+              ></mat-row>
+            </mat-table>
+            <mat-paginator
+              [pageSizeOptions]="pageSizes"
+              showFirstLastButtons
+              (page)="onPaginatorChange($event)"
+            ></mat-paginator>
           </div>
         </div>
       </mat-card-content>

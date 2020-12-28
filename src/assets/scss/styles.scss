@@ -19,28 +19,8 @@ body {
   text-align: left;
 }
 
-.justify-content-center {
-  justify-content: center;
-}
-.justify-content-between {
-  justify-content: space-between;
-}
-.align-items-center {
-  align-items: center;
-}
-
-.my-1 {
-  margin: 10px 0;
-}
-.mx-1 {
-  margin: 0 10px;
-}
-.md-1 {
-  margin-bottom: 10px;
-}
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
+.mat-list-item-content {
+  width: 100%;
 }
 
 .mat-form-field {
