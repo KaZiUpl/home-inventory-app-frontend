@@ -1,0 +1,13 @@
+#barcode-scanner video,
+canvas {
+  width: 100%;
+  height: auto;
+}
+
+#barcode-scanner video.drawingBuffer,
+canvas.drawingBuffer {
+  display: none !important;
+}
+mat-dialog-content {
+  height: calc(100%+50px);
+}

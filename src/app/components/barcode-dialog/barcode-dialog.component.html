@@ -1,0 +1,72 @@
+<h2 mat-dialog-title>Scan a barcode</h2>
+<mat-dialog-content>
+  <div class="row" *ngIf="quaggaStatus == 1">
+    <div class="col-12 text-center">
+      <div id="barcode-scanner">
+        <video src=""></video>
+        <canvas class="drawingBuffer"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="row my-2" *ngIf="quaggaStatus == 1">
+    <div class="col-12 text-right">
+      <mat-slide-toggle labelPosition="before" (change)="torchToggle($event)"
+        >Flashlight</mat-slide-toggle
+      >
+    </div>
+  </div>
+
+  <div class="row" *ngIf="quaggaStatus == -1">
+    <div class="col-12">
+      <p>Input barcode number</p>
+    </div>
+    <div class="col-12">
+      <form
+        [formGroup]="barcodeForm"
+        id="barcodeForm"
+        (ngSubmit)="addBarcode()"
+      >
+        <mat-form-field appearance="outline">
+          <mat-label>Item barcode</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="barcode"
+            inputmode="numeric"
+            autocomplete="off"
+            pattern="[0-9]+"
+          />
+          <button
+            mat-button
+            type="button"
+            matSuffix
+            mat-icon-button
+            (click)="barcodeForm.controls.barcode.patchValue('')"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+          <mat-error *ngIf="barcodeForm.get('barcode').hasError('required')"
+            >This field is required</mat-error
+          >
+          <mat-error *ngIf="barcodeForm.get('barcode').hasError('pattern')"
+            >This is not a EAN-13 barcode</mat-error
+          >
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="row">
+  <div class="col-12 text-right">
+    <button mat-raised-button (click)="onCancelDialog()">Cancel</button>
+    <button
+      mat-raised-button
+      type="submit"
+      form="barcodeForm"
+      color="primary"
+      *ngIf="quaggaStatus == -1"
+    >
+      Read
+    </button>
+  </div>
+</mat-dialog-actions>

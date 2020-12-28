@@ -24,6 +24,15 @@
         <mat-icon matListIcon>house</mat-icon>
         <h4 matLine>{{ house.name }}</h4>
       </a>
+      <mat-divider></mat-divider>
+      <a
+        mat-list-item
+        class="d-flex justify-content-between align-items-center"
+        [routerLink]="['/items']"
+        routerLinkActive="active"
+      >
+        Items
+      </a>
     </mat-nav-list>
     <div class="container my-1">
       <div class="row">

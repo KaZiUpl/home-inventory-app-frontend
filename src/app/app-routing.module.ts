@@ -8,6 +8,7 @@ const routes: Routes = [
   {
     path: '',
     component: DefaultComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -16,7 +17,7 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        canActivate: [AuthGuard],
+
         loadChildren: () =>
           import('./pages/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
@@ -26,6 +27,11 @@ const routes: Routes = [
         path: 'houses',
         loadChildren: () =>
           import('./pages/house/house.module').then((m) => m.HouseModule),
+      },
+      {
+        path: 'items',
+        loadChildren: () =>
+          import('./pages/item/item.module').then((m) => m.ItemModule),
       },
     ],
   },
