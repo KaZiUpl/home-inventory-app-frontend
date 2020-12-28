@@ -45,7 +45,9 @@ export class NewItemComponent implements OnInit {
     });
   }
 
-  onCancel(): void {}
+  onCancel(): void {
+    this.router.navigate(['/items']);
+  }
 
   onSubmit(): void {
     if (this.itemForm.invalid) return;

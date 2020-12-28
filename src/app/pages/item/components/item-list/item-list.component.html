@@ -6,7 +6,7 @@
         <div class="row mb-2">
           <div class="col-12 col-md-8">
             <div class="row">
-              <form class="col-10" [formGroup]="searchForm">
+              <form class="col-9" [formGroup]="searchForm">
                 <mat-form-field appearance="outline">
                   <mat-label>Search</mat-label>
                   <input
@@ -27,7 +27,7 @@
                   </button>
                 </mat-form-field>
               </form>
-              <div class="col-2 text-center">
+              <div class="col-3 text-center">
                 <button mat-fab color="primary" (click)="onSearchBarcode()">
                   <mat-icon>qr_code_scanner</mat-icon>
                 </button>
@@ -72,7 +72,7 @@
               <ng-container matColumnDef="buttons">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let item" class="row">
-                  <div class="col-12 text-right">
+                  <div class="col-12 text-right" *ngIf="item.owner">
                     <button
                       type="button"
                       mat-icon-button

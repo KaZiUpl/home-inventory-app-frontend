@@ -15,6 +15,7 @@
                       type="text"
                       name="name"
                       formControlName="name"
+                      autocomplete="off"
                     />
                     <mat-error *ngIf="itemForm.get('name').hasError('required')"
                       >This field is required</mat-error
@@ -31,6 +32,7 @@
                       type="text"
                       name="description"
                       formControlName="description"
+                      autocomplete="off"
                     />
                   </mat-form-field>
                 </div>
@@ -58,6 +60,7 @@
                       inputmode="numeric"
                       name="code"
                       formControlName="code"
+                      autocomplete="off"
                     />
                   </mat-form-field>
                 </div>
@@ -88,7 +91,7 @@
           <div class="row">
             <div class="col-12 text-right">
               <button type="button" mat-button (click)="onCancel()">
-                Cancel
+                Return to item list
               </button>
               <button type="submit" mat-raised-button color="primary">
                 Create
