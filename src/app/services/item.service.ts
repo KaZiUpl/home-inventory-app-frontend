@@ -33,12 +33,6 @@ export class ItemService {
     );
   }
 
-  getUserItemList(): Observable<ItemSimpleOutput[]> {
-    return this.httpClient.get<ItemSimpleOutput[]>(
-      `${environment.apiUrl}/users/items`
-    );
-  }
-
   getItem(id: string): Observable<ItemFullOutput> {
     return this.httpClient.get<ItemFullOutput>(
       `${environment.apiUrl}/items/${id}`
