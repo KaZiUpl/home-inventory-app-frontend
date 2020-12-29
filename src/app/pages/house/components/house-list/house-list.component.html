@@ -1,7 +1,18 @@
 <div class="container-fluid">
   <div class="row h-100 justify-content-center my-1">
     <mat-card>
-      <mat-card-title>Your houses</mat-card-title>
+      <mat-card-title class="row">
+        <div class="col-8">Your houses</div>
+        <div class="col-4">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onNewHouseButtonClicked()"
+          >
+            New House
+          </button>
+        </div>
+      </mat-card-title>
       <mat-card-content>
         <table>
           <th>Room name</th>

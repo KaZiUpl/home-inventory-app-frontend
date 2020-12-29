@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { from } from 'rxjs';
+
 import { HouseService } from 'src/app/services/house.service';
 import { HouseSimpleOutput } from '../../../../models/house.model';
+import { NewHouseDialogComponent } from '../new-house-dialog/new-house-dialog.component';
 
 @Component({
   selector: 'app-house-list',
@@ -10,11 +14,15 @@ import { HouseSimpleOutput } from '../../../../models/house.model';
 export class HouseListComponent implements OnInit {
   houseList: HouseSimpleOutput[];
 
-  constructor(private houseService: HouseService) {
+  constructor(private houseService: HouseService, private dialog: MatDialog) {
     houseService.getHouseList().subscribe((response: HouseSimpleOutput[]) => {
       this.houseList = response;
     });
   }
 
   ngOnInit(): void {}
+
+  onNewHouseButtonClicked(): void {
+    let dialogRef = this.dialog.open(NewHouseDialogComponent);
+  }
 }
