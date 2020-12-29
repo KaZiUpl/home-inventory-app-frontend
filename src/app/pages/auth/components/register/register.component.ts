@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  hidePassword: boolean = true;
   registerForm: FormGroup;
 
   constructor(

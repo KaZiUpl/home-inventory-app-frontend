@@ -25,7 +25,21 @@
             <div class="col-12">
               <mat-form-field appearance="outline">
                 <mat-label> Password </mat-label>
-                <input matInput type="password" formControlName="password" />
+                <input
+                  matInput
+                  [type]="hidePassword ? 'text' : 'password'"
+                  formControlName="password"
+                />
+                <button
+                  type="button"
+                  mat-icon-button
+                  matSuffix
+                  (click)="hidePassword = !hidePassword"
+                >
+                  <mat-icon>
+                    {{ hidePassword ? "visibility" : "visibility_off" }}
+                  </mat-icon>
+                </button>
                 <mat-error
                   *ngIf="loginForm.get('password').hasError('required')"
                   >This field is required</mat-error

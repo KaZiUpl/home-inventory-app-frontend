@@ -5,7 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
@@ -28,6 +29,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     MatCheckboxModule,
     MatCardModule,
     MatSnackBarModule,
+    MatIconModule,
   ],
   entryComponents: [LoginComponent],
   providers: [
