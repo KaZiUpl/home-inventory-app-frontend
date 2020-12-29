@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HouseService } from 'src/app/services/house.service';
-import { HouseSimpleOutput } from '../../../models/house.model';
+import { HouseSimpleOutput } from '../../../../models/house.model';
 
 @Component({
   selector: 'app-house-list',

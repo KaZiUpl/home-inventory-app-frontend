@@ -4,11 +4,11 @@ import { HouseFullOutput } from 'src/app/models/house.model';
 import { ActivatedRoute, Router, Event, NavigationEnd } from '@angular/router';
 
 @Component({
-  selector: 'app-house',
-  templateUrl: './house.component.html',
-  styleUrls: ['./house.component.scss'],
+  selector: 'app-house-view',
+  templateUrl: './house-view.component.html',
+  styleUrls: ['./house-view.component.scss'],
 })
-export class HouseComponent implements OnInit {
+export class HouseViewComponent implements OnInit {
   house: HouseFullOutput = new HouseFullOutput();
 
   constructor(
