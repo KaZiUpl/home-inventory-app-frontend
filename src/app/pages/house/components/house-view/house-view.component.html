@@ -1,22 +1,39 @@
-<div class="container-fluid h-100">
-  <div class="row h-100 justify-content-center align-items-center">
-    <div class="col-9">
-      <mat-card>
-        <mat-card-title
-          >{{ house.name }}
+<div class="container-fluid">
+  <div class="row h-100 justify-content-center my-1">
+    <mat-card class="col-12 col-md-10 col-lg-9 col-xl-6">
+      <mat-card-title
+        class="row d-flex align-items-center justify-content-between"
+      >
+        <div class="col-12 col-sm-auto ellipsis">
+          {{ house.name }}
+        </div>
+        <div
+          class="col-12 col-sm-auto text-right text-sm-auto"
+          *ngIf="houseOwner"
+        >
           <button
+            type="button"
             mat-icon-button
             (click)="onDeleteHouseClicked()"
-            *ngIf="houseOwner"
           >
             <mat-icon>delete</mat-icon>
           </button>
-        </mat-card-title>
-        <mat-card-subtitle>{{ house.description }}</mat-card-subtitle>
-        <mat-card-content>
-          <p *ngFor="let room of house.rooms">{{ room.name }}</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+          <button type="button" mat-icon-button [routerLink]="['./edit']">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button type="button" mat-raised-button (click)="onNewRoomClicked()">
+            New Room
+          </button>
+        </div>
+      </mat-card-title>
+      <mat-card-subtitle class="row"
+        ><div class="col-12">
+          <p>{{ house.description }}</p>
+        </div></mat-card-subtitle
+      >
+      <mat-card-content>
+        <p *ngFor="let room of house.rooms">{{ room.name }}</p>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

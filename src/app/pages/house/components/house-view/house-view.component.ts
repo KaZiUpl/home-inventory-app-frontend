@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { AcceptDialogComponent } from '../../../../components/accept-dialog/accept-dialog.component';
+import { NewRoomDialogComponent } from '../new-room-dialog/new-room-dialog.component';
 import { UserService } from '../../../../services/user.service';
 
 @Component({
@@ -26,19 +27,15 @@ export class HouseViewComponent implements OnInit {
     private dialog: MatDialog,
     private snackBarService: MatSnackBar
   ) {
-    this.activatedRoute.params.subscribe((params) => {
-      this.house._id = params['id'];
-    });
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.houseService
-          .getHouse(this.house._id)
-          .subscribe((houseInfo: HouseFullOutput) => {
-            this.houseOwner =
-              houseInfo.owner._id == this.userService.getLocalUser().id;
-            this.house = houseInfo;
-          });
-      }
+    this.activatedRoute.params.subscribe((routeParams) => {
+      this.house._id = this.activatedRoute.snapshot.paramMap.get('id');
+      this.houseService
+        .getHouse(this.house._id)
+        .subscribe((houseInfo: HouseFullOutput) => {
+          this.houseOwner =
+            houseInfo.owner._id == this.userService.getLocalUser().id;
+          this.house = houseInfo;
+        });
     });
   }
 
@@ -69,6 +66,12 @@ export class HouseViewComponent implements OnInit {
           }
         );
       }
+    });
+  }
+
+  onNewRoomClicked(): void {
+    let dialogRef = this.dialog.open(NewRoomDialogComponent, {
+      data: { houseId: this.house._id },
     });
   }
 }

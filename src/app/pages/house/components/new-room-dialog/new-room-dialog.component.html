@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Create new room</h1>
+<form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content></mat-dialog-content>
+  <mat-dialog-actions class="row">
+    <div class="col-12 text-right">
+      <button type="button" mat-button (click)="onCancel()">Cancel</button>
+      <button type="submit" mat-raised-button color="primary">Create</button>
+    </div>
+  </mat-dialog-actions>
+</form>

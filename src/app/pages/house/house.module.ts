@@ -13,6 +13,7 @@ import { HouseListComponent } from './components/house-list/house-list.component
 import { HouseViewComponent } from './components/house-view/house-view.component';
 import { HouseEditComponent } from './components/house-edit/house-edit.component';
 import { NewHouseDialogComponent } from './components/new-house-dialog/new-house-dialog.component';
+import { NewRoomDialogComponent } from './components/new-room-dialog/new-room-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NewHouseDialogComponent } from './components/new-house-dialog/new-house
     HouseViewComponent,
     HouseEditComponent,
     NewHouseDialogComponent,
+    NewRoomDialogComponent,
   ],
   imports: [
     CommonModule,

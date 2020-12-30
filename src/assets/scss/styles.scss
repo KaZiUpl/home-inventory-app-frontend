@@ -26,3 +26,8 @@ body {
 .mat-form-field {
   width: 100%;
 }
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
