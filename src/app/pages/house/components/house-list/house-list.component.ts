@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { from } from 'rxjs';
+import { from, Subscription } from 'rxjs';
 
 import { HouseService } from 'src/app/services/house.service';
 import { HouseSimpleOutput } from '../../../../models/house.model';
@@ -13,11 +13,14 @@ import { NewHouseDialogComponent } from '../new-house-dialog/new-house-dialog.co
 })
 export class HouseListComponent implements OnInit {
   houseList: HouseSimpleOutput[];
+  private houseListSubscription: Subscription;
 
   constructor(private houseService: HouseService, private dialog: MatDialog) {
-    houseService.getHouseList().subscribe((response: HouseSimpleOutput[]) => {
-      this.houseList = response;
-    });
+    this.houseListSubscription = houseService
+      .getHouseListSubject()
+      .subscribe((list: HouseSimpleOutput[]) => {
+        this.houseList = list;
+      });
   }
 
   ngOnInit(): void {}
