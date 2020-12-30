@@ -65,7 +65,9 @@ export class NewItemComponent implements OnInit {
           this.router.navigate(['/items']);
         },
         (error: HttpErrorResponse) => {
-          this.snackBarService.open(error.message, null, { duration: 2000 });
+          this.snackBarService.open(error.error.message, null, {
+            duration: 2000,
+          });
         }
       );
   }

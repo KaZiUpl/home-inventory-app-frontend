@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { HouseService } from 'src/app/services/house.service';
 import { HouseFullOutput } from 'src/app/models/house.model';
 import { ActivatedRoute, Router, Event, NavigationEnd } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { AcceptDialogComponent } from '../../../../components/accept-dialog/accept-dialog.component';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-house-view',
@@ -10,11 +16,15 @@ import { ActivatedRoute, Router, Event, NavigationEnd } from '@angular/router';
 })
 export class HouseViewComponent implements OnInit {
   house: HouseFullOutput = new HouseFullOutput();
+  houseOwner: boolean = false;
 
   constructor(
+    private userService: UserService,
     private houseService: HouseService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private snackBarService: MatSnackBar
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.house._id = params['id'];
@@ -24,6 +34,8 @@ export class HouseViewComponent implements OnInit {
         this.houseService
           .getHouse(this.house._id)
           .subscribe((houseInfo: HouseFullOutput) => {
+            this.houseOwner =
+              houseInfo.owner._id == this.userService.getLocalUser().id;
             this.house = houseInfo;
           });
       }
@@ -31,4 +43,32 @@ export class HouseViewComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  onDeleteHouseClicked(): void {
+    let dialogRef = this.dialog.open(AcceptDialogComponent, {
+      data: {
+        title: 'Delete house ' + this.house.name + '?',
+        content:
+          'Do you want to delete this house? This action cannot be undone.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((response: boolean) => {
+      if (response) {
+        // delete house
+        this.houseService.deleteHouse(this.house._id).subscribe(
+          (response: any) => {
+            this.snackBarService.open(response.message, null, {
+              duration: 1500,
+            });
+          },
+          (error: HttpErrorResponse) => {
+            this.snackBarService.open(error.error.message, null, {
+              duration: 2000,
+            });
+          }
+        );
+      }
+    });
+  }
 }

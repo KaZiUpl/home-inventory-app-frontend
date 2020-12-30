@@ -2,7 +2,16 @@
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-9">
       <mat-card>
-        <mat-card-title>{{ house.name }}</mat-card-title>
+        <mat-card-title
+          >{{ house.name }}
+          <button
+            mat-icon-button
+            (click)="onDeleteHouseClicked()"
+            *ngIf="houseOwner"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-title>
         <mat-card-subtitle>{{ house.description }}</mat-card-subtitle>
         <mat-card-content>
           <p *ngFor="let room of house.rooms">{{ room.name }}</p>

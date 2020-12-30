@@ -3,6 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { pipe } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { HouseService } from '../../../../services/house.service';
 @Component({
   selector: 'app-new-house-dialog',
   templateUrl: './new-house-dialog.component.html',
@@ -11,7 +15,11 @@ import { filter } from 'rxjs/operators';
 export class NewHouseDialogComponent implements OnInit {
   houseForm: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<NewHouseDialogComponent>) {
+  constructor(
+    private houseService: HouseService,
+    public dialogRef: MatDialogRef<NewHouseDialogComponent>,
+    private snackBarService: MatSnackBar
+  ) {
     this.houseForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
       description: new FormControl(null, []),
@@ -36,7 +44,25 @@ export class NewHouseDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('house added');
-    this.dialogRef.close();
+    if (this.houseForm.invalid) {
+      return;
+    }
+
+    this.houseService
+      .createNewHouse(
+        this.houseForm.value.name,
+        this.houseForm.value.description
+      )
+      .subscribe(
+        (response: any) => {
+          this.snackBarService.open(response.message, null, { duration: 1500 });
+          this.dialogRef.close();
+        },
+        (error: HttpErrorResponse) => {
+          this.snackBarService.open(error.error.message, null, {
+            duration: 2000,
+          });
+        }
+      );
   }
 }
