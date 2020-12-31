@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AcceptDialogComponent } from '../../../../components/accept-dialog/accept-dialog.component';
 import { NewRoomDialogComponent } from '../new-room-dialog/new-room-dialog.component';
 import { UserService } from '../../../../services/user.service';
+import { RoomService } from '../../../../services/room.service';
 
 @Component({
   selector: 'app-house-view',
@@ -22,6 +23,7 @@ export class HouseViewComponent implements OnInit {
   constructor(
     private userService: UserService,
     private houseService: HouseService,
+    private roomService: RoomService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
@@ -79,5 +81,30 @@ export class HouseViewComponent implements OnInit {
         this.house.rooms.push(newRoom);
       }
     });
+  }
+
+  onRoomDeleteClicked(roomId: string): void {
+    let dialogRef = this.dialog.open(AcceptDialogComponent, {
+      data: {
+        title: 'Delete a room?',
+        content:
+          'Do you want to delete this room? This action cannot be undone.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((response: boolean) => {
+      if (response) {
+        this.roomService.deleteRoom(roomId).subscribe((response) => {
+          // update local array after delete
+          this.house.rooms = this.house.rooms.filter(
+            (room) => room._id !== roomId
+          );
+        });
+      }
+    });
+  }
+
+  onRoomEditClicked(roomId: string): void {
+    console.log('room edit clicked');
   }
 }

@@ -11,6 +11,10 @@ import { DefaultComponent } from './default.component';
 import { ComponentsModule } from '../../components/components.module';
 import { AuthModule } from '../../pages/auth/auth.module';
 import { ResponsiveSidenavModule } from '../../directives/responsive-sidenav/responsive-sidenav.module';
+
+import { HouseService } from '../../services/house.service';
+import { ItemService } from '../../services/item.service';
+import { RoomService } from '../../services/room.service';
 @NgModule({
   declarations: [DefaultComponent],
   imports: [
@@ -25,5 +29,6 @@ import { ResponsiveSidenavModule } from '../../directives/responsive-sidenav/res
     AuthModule,
     ResponsiveSidenavModule,
   ],
+  providers: [HouseService, ItemService, RoomService],
 })
 export class DefaultModule {}

@@ -9,8 +9,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HouseService } from '../../services/house.service';
-import { ItemService } from '../../services/item.service';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -24,6 +22,5 @@ import { ItemService } from '../../services/item.service';
     ReactiveFormsModule,
     MatDividerModule,
   ],
-  providers: [HouseService, ItemService],
 })
 export class DashboardModule {}

@@ -32,9 +32,33 @@
         </div></mat-card-subtitle
       >
       <mat-card-content>
-        <p *ngFor="let room of house.rooms">
-          {{ room.name }} | {{ room.description }}
-        </p>
+        <div class="row">
+          <div class="col-12 col-md-8 order-last order-sm-auto">
+            <div *ngFor="let room of house.rooms">
+              <p>{{ room.name }} | {{ room.description }}</p>
+
+              <div *ngIf="houseOwner">
+                <button mat-icon-button (click)="onRoomEditClicked(room._id)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onRoomDeleteClicked(room._id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 order-md-last">
+            <mat-card>
+              <mat-card-title>Collaborators</mat-card-title>
+              <mat-card-content>
+                <p>{{ house.owner?.login }} (You)</p>
+                <p *ngFor="let collaborator of house.collaborators">
+                  {{ collaborator.login }}
+                </p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
