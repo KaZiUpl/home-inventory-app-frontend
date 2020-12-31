@@ -4,3 +4,8 @@ export class RoomSimpleOutput {
   description: string;
   house: string;
 }
+
+export class RoomInput {
+  name: string;
+  description?: string;
+}

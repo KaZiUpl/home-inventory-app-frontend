@@ -52,6 +52,27 @@ export class NewRoomDialogComponent implements OnInit {
       return;
     }
 
-    console.log('send create room request');
+    this.houseService
+      .createNewRoom(this.houseId, {
+        name: this.roomForm.value.name,
+        description: this.roomForm.value.description,
+      })
+      .subscribe(
+        (response: any) => {
+          this.snackBarService.open(response.message, null, {
+            duration: 1500,
+          });
+          this.dialogRef.close({
+            _id: response.id,
+            name: this.roomForm.value.name,
+            description: this.roomForm.value.description,
+          });
+        },
+        (error: HttpErrorResponse) => {
+          this.snackBarService.open(error.error.message, null, {
+            duration: 2000,
+          });
+        }
+      );
   }
 }

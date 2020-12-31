@@ -32,7 +32,9 @@
         </div></mat-card-subtitle
       >
       <mat-card-content>
-        <p *ngFor="let room of house.rooms">{{ room.name }}</p>
+        <p *ngFor="let room of house.rooms">
+          {{ room.name }} | {{ room.description }}
+        </p>
       </mat-card-content>
     </mat-card>
   </div>

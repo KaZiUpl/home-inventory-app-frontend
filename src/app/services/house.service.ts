@@ -10,7 +10,7 @@ import {
   HouseFullOutput,
   HouseInput,
 } from '../models/house.model';
-import { RoomSimpleOutput } from '../models/room.model';
+import { RoomSimpleOutput, RoomInput } from '../models/room.model';
 import { UserSimpleOutput } from '../models/user.model';
 import { UserService } from './user.service';
 
@@ -57,6 +57,13 @@ export class HouseService {
         // add new house list to the subject
         this.houseListSubject.next(this.houseList);
       })
+    );
+  }
+
+  createNewRoom(houseId: string, roomData: RoomInput): Observable<any> {
+    return this.httpClient.post(
+      `${environment.apiUrl}/houses/${houseId}/rooms`,
+      roomData
     );
   }
 

@@ -73,5 +73,11 @@ export class HouseViewComponent implements OnInit {
     let dialogRef = this.dialog.open(NewRoomDialogComponent, {
       data: { houseId: this.house._id },
     });
+
+    dialogRef.afterClosed().subscribe((newRoom) => {
+      if (newRoom) {
+        this.house.rooms.push(newRoom);
+      }
+    });
   }
 }
