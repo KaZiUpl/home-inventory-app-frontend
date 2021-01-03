@@ -17,6 +17,7 @@ import { AcceptDialogComponent } from '../../../../components/accept-dialog/acce
 import { NewRoomDialogComponent } from '../new-room-dialog/new-room-dialog.component';
 import { UserService } from '../../../../services/user.service';
 import { RoomService } from '../../../../services/room.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-house-view',
@@ -37,6 +38,7 @@ export class HouseViewComponent implements OnInit {
   house: HouseFullOutput = new HouseFullOutput();
   houseOwner: boolean = false;
   expandedRoom: any | null;
+  roomsDataSource: MatTableDataSource<any>;
 
   constructor(
     private userService: UserService,
@@ -55,6 +57,8 @@ export class HouseViewComponent implements OnInit {
           this.houseOwner =
             houseInfo.owner._id == this.userService.getLocalUser().id;
           this.house = houseInfo;
+
+          this.roomsDataSource = new MatTableDataSource<any>(houseInfo.rooms);
         });
     });
   }
@@ -95,8 +99,9 @@ export class HouseViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((newRoom) => {
-      if (newRoom) {
+      if (newRoom != undefined) {
         this.house.rooms.push(newRoom);
+        this.roomsDataSource.data = this.house.rooms;
       }
     });
   }
@@ -117,6 +122,7 @@ export class HouseViewComponent implements OnInit {
           this.house.rooms = this.house.rooms.filter(
             (room) => room._id !== roomId
           );
+          this.roomsDataSource.data = this.house.rooms;
         });
       }
     });

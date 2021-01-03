@@ -11,6 +11,9 @@
           class="col-12 col-sm-auto text-right text-sm-auto"
           *ngIf="houseOwner"
         >
+          <button type="button" mat-icon-button [routerLink]="['./edit']">
+            <mat-icon>edit</mat-icon>
+          </button>
           <button
             type="button"
             mat-icon-button
@@ -18,10 +21,12 @@
           >
             <mat-icon>delete</mat-icon>
           </button>
-          <button type="button" mat-icon-button [routerLink]="['./edit']">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button type="button" mat-raised-button (click)="onNewRoomClicked()">
+          <button
+            type="button"
+            mat-raised-button
+            (click)="onNewRoomClicked()"
+            *ngIf="houseOwner && house && house.rooms.length < 10"
+          >
             New Room
           </button>
         </div>
@@ -35,7 +40,7 @@
         <div class="row">
           <div class="col-12 col-lg-8 order-last order-sm-auto">
             <div class="mat-elevation-z3">
-              <mat-table [dataSource]="house.rooms" multiTemplateDataRows>
+              <mat-table [dataSource]="roomsDataSource" multiTemplateDataRows>
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
