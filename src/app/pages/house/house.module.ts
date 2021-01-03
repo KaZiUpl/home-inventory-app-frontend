@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 import { HouseRoutingModule } from './house-routing.module';
 import { HouseListComponent } from './components/house-list/house-list.component';
@@ -14,6 +15,7 @@ import { HouseViewComponent } from './components/house-view/house-view.component
 import { HouseEditComponent } from './components/house-edit/house-edit.component';
 import { NewHouseDialogComponent } from './components/new-house-dialog/new-house-dialog.component';
 import { NewRoomDialogComponent } from './components/new-room-dialog/new-room-dialog.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { NewRoomDialogComponent } from './components/new-room-dialog/new-room-di
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   entryComponents: [NewHouseDialogComponent],
 })

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row h-100 justify-content-center my-1">
-    <mat-card class="col-12 col-md-10 col-lg-9 col-xl-6">
+    <mat-card class="col-12 col-md-10 col-lg-9 col-xl-8">
       <mat-card-title
         class="row d-flex align-items-center justify-content-between"
       >
@@ -33,28 +33,97 @@
       >
       <mat-card-content>
         <div class="row">
-          <div class="col-12 col-md-8 order-last order-sm-auto">
-            <div *ngFor="let room of house.rooms">
-              <p>{{ room.name }} | {{ room.description }}</p>
+          <div class="col-12 col-lg-8 order-last order-sm-auto">
+            <div class="mat-elevation-z3">
+              <mat-table [dataSource]="house.rooms" multiTemplateDataRows>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Name
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let room">
+                    <span class="ellipsis">{{ room.name }}</span>
+                  </mat-cell>
+                </ng-container>
 
-              <div *ngIf="houseOwner">
-                <button mat-icon-button (click)="onRoomEditClicked(room._id)">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onRoomDeleteClicked(room._id)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
+                <!-- Description Column -->
+                <ng-container matColumnDef="description">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Description
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let room">
+                    <span class="ellipsis">{{ room.description }}</span>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Expanded Room Details Column-->
+                <ng-container matColumnDef="expandedRoomDetails">
+                  <mat-cell *matCellDef="let room" [attr.colspan]="3">
+                    <div
+                      class="row w-100 room-details"
+                      [@roomDetailExpand]="
+                        room == expandedRoom ? 'expanded' : 'collapsed'
+                      "
+                    >
+                      <div class="col-12 my-2 text-right" *ngIf="houseOwner">
+                        <button type="button" mat-raised-button color="primary">
+                          Add storage item
+                        </button>
+                        <button
+                          mat-icon-button
+                          (click)="onRoomEditClicked(room._id)"
+                        >
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          (click)="onRoomDeleteClicked(room._id)"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                  *matHeaderRowDef="['name', 'description']"
+                ></mat-header-row>
+
+                <mat-row
+                  *matRowDef="let row; columns: ['name', 'description']"
+                  class="room-data"
+                  [class.expanded]="expandedRoom === row"
+                  (click)="expandedRoom = expandedRoom === row ? null : row"
+                ></mat-row>
+                <mat-row
+                  *matRowDef="let row; columns: ['expandedRoomDetails']"
+                  class="room-details-cell"
+                ></mat-row>
+              </mat-table>
             </div>
           </div>
-          <div class="col-12 col-md-4 order-md-last">
+          <div class="col-12 col-lg-4 order-lg-last mb-2">
             <mat-card>
-              <mat-card-title>Collaborators</mat-card-title>
-              <mat-card-content>
-                <p>{{ house.owner?.login }} (You)</p>
-                <p *ngFor="let collaborator of house.collaborators">
-                  {{ collaborator.login }}
-                </p>
+              <mat-card-title class="row">
+                <div class="col ellipsis">Collaborators</div>
+              </mat-card-title>
+              <mat-card-content class="row">
+                <div class="col d-lg-none">
+                  <span>{{ house.owner?.login }} (You)</span>
+                  <span
+                    class="ml-2"
+                    *ngFor="let collaborator of house.collaborators"
+                  >
+                    {{ collaborator.login }}
+                  </span>
+                </div>
+                <div class="col-12 d-none d-lg-block">
+                  <p>{{ house.owner?.login }} (You)</p>
+                  <p *ngFor="let collaborator of house.collaborators">
+                    {{ collaborator.login }}
+                  </p>
+                </div>
               </mat-card-content>
             </mat-card>
           </div>

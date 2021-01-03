@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { HouseService } from 'src/app/services/house.service';
 import { HouseFullOutput } from 'src/app/models/house.model';
-import { ActivatedRoute, Router, Event, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 import { AcceptDialogComponent } from '../../../../components/accept-dialog/accept-dialog.component';
 import { NewRoomDialogComponent } from '../new-room-dialog/new-room-dialog.component';
@@ -15,10 +22,21 @@ import { RoomService } from '../../../../services/room.service';
   selector: 'app-house-view',
   templateUrl: './house-view.component.html',
   styleUrls: ['./house-view.component.scss'],
+  animations: [
+    trigger('roomDetailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0px' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class HouseViewComponent implements OnInit {
   house: HouseFullOutput = new HouseFullOutput();
   houseOwner: boolean = false;
+  expandedRoom: any | null;
 
   constructor(
     private userService: UserService,
