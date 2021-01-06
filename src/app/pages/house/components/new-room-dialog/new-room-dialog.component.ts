@@ -66,6 +66,7 @@ export class NewRoomDialogComponent implements OnInit {
             _id: response.id,
             name: this.roomForm.value.name,
             description: this.roomForm.value.description,
+            storage: [],
           });
         },
         (error: HttpErrorResponse) => {

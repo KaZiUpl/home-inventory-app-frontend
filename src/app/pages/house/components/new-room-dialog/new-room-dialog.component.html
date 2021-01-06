@@ -11,6 +11,7 @@
             formControlName="name"
             required
             name="room name"
+            autocomplete="off"
           />
           <mat-error *ngIf="roomForm.get('name').hasError('required')"
             >This field is required</mat-error
