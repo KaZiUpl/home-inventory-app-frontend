@@ -11,6 +11,7 @@ import {
   style,
   transition,
   trigger,
+  AnimationEvent,
 } from '@angular/animations';
 
 import { AcceptDialogComponent } from '../../../../components/accept-dialog/accept-dialog.component';
@@ -37,7 +38,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class HouseViewComponent implements OnInit {
   house: HouseFullOutput = new HouseFullOutput();
   houseOwner: boolean = false;
-  expandedRoom: any | null;
+  expandedRoom: any | null = null;
   roomsDataSource: MatTableDataSource<any>;
 
   constructor(
@@ -59,6 +60,14 @@ export class HouseViewComponent implements OnInit {
           this.house = houseInfo;
 
           this.roomsDataSource = new MatTableDataSource<any>(houseInfo.rooms);
+
+          let queryRoom = houseInfo.rooms.filter(
+            (room) =>
+              room._id == this.activatedRoute.snapshot.queryParamMap.get('room')
+          );
+          if (queryRoom.length > 0) {
+            this.expandedRoom = queryRoom[0];
+          }
         });
     });
   }
@@ -100,6 +109,8 @@ export class HouseViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((newRoom) => {
       if (newRoom != undefined) {
+        console.log(newRoom);
+
         this.house.rooms.push(newRoom);
         this.roomsDataSource.data = this.house.rooms;
       }
@@ -119,10 +130,21 @@ export class HouseViewComponent implements OnInit {
       if (response) {
         this.roomService.deleteRoom(roomId).subscribe((response) => {
           // update local array after delete
+
           this.house.rooms = this.house.rooms.filter(
             (room) => room._id !== roomId
           );
           this.roomsDataSource.data = this.house.rooms;
+
+          //if deleted room was expanded
+          if (this.expandedRoom && this.expandedRoom._id == roomId) {
+            this.expandedRoom = null;
+            this.router.navigate([], {
+              relativeTo: this.activatedRoute,
+              queryParams: { room: null },
+              queryParamsHandling: 'merge',
+            });
+          }
         });
       }
     });
@@ -130,5 +152,44 @@ export class HouseViewComponent implements OnInit {
 
   onRoomEditClicked(roomId: string): void {
     console.log('room edit clicked');
+  }
+
+  isExpired(storageItem: any): boolean {
+    let today = new Date();
+
+    return today > new Date(storageItem.expiration);
+  }
+
+  // TODO: add implementation
+  isNearlyExpired(storageItem: any): boolean {
+    return false;
+  }
+
+  roomExpanded(event: AnimationEvent): void {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        room: this.expandedRoom ? this.expandedRoom._id : null,
+      },
+      queryParamsHandling: 'merge',
+    });
+    // if (event.fromState == 'collapsed' && event.toState != 'void') {
+    //   this.router.navigate([], {
+    //     relativeTo: this.activatedRoute,
+    //     queryParams: {
+    //       room: room._id,
+    //     },
+    //     queryParamsHandling: 'merge',
+    //   });
+    // } else if (event.fromState == 'expanded') {
+    //   // expanded => collapsed
+    //   this.router.navigate([], {
+    //     relativeTo: this.activatedRoute,
+    //     queryParams: {
+    //       room: null,
+    //     },
+    //     queryParamsHandling: 'merge',
+    //   });
+    // }
   }
 }

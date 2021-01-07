@@ -40,7 +40,11 @@
         <div class="row">
           <div class="col-12 col-lg-8 order-last order-sm-auto">
             <div class="mat-elevation-z3">
-              <mat-table [dataSource]="roomsDataSource" multiTemplateDataRows>
+              <mat-table
+                [dataSource]="roomsDataSource"
+                multiTemplateDataRows
+                id="room-table"
+              >
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -61,6 +65,35 @@
                   </mat-cell>
                 </ng-container>
 
+                <!-- Buttons Column-->
+                <ng-container matColumnDef="buttons">
+                  <mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                  ></mat-header-cell>
+                  <mat-cell *matCellDef="let room"
+                    ><div class="col-12 my-2 text-right" *ngIf="houseOwner">
+                      <button
+                        mat-icon-button
+                        (click)="
+                          $event.stopPropagation(); onRoomEditClicked(room._id)
+                        "
+                      >
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button
+                        mat-icon-button
+                        (click)="
+                          $event.stopPropagation();
+                          onRoomDeleteClicked(room._id)
+                        "
+                      >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div></mat-cell
+                  >
+                </ng-container>
+
                 <!-- Expanded Room Details Column-->
                 <ng-container matColumnDef="expandedRoomDetails">
                   <mat-cell *matCellDef="let room" [attr.colspan]="3">
@@ -69,34 +102,93 @@
                       [@roomDetailExpand]="
                         room == expandedRoom ? 'expanded' : 'collapsed'
                       "
+                      (@roomDetailExpand.start)="roomExpanded($event)"
                     >
-                      <div class="col-12 my-2 text-right" *ngIf="houseOwner">
-                        <button type="button" mat-raised-button color="primary">
-                          Add storage item
-                        </button>
-                        <button
-                          mat-icon-button
-                          (click)="onRoomEditClicked(room._id)"
+                      <div class="col-12 my-2">
+                        <h2 class="d-flex justify-content-between">
+                          <span>Room storage</span>
+                          <button
+                            type="button"
+                            mat-raised-button
+                            color="primary"
+                          >
+                            Add storage item
+                          </button>
+                        </h2>
+                      </div>
+                      <div class="col-12 w-100 mb-2">
+                        <mat-table
+                          class="mat-elevation-z8 storage-table"
+                          [dataSource]="room.storage"
+                          *ngIf="room.storage?.length > 0"
                         >
-                          <mat-icon>edit</mat-icon>
-                        </button>
-                        <button
-                          mat-icon-button
-                          (click)="onRoomDeleteClicked(room._id)"
-                        >
-                          <mat-icon>delete</mat-icon>
-                        </button>
+                          <ng-container matColumnDef="expirationStatus">
+                            <mat-header-cell
+                              *matHeaderCellDef
+                            ></mat-header-cell>
+                            <mat-cell *matCellDef="let item"></mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="itemName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                              >Item name</mat-header-cell
+                            >
+                            <mat-cell *matCellDef="let item">
+                              {{ item.item.name }}
+                            </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="quantity">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                              >Quantity</mat-header-cell
+                            >
+                            <mat-cell *matCellDef="let item">
+                              {{ item.quantity }}
+                            </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="expiration">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                              >Expiration date</mat-header-cell
+                            >
+                            <mat-cell *matCellDef="let item">
+                              {{ item.expiration | date }}
+                            </mat-cell>
+                          </ng-container>
+
+                          <mat-header-row
+                            *matHeaderRowDef="[
+                              'expirationStatus',
+                              'itemName',
+                              'quantity',
+                              'expiration'
+                            ]"
+                          ></mat-header-row>
+                          <mat-row
+                            *matRowDef="
+                              let row;
+                              columns: [
+                                'expirationStatus',
+                                'itemName',
+                                'quantity',
+                                'expiration'
+                              ]
+                            "
+                            [class.storage-alert]="isExpired(row)"
+                            [class.storage-warning]="isNearlyExpired(row)"
+                          ></mat-row>
+                        </mat-table>
                       </div>
                     </div>
                   </mat-cell>
                 </ng-container>
 
                 <mat-header-row
-                  *matHeaderRowDef="['name', 'description']"
+                  *matHeaderRowDef="['name', 'description', 'buttons']"
                 ></mat-header-row>
 
                 <mat-row
-                  *matRowDef="let row; columns: ['name', 'description']"
+                  *matRowDef="
+                    let row;
+                    columns: ['name', 'description', 'buttons']
+                  "
                   class="room-data"
                   [class.expanded]="expandedRoom === row"
                   (click)="expandedRoom = expandedRoom === row ? null : row"
@@ -124,7 +216,7 @@
                   </span>
                 </div>
                 <div class="col-12 d-none d-lg-block">
-                  <p>{{ house.owner?.login }} (You)</p>
+                  <p *ngIf="house.owner">{{ house.owner?.login }} (You)</p>
                   <p *ngFor="let collaborator of house.collaborators">
                     {{ collaborator.login }}
                   </p>
