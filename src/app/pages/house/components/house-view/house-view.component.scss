@@ -7,6 +7,9 @@
   & > .mat-row:not(.expanded):not(.room-details-cell):hover {
     background-color: #efefef;
   }
+  .room-details-cell > .mat-cell:first-of-type {
+    padding: 0;
+  }
 }
 .storage-table {
   .mat-row {
@@ -28,20 +31,40 @@
       }
     }
   }
-  .mat-header-cell.mat-column-expirationStatus {
-    max-width: 25px;
+
+  .mat-header-cell {
+    &.mat-column-expirationStatus {
+      max-width: 25px;
+    }
+    &.mat-column-quantity {
+      max-width: 70px;
+    }
+    &.mat-column-expiration {
+      max-width: 120px;
+      justify-content: flex-end;
+    }
   }
-  .mat-cell.mat-column-expirationStatus {
-    position: relative;
-    max-width: 25px;
-    &::before {
-      display: block;
-      position: absolute;
-      content: "";
-      left: 0;
-      top: 0;
-      width: 7px;
-      height: 100%;
+  .mat-cell {
+    &.mat-column-expirationStatus {
+      position: relative;
+      max-width: 25px;
+      &::before {
+        display: block;
+        position: absolute;
+        content: "";
+        left: 0;
+        top: 0;
+        width: 7px;
+        height: 100%;
+      }
+    }
+    &.mat-column-quantity {
+      max-width: 70px;
+    }
+
+    &.mat-column-expiration {
+      max-width: 120px;
+      justify-content: flex-end;
     }
   }
 }

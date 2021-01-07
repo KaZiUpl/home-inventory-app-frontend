@@ -163,7 +163,17 @@ export class HouseViewComponent implements OnInit {
 
   // TODO: add implementation
   isNearlyExpired(storageItem: any): boolean {
-    return false;
+    // get UTC timestmap
+    let todayTimstamp = Date.now();
+    let expirationTimestamp = Date.parse(storageItem.expiration);
+
+    let diffTimeSeconds = Math.floor(
+      (expirationTimestamp - todayTimstamp) / 1000
+    );
+
+    let diffTimeDays = Math.floor(diffTimeSeconds / (60 * 60 * 24));
+
+    return diffTimeDays <= 7 && diffTimeDays > 0;
   }
 
   roomExpanded(event: AnimationEvent): void {

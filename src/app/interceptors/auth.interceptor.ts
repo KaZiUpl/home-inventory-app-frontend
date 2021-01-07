@@ -75,6 +75,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
           this.router.navigate(['auth']);
 
+          console.log('asdasd');
+
           return throwError(error);
         })
       );

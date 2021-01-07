@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="">
   <div class="row h-100 justify-content-center my-1">
     <mat-card class="col-12 col-md-10 col-lg-9 col-xl-8">
       <mat-card-title
@@ -147,6 +147,7 @@
                           [dataSource]="room.storage"
                           *ngIf="room.storage?.length > 0"
                         >
+                          <!-- Name Column -->
                           <ng-container matColumnDef="expirationStatus">
                             <mat-header-cell
                               *matHeaderCellDef
@@ -158,9 +159,11 @@
                               >Item name</mat-header-cell
                             >
                             <mat-cell *matCellDef="let item">
-                              {{ item.item.name }}
+                              <span class="ellipsis">{{ item.item.name }}</span>
                             </mat-cell>
                           </ng-container>
+
+                          <!-- Quantity Column -->
                           <ng-container matColumnDef="quantity">
                             <mat-header-cell *matHeaderCellDef mat-sort-header
                               >Quantity</mat-header-cell
@@ -169,12 +172,14 @@
                               {{ item.quantity }}
                             </mat-cell>
                           </ng-container>
+
+                          <!-- Expiration Column -->
                           <ng-container matColumnDef="expiration">
                             <mat-header-cell *matHeaderCellDef mat-sort-header
                               >Expiration date</mat-header-cell
                             >
                             <mat-cell *matCellDef="let item">
-                              {{ item.expiration | date }}
+                              {{ item.expiration | date: "d MMM yyyy" }}
                             </mat-cell>
                           </ng-container>
 
