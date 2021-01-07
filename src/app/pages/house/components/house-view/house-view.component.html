@@ -11,7 +11,12 @@
           class="col-12 col-sm-auto text-right text-sm-auto"
           *ngIf="houseOwner"
         >
-          <button type="button" mat-icon-button [routerLink]="['./edit']">
+          <button
+            type="button"
+            mat-icon-button
+            [routerLink]="['./edit']"
+            [queryParams]="null"
+          >
             <mat-icon>edit</mat-icon>
           </button>
           <button
@@ -39,7 +44,15 @@
       <mat-card-content>
         <div class="row">
           <div class="col-12 col-lg-8 order-last order-sm-auto">
-            <div class="mat-elevation-z3">
+            <p *ngIf="house.rooms?.length == 0 && houseOwner">
+              This house has no rooms. You can add one by clicking "New Room"
+              button above.
+            </p>
+            <p *ngIf="house.rooms?.length == 0 && !houseOwner">
+              This house has no rooms. Unfortunately only house owners can add
+              new rooms.
+            </p>
+            <div class="mat-elevation-z3" *ngIf="house.rooms?.length > 0">
               <mat-table
                 [dataSource]="roomsDataSource"
                 multiTemplateDataRows
@@ -116,7 +129,19 @@
                           </button>
                         </h2>
                       </div>
-                      <div class="col-12 w-100 mb-2">
+                      <div
+                        class="col-12 my-2"
+                        *ngIf="room.storage?.length == 0"
+                      >
+                        <p>
+                          This room's storage is empty, you can add items to it
+                          by clicking button above.
+                        </p>
+                      </div>
+                      <div
+                        class="col-12 w-100 mb-2"
+                        *ngIf="room.storage?.length > 0"
+                      >
                         <mat-table
                           class="mat-elevation-z8 storage-table"
                           [dataSource]="room.storage"

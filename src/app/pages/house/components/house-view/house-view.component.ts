@@ -91,6 +91,7 @@ export class HouseViewComponent implements OnInit {
             this.snackBarService.open(response.message, null, {
               duration: 1500,
             });
+            this.router.navigate(['../']);
           },
           (error: HttpErrorResponse) => {
             this.snackBarService.open(error.error.message, null, {
@@ -166,13 +167,16 @@ export class HouseViewComponent implements OnInit {
   }
 
   roomExpanded(event: AnimationEvent): void {
-    this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: {
-        room: this.expandedRoom ? this.expandedRoom._id : null,
-      },
-      queryParamsHandling: 'merge',
-    });
+    if (event.fromState != 'void' && event.toState != 'void') {
+      this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: {
+          room: this.expandedRoom ? this.expandedRoom._id : null,
+        },
+        queryParamsHandling: 'merge',
+      });
+    }
+
     // if (event.fromState == 'collapsed' && event.toState != 'void') {
     //   this.router.navigate([], {
     //     relativeTo: this.activatedRoute,
