@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 import {
   HouseSimpleOutput,
   HouseFullOutput,
-  HouseInput,
+  HouseUpdateInput,
 } from '../models/house.model';
 import { RoomSimpleOutput, RoomInput } from '../models/room.model';
 import { UserSimpleOutput } from '../models/user.model';
@@ -109,7 +109,7 @@ export class HouseService {
     );
   }
 
-  putHouseInfo(houseId: string, newData: HouseInput): Observable<any> {
+  putHouseInfo(houseId: string, newData: HouseUpdateInput): Observable<any> {
     return this.httpClient
       .put(`${environment.apiUrl}/houses/${houseId}`, newData)
       .pipe(

@@ -18,7 +18,7 @@ export class HouseFullOutput {
   rooms?: any[];
 }
 
-export class HouseInput {
+export class HouseUpdateInput {
   name: string;
   description: string;
 }
