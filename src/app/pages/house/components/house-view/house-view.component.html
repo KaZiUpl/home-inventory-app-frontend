@@ -179,7 +179,9 @@
                               <app-editable-cell
                                 *ngIf="focusedStorageItem == item"
                                 [quantity]="item.quantity"
-                                (valueChange)="onQuantityChange(item, $event)"
+                                (valueChange)="
+                                  onQuantityChange(room, item, $event)
+                                "
                               ></app-editable-cell>
                             </mat-cell>
                           </ng-container>

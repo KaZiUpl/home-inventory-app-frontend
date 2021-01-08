@@ -19,6 +19,7 @@ import { NewRoomDialogComponent } from '../new-room-dialog/new-room-dialog.compo
 import { UserService } from '../../../../services/user.service';
 import { RoomService } from '../../../../services/room.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { StorageItemFullOutput } from 'src/app/models/room.model';
 
 @Component({
   selector: 'app-house-view',
@@ -218,7 +219,22 @@ export class HouseViewComponent implements OnInit {
     this.focusedStorageItem = null;
   }
 
-  onQuantityChange(storageItem, event): void {
-    console.log('quantity updated');
+  onQuantityChange(room, storageItem: StorageItemFullOutput, event): void {
+    this.roomService
+      .updateStorageItem(room._id, storageItem._id, {
+        description: storageItem.description,
+        quantity: event,
+        expiration: Date.parse(storageItem.expiration),
+      })
+      .subscribe(
+        (response) => {
+          storageItem.quantity = event;
+        },
+        (error: HttpErrorResponse) => {
+          this.snackBarService.open(error.error.message, null, {
+            duration: 1500,
+          });
+        }
+      );
   }
 }

@@ -3,7 +3,11 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
-import { RoomFullOutput, RoomUpdateInput } from '../models/room.model';
+import {
+  RoomFullOutput,
+  RoomUpdateInput,
+  StorageItemUpdateInput,
+} from '../models/room.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +28,16 @@ export class RoomService {
   updateRoomInfo(roomId: string, roomInfo: RoomUpdateInput): Observable<any> {
     const body = roomInfo;
     return this.httpClient.put(`${environment.apiUrl}/rooms/${roomId}`, body);
+  }
+
+  updateStorageItem(
+    roomId: string,
+    storageItemId: string,
+    storageItem: StorageItemUpdateInput
+  ): Observable<any> {
+    return this.httpClient.put(
+      `${environment.apiUrl}/rooms/${roomId}/storage/${storageItemId}`,
+      storageItem
+    );
   }
 }
