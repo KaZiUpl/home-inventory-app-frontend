@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -16,6 +16,7 @@ import { HouseEditComponent } from './components/house-edit/house-edit.component
 import { NewHouseDialogComponent } from './components/new-house-dialog/new-house-dialog.component';
 import { NewRoomDialogComponent } from './components/new-room-dialog/new-room-dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { EditableCellComponent } from './components/editable-cell/editable-cell.component';
 
 @NgModule({
   declarations: [
@@ -24,10 +25,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     HouseEditComponent,
     NewHouseDialogComponent,
     NewRoomDialogComponent,
+    EditableCellComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     HouseRoutingModule,
     MatCardModule,
     MatFormFieldModule,

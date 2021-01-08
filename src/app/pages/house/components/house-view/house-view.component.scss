@@ -38,6 +38,7 @@
     }
     &.mat-column-quantity {
       max-width: 70px;
+      justify-content: flex-end;
     }
     &.mat-column-expiration {
       max-width: 120px;
@@ -60,6 +61,8 @@
     }
     &.mat-column-quantity {
       max-width: 70px;
+      justify-content: flex-end;
+      cursor: pointer;
     }
 
     &.mat-column-expiration {
@@ -86,4 +89,10 @@
 
 .room-details-cell {
   min-height: 0;
+}
+
+app-editable-cell {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
 }

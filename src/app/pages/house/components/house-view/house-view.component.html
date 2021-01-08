@@ -168,8 +168,19 @@
                             <mat-header-cell *matHeaderCellDef mat-sort-header
                               >Quantity</mat-header-cell
                             >
-                            <mat-cell *matCellDef="let item">
-                              {{ item.quantity }}
+                            <mat-cell
+                              *matCellDef="let item"
+                              (click)="quantityFocusOn(item)"
+                              (focusout)="quantityFocusOut(item)"
+                            >
+                              <span *ngIf="focusedStorageItem != item">{{
+                                item.quantity
+                              }}</span>
+                              <app-editable-cell
+                                *ngIf="focusedStorageItem == item"
+                                [quantity]="item.quantity"
+                                (valueChange)="onQuantityChange(item, $event)"
+                              ></app-editable-cell>
                             </mat-cell>
                           </ng-container>
 

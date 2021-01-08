@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HouseService } from 'src/app/services/house.service';
 import { HouseFullOutput } from 'src/app/models/house.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -40,6 +40,8 @@ export class HouseViewComponent implements OnInit {
   houseOwner: boolean = false;
   expandedRoom: any | null = null;
   roomsDataSource: MatTableDataSource<any>;
+  focusedStorageItem: any | null;
+  @ViewChild('quantityInput') quantityInput: ElementRef;
 
   constructor(
     private userService: UserService,
@@ -205,5 +207,18 @@ export class HouseViewComponent implements OnInit {
     //     queryParamsHandling: 'merge',
     //   });
     // }
+  }
+
+  quantityFocusOn(storageItem): void {
+    if (!this.focusedStorageItem) {
+      this.focusedStorageItem = storageItem;
+    }
+  }
+  quantityFocusOut(storageItem): void {
+    this.focusedStorageItem = null;
+  }
+
+  onQuantityChange(storageItem, event): void {
+    console.log('quantity updated');
   }
 }
