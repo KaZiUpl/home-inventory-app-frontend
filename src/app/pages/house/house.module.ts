@@ -8,6 +8,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { HouseRoutingModule } from './house-routing.module';
 import { HouseListComponent } from './components/house-list/house-list.component';
@@ -17,6 +20,7 @@ import { NewHouseDialogComponent } from './components/new-house-dialog/new-house
 import { NewRoomDialogComponent } from './components/new-room-dialog/new-room-dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditableCellComponent } from './components/editable-cell/editable-cell.component';
+import { NewStorageItemDialogComponent } from './components/new-storage-item-dialog/new-storage-item-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,7 @@ import { EditableCellComponent } from './components/editable-cell/editable-cell.
     NewHouseDialogComponent,
     NewRoomDialogComponent,
     EditableCellComponent,
+    NewStorageItemDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -40,7 +45,10 @@ import { EditableCellComponent } from './components/editable-cell/editable-cell.
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
   ],
-  entryComponents: [NewHouseDialogComponent],
+  entryComponents: [NewHouseDialogComponent, NewStorageItemDialogComponent],
 })
 export class HouseModule {}

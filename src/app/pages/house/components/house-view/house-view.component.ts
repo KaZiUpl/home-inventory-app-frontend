@@ -20,6 +20,7 @@ import { UserService } from '../../../../services/user.service';
 import { RoomService } from '../../../../services/room.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { StorageItemFullOutput } from 'src/app/models/room.model';
+import { NewStorageItemDialogComponent } from '../new-storage-item-dialog/new-storage-item-dialog.component';
 
 @Component({
   selector: 'app-house-view',
@@ -236,5 +237,15 @@ export class HouseViewComponent implements OnInit {
           });
         }
       );
+  }
+
+  onAddStorageItemClicked(room): void {
+    let dialogRef = this.dialog.open(NewStorageItemDialogComponent, {
+      data: { roomId: room._id },
+    });
+
+    dialogRef.afterClosed().subscribe((response) => {
+      console.log(response);
+    });
   }
 }

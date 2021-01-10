@@ -7,6 +7,7 @@ import { DefaultModule } from './layouts/default/default.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/user.service';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { UserService } from './services/user.service';
     DefaultModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatNativeDateModule,
   ],
   providers: [UserService],
   bootstrap: [AppComponent],

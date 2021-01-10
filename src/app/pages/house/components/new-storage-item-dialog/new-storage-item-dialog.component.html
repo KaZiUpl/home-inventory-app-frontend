@@ -1,0 +1,146 @@
+<h1 mat-dialog-title>Add storage item</h1>
+<mat-dialog-content>
+  <div class="row">
+    <div class="w-100">
+      <mat-vertical-stepper linear>
+        <mat-step [stepControl]="itemForm">
+          <ng-template matStepLabel>
+            <span *ngIf="choosenItem == null">Choose an item</span>
+            <span *ngIf="choosenItem != null">{{ choosenItem.name }}</span>
+          </ng-template>
+          <div class="row">
+            <div class="col-9">
+              <form [formGroup]="itemForm">
+                <div class="w-100">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Search</mat-label>
+                    <input
+                      #searchBar
+                      type="search"
+                      matInput
+                      name="search"
+                      formControlName="item"
+                      [matAutocomplete]="auto"
+                      autocomplete="off"
+                      required
+                      [errorStateMatcher]="matcher"
+                    />
+                    <mat-autocomplete
+                      #auto="matAutocomplete"
+                      [displayWith]="displayFn"
+                      (optionSelected)="onItemSelect($event)"
+                      autoActiveFirstOption
+                    >
+                      <mat-option
+                        *ngFor="let item of filteredItemList | async"
+                        [value]="item"
+                      >
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-autocomplete>
+
+                    <mat-error
+                      *ngIf="
+                        itemForm.get('item').hasError('required') ||
+                        itemForm.get('item').hasError('itemNotChoosen')
+                      "
+                      >You have to choose an item</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <div class="col-12 text-left">
+                    <button
+                      type="button"
+                      mat-button
+                      matStepperNext
+                      [disabled]="choosenItem == null"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-3 text-center">
+              <button mat-fab color="primary" (click)="onSearchBarcode()">
+                <mat-icon>qr_code_scanner</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-step>
+        <mat-step [stepControl]="storageItemDetailsForm">
+          <ng-template matStepLabel>Fill storage information</ng-template>
+          <form [formGroup]="storageItemDetailsForm">
+            <div class="row">
+              <div class="col-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Item quantity</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    min="1"
+                    required
+                    formControlName="quantity"
+                  />
+                  <mat-error
+                    *ngIf="
+                      storageItemDetailsForm
+                        .get('quantity')
+                        .hasError('required')
+                    "
+                    >This field is required</mat-error
+                  >
+                  <mat-error
+                    *ngIf="
+                      storageItemDetailsForm.get('quantity').hasError('min')
+                    "
+                    >Quantity must be grater than 0</mat-error
+                  >
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Choose a date</mat-label>
+                  <input matInput [matDatepicker]="picker" disabled />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker
+                    touchUi
+                    #picker
+                    disabled="false"
+                  ></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Description</mat-label>
+                  <input matInput type="text" autocomplete="off" />
+                  <mat-error></mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+      </mat-vertical-stepper>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="row">
+  <div class="col-12 text-right">
+    <button type="button" mat-button (click)="onCancel()">Cancel</button>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      (click)="onAccept()"
+      [disabled]="!areFormsValid()"
+    >
+      Create
+    </button>
+  </div>
+</mat-dialog-actions>
