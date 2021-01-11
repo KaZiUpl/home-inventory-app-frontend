@@ -6,7 +6,7 @@ export class ItemSimpleOutput {
   description?: string;
   manufacturer?: string;
   ean?: string;
-  owner: string;
+  owner?: string;
 }
 
 export class ItemFullOutput {

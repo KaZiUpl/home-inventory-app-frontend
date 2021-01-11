@@ -1,3 +1,4 @@
+import { RoomSimpleOutput } from './room.model';
 import { UserSimpleOutput } from './user.model';
 
 export class HouseSimpleOutput {
@@ -15,7 +16,7 @@ export class HouseFullOutput {
   description: string;
   owner: UserSimpleOutput;
   collaborators?: UserSimpleOutput[];
-  rooms?: any[];
+  rooms?: RoomSimpleOutput[];
 }
 
 export class HouseUpdateInput {

@@ -145,7 +145,7 @@
                       >
                         <mat-table
                           class="mat-elevation-z8 storage-table"
-                          [dataSource]="room.storage"
+                          [dataSource]="expandedRoomStorageDataSource"
                           *ngIf="room.storage?.length > 0"
                         >
                           <!-- Name Column -->

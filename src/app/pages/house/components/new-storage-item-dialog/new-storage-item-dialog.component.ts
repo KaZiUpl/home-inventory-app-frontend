@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -25,6 +26,11 @@ import { Observable, pipe } from 'rxjs';
 import { filter, startWith, map, tap } from 'rxjs/operators';
 import { BarcodeDialogComponent } from 'src/app/components/barcode-dialog/barcode-dialog.component';
 import { ItemFullOutput, ItemSimpleOutput } from 'src/app/models/item.model';
+import {
+  StorageItemFullOutput,
+  StorageItemInput,
+  StorageItemSimpleOutput,
+} from 'src/app/models/room.model';
 import { ItemService } from 'src/app/services/item.service';
 import { RoomService } from 'src/app/services/room.service';
 
@@ -64,7 +70,7 @@ export class NewStorageItemDialogComponent implements OnInit {
   storageItemDetailsForm: FormGroup = new FormGroup({
     quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
     description: new FormControl(null, []),
-    expiration: new FormControl(null, []),
+    expiration: new FormControl({ value: null, disabled: true }, []),
   });
 
   constructor(
@@ -112,9 +118,45 @@ export class NewStorageItemDialogComponent implements OnInit {
   }
 
   onAccept(): void {
-    console.log('accepted');
+    let storageItemInfo = new StorageItemInput();
+    storageItemInfo.item = this.choosenItem._id;
+    storageItemInfo.quantity = this.storageItemDetailsForm.controls.quantity.value;
+    storageItemInfo.description = this.storageItemDetailsForm.controls.description.value;
+    storageItemInfo.expiration = Date.parse(
+      this.storageItemDetailsForm.controls.expiration.value
+    );
+    if (isNaN(storageItemInfo.expiration)) {
+      storageItemInfo.expiration = null;
+    }
 
-    this.dialogRef.close(null);
+    //add new storage item
+    this.roomService
+      .createStorageItem(this.data.roomId, storageItemInfo)
+      .subscribe(
+        (response) => {
+          //return newly created storage item
+          let newStorageItem = new StorageItemFullOutput();
+          newStorageItem._id = response.id;
+          newStorageItem.quantity = storageItemInfo.quantity;
+          newStorageItem.description = storageItemInfo.description;
+          newStorageItem.expiration = new Date(
+            storageItemInfo.expiration
+          ).toISOString();
+          newStorageItem.item = {
+            _id: storageItemInfo.item,
+            name: this.choosenItem.name,
+          };
+
+          //close dialog
+          this.snackBarService.open(response.message, null, { duration: 1500 });
+          this.dialogRef.close(newStorageItem);
+        },
+        (error: HttpErrorResponse) => {
+          this.snackBarService.open(error.error.message, null, {
+            duration: 2000,
+          });
+        }
+      );
   }
 
   onSearchBarcode(): void {

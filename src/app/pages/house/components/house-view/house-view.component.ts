@@ -42,6 +42,7 @@ export class HouseViewComponent implements OnInit {
   houseOwner: boolean = false;
   expandedRoom: any | null = null;
   roomsDataSource: MatTableDataSource<any>;
+  expandedRoomStorageDataSource: MatTableDataSource<StorageItemFullOutput> = new MatTableDataSource<StorageItemFullOutput>();
   focusedStorageItem: any | null;
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
@@ -71,6 +72,7 @@ export class HouseViewComponent implements OnInit {
           );
           if (queryRoom.length > 0) {
             this.expandedRoom = queryRoom[0];
+            this.expandedRoomStorageDataSource.data = this.expandedRoom.storage;
           }
         });
     });
@@ -245,7 +247,10 @@ export class HouseViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((response) => {
-      console.log(response);
+      if (response) {
+        room.storage.push(response);
+        this.expandedRoomStorageDataSource.data = room.storage;
+      }
     });
   }
 }

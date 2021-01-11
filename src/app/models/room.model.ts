@@ -5,6 +5,7 @@ export class RoomSimpleOutput {
   name: string;
   description: string;
   house: string;
+  storage: StorageItemFullOutput[];
 }
 
 export class RoomFullOutput {
@@ -12,7 +13,7 @@ export class RoomFullOutput {
   name: string;
   description: string;
   house: { _id: string; name: string };
-  storage: StorageItemFullOutput[]; // TODO: add storage items
+  storage: StorageItemFullOutput[];
 }
 
 export class StorageItemSimpleOutput {
@@ -35,6 +36,13 @@ export class StorageItemUpdateInput {
   quantity: number;
   expiration: number;
   description: string;
+}
+
+export class StorageItemInput {
+  item: string;
+  quantity: number;
+  description?: string;
+  expiration?: number;
 }
 
 export class RoomUpdateInput {

@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import {
   RoomFullOutput,
   RoomUpdateInput,
+  StorageItemInput,
   StorageItemUpdateInput,
 } from '../models/room.model';
 
@@ -28,6 +29,16 @@ export class RoomService {
   updateRoomInfo(roomId: string, roomInfo: RoomUpdateInput): Observable<any> {
     const body = roomInfo;
     return this.httpClient.put(`${environment.apiUrl}/rooms/${roomId}`, body);
+  }
+
+  createStorageItem(
+    roomId: string,
+    storageItemInfo: StorageItemInput
+  ): Observable<any> {
+    return this.httpClient.post(
+      `${environment.apiUrl}/rooms/${roomId}/storage`,
+      storageItemInfo
+    );
   }
 
   updateStorageItem(
