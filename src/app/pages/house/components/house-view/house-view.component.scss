@@ -12,6 +12,9 @@
   }
 }
 .storage-table {
+  .mat-cell:last-of-type {
+    padding-right: 2px;
+  }
   .mat-row {
     &.storage-alert {
       background-color: #ffcdd2;
@@ -44,6 +47,9 @@
       max-width: 120px;
       justify-content: flex-end;
     }
+    &.mat-column-menu {
+      max-width: 50px;
+    }
   }
   .mat-cell {
     &.mat-column-expirationStatus {
@@ -67,6 +73,11 @@
 
     &.mat-column-expiration {
       max-width: 120px;
+      justify-content: flex-end;
+    }
+
+    &.mat-column-menu {
+      max-width: 50px;
       justify-content: flex-end;
     }
   }

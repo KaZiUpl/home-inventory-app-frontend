@@ -51,4 +51,10 @@ export class RoomService {
       storageItem
     );
   }
+
+  deleteStorageItem(roomId: string, storageItemId: string): Observable<any> {
+    return this.httpClient.delete(
+      `${environment.apiUrl}/rooms/${roomId}/storage/${storageItemId}`
+    );
+  }
 }

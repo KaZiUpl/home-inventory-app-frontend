@@ -11,6 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { HouseRoutingModule } from './house-routing.module';
 import { HouseListComponent } from './components/house-list/house-list.component';
@@ -48,6 +49,7 @@ import { NewStorageItemDialogComponent } from './components/new-storage-item-dia
     MatStepperModule,
     MatDatepickerModule,
     MatAutocompleteModule,
+    MatMenuModule,
   ],
   entryComponents: [NewHouseDialogComponent, NewStorageItemDialogComponent],
 })

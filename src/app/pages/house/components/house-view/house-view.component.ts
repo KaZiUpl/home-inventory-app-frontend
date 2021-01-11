@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { HouseService } from 'src/app/services/house.service';
 import { HouseFullOutput } from 'src/app/models/house.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,8 +25,11 @@ import { AcceptDialogComponent } from '../../../../components/accept-dialog/acce
 import { NewRoomDialogComponent } from '../new-room-dialog/new-room-dialog.component';
 import { UserService } from '../../../../services/user.service';
 import { RoomService } from '../../../../services/room.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { StorageItemFullOutput } from 'src/app/models/room.model';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import {
+  RoomFullOutput,
+  StorageItemFullOutput,
+} from 'src/app/models/room.model';
 import { NewStorageItemDialogComponent } from '../new-storage-item-dialog/new-storage-item-dialog.component';
 
 @Component({
@@ -42,9 +52,9 @@ export class HouseViewComponent implements OnInit {
   houseOwner: boolean = false;
   expandedRoom: any | null = null;
   roomsDataSource: MatTableDataSource<any>;
-  expandedRoomStorageDataSource: MatTableDataSource<StorageItemFullOutput> = new MatTableDataSource<StorageItemFullOutput>();
   focusedStorageItem: any | null;
   @ViewChild('quantityInput') quantityInput: ElementRef;
+  @ViewChildren('storageTable') storageTables: QueryList<MatTable<any>>;
 
   constructor(
     private userService: UserService,
@@ -72,7 +82,6 @@ export class HouseViewComponent implements OnInit {
           );
           if (queryRoom.length > 0) {
             this.expandedRoom = queryRoom[0];
-            this.expandedRoomStorageDataSource.data = this.expandedRoom.storage;
           }
         });
     });
@@ -249,8 +258,48 @@ export class HouseViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
         room.storage.push(response);
-        this.expandedRoomStorageDataSource.data = room.storage;
+        this.storageTables.toArray().forEach((each) => each.renderRows());
       }
     });
+  }
+
+  onStorageItemDelete(
+    room: RoomFullOutput,
+    storageItem: StorageItemFullOutput
+  ): void {
+    let dialogRef = this.dialog.open(AcceptDialogComponent, {
+      data: {
+        title: 'Storage item delete',
+        content:
+          'Do you really want to delete this storage item? This operation cannot be undone.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((response: boolean) => {
+      if (response) {
+        this.roomService.deleteStorageItem(room._id, storageItem._id).subscribe(
+          (response) => {
+            //update room storage
+            room.storage = room.storage.filter(
+              (item) => item._id != storageItem._id
+            );
+            //update rows on storage tables
+            this.storageTables.toArray().forEach((each) => each.renderRows());
+          },
+          (error: HttpErrorResponse) => {
+            this.snackBarService.open(error.error.message, null, {
+              duration: 2000,
+            });
+          }
+        );
+      }
+    });
+  }
+
+  onStorageItemMoreInfo(
+    room: RoomFullOutput,
+    storageItem: StorageItemFullOutput
+  ): void {
+    console.log('more info clicked', storageItem);
   }
 }

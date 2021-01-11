@@ -145,8 +145,9 @@
                       >
                         <mat-table
                           class="mat-elevation-z8 storage-table"
-                          [dataSource]="expandedRoomStorageDataSource"
+                          [dataSource]="room.storage"
                           *ngIf="room.storage?.length > 0"
+                          #storageTable
                         >
                           <!-- Name Column -->
                           <ng-container matColumnDef="expirationStatus">
@@ -197,12 +198,42 @@
                             </mat-cell>
                           </ng-container>
 
+                          <!-- Menu Column -->
+                          <ng-container matColumnDef="menu">
+                            <mat-header-cell
+                              *matHeaderCellDef
+                            ></mat-header-cell>
+                            <mat-cell *matCellDef="let item">
+                              <button
+                                [matMenuTriggerFor]="menu"
+                                mat-icon-button
+                              >
+                                <mat-icon>more_vert</mat-icon>
+                              </button>
+                              <mat-menu #menu="matMenu">
+                                <button
+                                  mat-menu-item
+                                  (click)="onStorageItemMoreInfo(room, item)"
+                                >
+                                  More information
+                                </button>
+                                <button
+                                  mat-menu-item
+                                  (click)="onStorageItemDelete(room, item)"
+                                >
+                                  Delete
+                                </button>
+                              </mat-menu>
+                            </mat-cell>
+                          </ng-container>
+
                           <mat-header-row
                             *matHeaderRowDef="[
                               'expirationStatus',
                               'itemName',
                               'quantity',
-                              'expiration'
+                              'expiration',
+                              'menu'
                             ]"
                           ></mat-header-row>
                           <mat-row
@@ -212,7 +243,8 @@
                                 'expirationStatus',
                                 'itemName',
                                 'quantity',
-                                'expiration'
+                                'expiration',
+                                'menu'
                               ]
                             "
                             [class.storage-alert]="isExpired(row)"
