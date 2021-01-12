@@ -49,6 +49,7 @@ import { NewStorageItemDialogComponent } from '../new-storage-item-dialog/new-st
 })
 export class HouseViewComponent implements OnInit {
   house: HouseFullOutput = new HouseFullOutput();
+  loggedInUser: string = null;
   houseOwner: boolean = false;
   expandedRoom: any | null = null;
   roomsDataSource: MatTableDataSource<any>;
@@ -70,8 +71,9 @@ export class HouseViewComponent implements OnInit {
       this.houseService
         .getHouse(this.house._id)
         .subscribe((houseInfo: HouseFullOutput) => {
-          this.houseOwner =
-            houseInfo.owner._id == this.userService.getLocalUser().id;
+          let userId = this.userService.getLocalUser().id;
+          this.houseOwner = houseInfo.owner._id == userId;
+          this.loggedInUser = userId;
           this.house = houseInfo;
 
           this.roomsDataSource = new MatTableDataSource<any>(houseInfo.rooms);

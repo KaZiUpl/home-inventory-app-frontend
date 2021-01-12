@@ -283,18 +283,34 @@
               </mat-card-title>
               <mat-card-content class="row">
                 <div class="col d-lg-none">
-                  <span>{{ house.owner?.login }} (You)</span>
+                  <span
+                    >{{
+                      house.owner?.login +
+                        (loggedInUser == house.owner?._id ? "(You)" : "")
+                    }}
+                  </span>
                   <span
                     class="ml-2"
                     *ngFor="let collaborator of house.collaborators"
                   >
-                    {{ collaborator.login }}
+                    {{
+                      collaborator.login +
+                        (loggedInUser == collaborator._id ? "(You)" : "")
+                    }}
                   </span>
                 </div>
                 <div class="col-12 d-none d-lg-block">
-                  <p *ngIf="house.owner">{{ house.owner?.login }} (You)</p>
+                  <p *ngIf="house.owner">
+                    {{
+                      house.owner?.login +
+                        (loggedInUser == house.owner?._id ? "(You)" : "")
+                    }}
+                  </p>
                   <p *ngFor="let collaborator of house.collaborators">
-                    {{ collaborator.login }}
+                    {{
+                      collaborator.login +
+                        (loggedInUser == collaborator._id ? "(You)" : "")
+                    }}
                   </p>
                 </div>
               </mat-card-content>
