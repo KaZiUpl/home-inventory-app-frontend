@@ -88,7 +88,6 @@ export class NewStorageItemDialogComponent implements OnInit {
 
       //set filtered items
       this.filteredItemList = this.itemForm.controls.item.valueChanges.pipe(
-        tap((value) => console.log('value changed:', value, '=')),
         startWith(''),
         map((value) => {
           //change choosen item
@@ -176,7 +175,6 @@ export class NewStorageItemDialogComponent implements OnInit {
         } else {
           this.itemForm.controls.item.markAsDirty();
           this.itemForm.patchValue({ item: code });
-          console.log(this.itemForm.value.item);
 
           this.snackBarService.open('No item with that code was found.', null, {
             duration: 2000,
