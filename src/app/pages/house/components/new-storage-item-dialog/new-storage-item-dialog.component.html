@@ -9,11 +9,11 @@
             <span *ngIf="choosenItem != null">{{ choosenItem.name }}</span>
           </ng-template>
           <div class="row">
-            <div class="col-9">
+            <div class="col-12 col-md-9">
               <form [formGroup]="itemForm">
                 <div class="w-100">
                   <mat-form-field appearance="outline">
-                    <mat-label>Search</mat-label>
+                    <mat-label>Item</mat-label>
                     <input
                       #searchBar
                       type="search"
@@ -35,7 +35,8 @@
                         *ngFor="let item of filteredItemList | async"
                         [value]="item"
                       >
-                        {{ item.name }}
+                        <span>{{ item.name }}</span>
+                        <span class="text-muted"> {{ item.description }}</span>
                       </mat-option>
                     </mat-autocomplete>
 
@@ -48,23 +49,23 @@
                     >
                   </mat-form-field>
                 </div>
-                <div class="row">
-                  <div class="col-12 text-left">
-                    <button
-                      type="button"
-                      mat-button
-                      matStepperNext
-                      [disabled]="choosenItem == null"
-                    >
-                      Next
-                    </button>
-                  </div>
-                </div>
               </form>
             </div>
-            <div class="col-3 text-center">
+            <div class="col-12 col-md-3 text-center">
               <button mat-fab color="primary" (click)="onSearchBarcode()">
                 <mat-icon>qr_code_scanner</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 text-right">
+              <button
+                type="button"
+                mat-button
+                matStepperNext
+                [disabled]="choosenItem == null"
+              >
+                Next
               </button>
             </div>
           </div>

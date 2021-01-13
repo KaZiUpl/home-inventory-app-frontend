@@ -66,7 +66,7 @@ export class BarcodeDialogComponent implements AfterViewInit {
         },
 
         decoder: {
-          readers: ['ean_reader'],
+          readers: ['ean_reader', 'ean_8_reader'],
         },
       },
       (err) => {

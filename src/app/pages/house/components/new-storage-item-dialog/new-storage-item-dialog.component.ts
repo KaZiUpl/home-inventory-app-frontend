@@ -61,6 +61,7 @@ export class NewStorageItemDialogComponent implements OnInit {
   filteredItemList: Observable<ItemSimpleOutput[]>;
   formsReady: boolean = false;
   choosenItem: ItemSimpleOutput | null = null;
+  @ViewChild('searchBar') searchBar: ElementRef;
 
   matcher: NoItemErrorStateMatcher = new NoItemErrorStateMatcher();
 
@@ -83,10 +84,11 @@ export class NewStorageItemDialogComponent implements OnInit {
   ) {
     //get items list
     this.itemService.getItemList().subscribe((items: ItemSimpleOutput[]) => {
-      this.itemsList = items;
+      this.itemsList = items.sort((a, b) => (a.name > b.name ? 1 : -1));
 
       //set filtered items
       this.filteredItemList = this.itemForm.controls.item.valueChanges.pipe(
+        tap((value) => console.log('value changed:', value, '=')),
         startWith(''),
         map((value) => {
           //change choosen item
@@ -162,7 +164,7 @@ export class NewStorageItemDialogComponent implements OnInit {
   onSearchBarcode(): void {
     const dialogRef = this.dialog.open(BarcodeDialogComponent);
 
-    dialogRef.afterClosed().subscribe((code) => {
+    dialogRef.afterClosed().subscribe((code: string) => {
       if (code) {
         // check items list for code
         const item = this.itemsList.filter(
@@ -172,25 +174,36 @@ export class NewStorageItemDialogComponent implements OnInit {
           this.itemForm.patchValue({ item: item[0] });
           this.choosenItem = item[0];
         } else {
+          this.itemForm.controls.item.markAsDirty();
+          this.itemForm.patchValue({ item: code });
+          console.log(this.itemForm.value.item);
+
           this.snackBarService.open('No item with that code was found.', null, {
             duration: 2000,
           });
-          this.itemForm.controls.item.markAsDirty();
         }
       }
     });
   }
 
-  displayFn(item: ItemSimpleOutput): string {
-    return item && item.name ? item.name : '';
+  displayFn(item: any): string {
+    if (item == null) return '';
+    return item && item.name ? item.name : item ? item : '';
   }
 
   _filterItems(value: string): ItemSimpleOutput[] {
     const filterValue = value.toLowerCase();
 
-    return this.itemsList.filter((item) =>
-      item.name.toLowerCase().includes(filterValue)
-    );
+    return this.itemsList.filter((item) => {
+      if (parseInt(filterValue) != NaN && item.ean) {
+        return (
+          item.name.toLowerCase().includes(filterValue) ||
+          item.ean.includes(filterValue)
+        );
+      } else {
+        return item.name.toLowerCase().includes(filterValue);
+      }
+    });
   }
 
   itemNotChoosen(control: FormControl) {
@@ -199,6 +212,7 @@ export class NewStorageItemDialogComponent implements OnInit {
 
   onItemSelect(event: MatAutocompleteSelectedEvent): void {
     this.choosenItem = event.option.value;
+    this.searchBar.nativeElement.blur();
   }
 
   areFormsValid(): boolean {
