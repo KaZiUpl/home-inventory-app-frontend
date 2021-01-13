@@ -33,6 +33,7 @@ import {
 import { NewStorageItemDialogComponent } from '../new-storage-item-dialog/new-storage-item-dialog.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { StorageItemBottomSheetComponent } from '../storage-item-bottom-sheet/storage-item-bottom-sheet.component';
+import { EditStorageItemDialogComponent } from '../edit-storage-item-dialog/edit-storage-item-dialog.component';
 
 @Component({
   selector: 'app-house-view',
@@ -187,11 +188,9 @@ export class HouseViewComponent implements OnInit {
     let todayTimstamp = Date.now();
     let expirationTimestamp = Date.parse(storageItem.expiration);
 
-    let diffTimeSeconds = Math.floor(
-      (expirationTimestamp - todayTimstamp) / 1000
-    );
+    let diffTimeSeconds = (expirationTimestamp - todayTimstamp) / 1000;
 
-    let diffTimeDays = Math.floor(diffTimeSeconds / (60 * 60 * 24));
+    let diffTimeDays = diffTimeSeconds / (60 * 60 * 24);
 
     return diffTimeDays <= 7 && diffTimeDays > 0;
   }
@@ -307,6 +306,25 @@ export class HouseViewComponent implements OnInit {
   ): void {
     this.bottomSheet.open(StorageItemBottomSheetComponent, {
       data: { storageItem: storageItem },
+    });
+  }
+
+  onStorageItemEdit(
+    room: RoomFullOutput,
+    storageItem: StorageItemFullOutput
+  ): void {
+    const dialogRef = this.dialog.open(EditStorageItemDialogComponent, {
+      data: { roomId: room._id, storageItem: storageItem },
+    });
+
+    dialogRef.afterClosed().subscribe((updatedStorageItem) => {
+      if (updatedStorageItem) {
+        storageItem.expiration = updatedStorageItem.expiration;
+        storageItem.description = updatedStorageItem.description;
+        storageItem.quantity = updatedStorageItem.quantity;
+
+        this.storageTables.toArray().forEach((each) => each.renderRows());
+      }
     });
   }
 }

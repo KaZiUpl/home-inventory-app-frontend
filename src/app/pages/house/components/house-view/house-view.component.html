@@ -219,6 +219,12 @@
                                 </button>
                                 <button
                                   mat-menu-item
+                                  (click)="onStorageItemEdit(room, item)"
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  mat-menu-item
                                   (click)="onStorageItemDelete(room, item)"
                                 >
                                   Delete

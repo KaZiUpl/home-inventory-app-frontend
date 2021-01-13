@@ -25,6 +25,7 @@ import { NewRoomDialogComponent } from './components/new-room-dialog/new-room-di
 import { EditableCellComponent } from './components/editable-cell/editable-cell.component';
 import { NewStorageItemDialogComponent } from './components/new-storage-item-dialog/new-storage-item-dialog.component';
 import { StorageItemBottomSheetComponent } from './components/storage-item-bottom-sheet/storage-item-bottom-sheet.component';
+import { EditStorageItemDialogComponent } from './components/edit-storage-item-dialog/edit-storage-item-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { StorageItemBottomSheetComponent } from './components/storage-item-botto
     EditableCellComponent,
     NewStorageItemDialogComponent,
     StorageItemBottomSheetComponent,
+    EditStorageItemDialogComponent,
   ],
   imports: [
     CommonModule,
