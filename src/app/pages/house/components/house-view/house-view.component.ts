@@ -174,25 +174,25 @@ export class HouseViewComponent implements OnInit {
   }
 
   onRoomEditClicked(room: RoomFullOutput): void {
-    console.log('room edit clicked');
     const dialogRef = this.dialog.open(RoomEditDialogComponent, {
       data: { room: room },
     });
-
-    dialogRef.afterClosed().subscribe((updatedRoom: RoomFullOutput) => {
-      if (updatedRoom) {
-        //update room in house
-      }
-    });
   }
 
-  isExpired(storageItem: any): boolean {
+  isExpired(storageItem: StorageItemFullOutput): boolean {
+    if (!storageItem.expiration) {
+      return false;
+    }
+
     let today = new Date();
 
     return today > new Date(storageItem.expiration);
   }
 
-  isNearlyExpired(storageItem: any): boolean {
+  isNearlyExpired(storageItem: StorageItemFullOutput): boolean {
+    if (!storageItem.expiration) {
+      return false;
+    }
     // get UTC timestmap
     let todayTimstamp = Date.now();
     let expirationTimestamp = Date.parse(storageItem.expiration);
@@ -324,14 +324,6 @@ export class HouseViewComponent implements OnInit {
   ): void {
     const dialogRef = this.dialog.open(EditStorageItemDialogComponent, {
       data: { roomId: room._id, storageItem: storageItem },
-    });
-
-    dialogRef.afterClosed().subscribe((updatedStorageItem) => {
-      if (updatedStorageItem) {
-        storageItem.expiration = updatedStorageItem.expiration;
-        storageItem.description = updatedStorageItem.description;
-        storageItem.quantity = updatedStorageItem.quantity;
-      }
     });
   }
 }
