@@ -182,7 +182,6 @@ export class HouseViewComponent implements OnInit {
     return today > new Date(storageItem.expiration);
   }
 
-  // TODO: add implementation
   isNearlyExpired(storageItem: any): boolean {
     // get UTC timestmap
     let todayTimstamp = Date.now();
