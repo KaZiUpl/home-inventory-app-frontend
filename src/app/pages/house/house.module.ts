@@ -26,6 +26,7 @@ import { EditableCellComponent } from './components/editable-cell/editable-cell.
 import { NewStorageItemDialogComponent } from './components/new-storage-item-dialog/new-storage-item-dialog.component';
 import { StorageItemBottomSheetComponent } from './components/storage-item-bottom-sheet/storage-item-bottom-sheet.component';
 import { EditStorageItemDialogComponent } from './components/edit-storage-item-dialog/edit-storage-item-dialog.component';
+import { RoomEditDialogComponent } from './components/room-edit-dialog/room-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { EditStorageItemDialogComponent } from './components/edit-storage-item-d
     NewStorageItemDialogComponent,
     StorageItemBottomSheetComponent,
     EditStorageItemDialogComponent,
+    RoomEditDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -62,6 +64,7 @@ import { EditStorageItemDialogComponent } from './components/edit-storage-item-d
     NewHouseDialogComponent,
     NewStorageItemDialogComponent,
     StorageItemBottomSheetComponent,
+    RoomEditDialogComponent,
   ],
 })
 export class HouseModule {}

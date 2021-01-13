@@ -34,6 +34,7 @@ import { NewStorageItemDialogComponent } from '../new-storage-item-dialog/new-st
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { StorageItemBottomSheetComponent } from '../storage-item-bottom-sheet/storage-item-bottom-sheet.component';
 import { EditStorageItemDialogComponent } from '../edit-storage-item-dialog/edit-storage-item-dialog.component';
+import { RoomEditDialogComponent } from '../room-edit-dialog/room-edit-dialog.component';
 
 @Component({
   selector: 'app-house-view',
@@ -172,8 +173,17 @@ export class HouseViewComponent implements OnInit {
     });
   }
 
-  onRoomEditClicked(roomId: string): void {
+  onRoomEditClicked(room: RoomFullOutput): void {
     console.log('room edit clicked');
+    const dialogRef = this.dialog.open(RoomEditDialogComponent, {
+      data: { room: room },
+    });
+
+    dialogRef.afterClosed().subscribe((updatedRoom: RoomFullOutput) => {
+      if (updatedRoom) {
+        //update room in house
+      }
+    });
   }
 
   isExpired(storageItem: any): boolean {
