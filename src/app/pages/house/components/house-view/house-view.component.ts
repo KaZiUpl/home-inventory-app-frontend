@@ -331,8 +331,6 @@ export class HouseViewComponent implements OnInit {
         storageItem.expiration = updatedStorageItem.expiration;
         storageItem.description = updatedStorageItem.description;
         storageItem.quantity = updatedStorageItem.quantity;
-
-        this.storageTables.toArray().forEach((each) => each.renderRows());
       }
     });
   }

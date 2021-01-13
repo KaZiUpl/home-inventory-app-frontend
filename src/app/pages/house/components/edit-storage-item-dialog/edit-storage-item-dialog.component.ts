@@ -68,23 +68,17 @@ export class EditStorageItemDialogComponent implements OnInit {
       })
       .subscribe(
         (response) => {
-          let updatedStorageItem = new StorageItemFullOutput();
-          updatedStorageItem._id = response.id;
-          updatedStorageItem.quantity = this.storageItemForm.get(
+          this.storageItem.quantity = this.storageItemForm.get(
             'quantity'
           ).value;
-          updatedStorageItem.description = this.storageItemForm.get(
+          this.storageItem.description = this.storageItemForm.get(
             'description'
           ).value;
-          updatedStorageItem.expiration = new Date(
+          this.storageItem.expiration = new Date(
             this.storageItemForm.get('expiration').value
           ).toISOString();
-          updatedStorageItem.item = {
-            _id: this.storageItem.item._id,
-            name: this.storageItem.item.name,
-          };
 
-          this.dialogRef.close(updatedStorageItem);
+          this.dialogRef.close(this.storageItem);
         },
         (error: HttpErrorResponse) => {
           this.snackBar.open(error.error.message, null, { duration: 2000 });
