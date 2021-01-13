@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-12">
+    <h2>{{ storageItem?.item.name }}</h2>
+  </div>
+  <div class="col-12">
+    <p>Quantity: {{ storageItem?.quantity }}</p>
+    <p *ngIf="storageItem?.expiration">
+      Expiration: {{ storageItem?.expiration | date: "d MMM yyyy" }}
+    </p>
+    <p *ngIf="storageItem?.description">
+      Storage item description: {{ storageItem?.description }}
+    </p>
+  </div>
+</div>

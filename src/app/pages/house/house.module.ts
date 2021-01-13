@@ -12,6 +12,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import { HouseRoutingModule } from './house-routing.module';
 import { HouseListComponent } from './components/house-list/house-list.component';
@@ -19,9 +21,10 @@ import { HouseViewComponent } from './components/house-view/house-view.component
 import { HouseEditComponent } from './components/house-edit/house-edit.component';
 import { NewHouseDialogComponent } from './components/new-house-dialog/new-house-dialog.component';
 import { NewRoomDialogComponent } from './components/new-room-dialog/new-room-dialog.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
+
 import { EditableCellComponent } from './components/editable-cell/editable-cell.component';
 import { NewStorageItemDialogComponent } from './components/new-storage-item-dialog/new-storage-item-dialog.component';
+import { StorageItemBottomSheetComponent } from './components/storage-item-bottom-sheet/storage-item-bottom-sheet.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,7 @@ import { NewStorageItemDialogComponent } from './components/new-storage-item-dia
     NewRoomDialogComponent,
     EditableCellComponent,
     NewStorageItemDialogComponent,
+    StorageItemBottomSheetComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +54,12 @@ import { NewStorageItemDialogComponent } from './components/new-storage-item-dia
     MatDatepickerModule,
     MatAutocompleteModule,
     MatMenuModule,
+    MatBottomSheetModule,
   ],
-  entryComponents: [NewHouseDialogComponent, NewStorageItemDialogComponent],
+  entryComponents: [
+    NewHouseDialogComponent,
+    NewStorageItemDialogComponent,
+    StorageItemBottomSheetComponent,
+  ],
 })
 export class HouseModule {}

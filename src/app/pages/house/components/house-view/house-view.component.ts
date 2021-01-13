@@ -31,6 +31,8 @@ import {
   StorageItemFullOutput,
 } from 'src/app/models/room.model';
 import { NewStorageItemDialogComponent } from '../new-storage-item-dialog/new-storage-item-dialog.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { StorageItemBottomSheetComponent } from '../storage-item-bottom-sheet/storage-item-bottom-sheet.component';
 
 @Component({
   selector: 'app-house-view',
@@ -64,7 +66,8 @@ export class HouseViewComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
-    private snackBarService: MatSnackBar
+    private snackBarService: MatSnackBar,
+    private bottomSheet: MatBottomSheet
   ) {
     this.activatedRoute.params.subscribe((routeParams) => {
       this.house._id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -74,8 +77,8 @@ export class HouseViewComponent implements OnInit {
           let userId = this.userService.getLocalUser().id;
           this.houseOwner = houseInfo.owner._id == userId;
           this.loggedInUser = userId;
-          this.house = houseInfo;
 
+          this.house = houseInfo;
           this.roomsDataSource = new MatTableDataSource<any>(houseInfo.rooms);
 
           let queryRoom = houseInfo.rooms.filter(
@@ -271,7 +274,7 @@ export class HouseViewComponent implements OnInit {
   ): void {
     let dialogRef = this.dialog.open(AcceptDialogComponent, {
       data: {
-        title: 'Storage item delete',
+        title: 'Delete storage item?',
         content:
           'Do you really want to delete this storage item? This operation cannot be undone.',
       },
@@ -302,6 +305,8 @@ export class HouseViewComponent implements OnInit {
     room: RoomFullOutput,
     storageItem: StorageItemFullOutput
   ): void {
-    console.log('more info clicked', storageItem);
+    this.bottomSheet.open(StorageItemBottomSheetComponent, {
+      data: { storageItem: storageItem },
+    });
   }
 }
