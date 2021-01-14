@@ -1,0 +1,123 @@
+<div class="col-12 my-2">
+  <h2 class="d-flex justify-content-between">
+    <span>Room storage</span>
+    <button
+      type="button"
+      mat-raised-button
+      color="primary"
+      (click)="onAddStorageItemClicked(room)"
+    >
+      Add storage item
+    </button>
+  </h2>
+</div>
+<div class="col-12 my-2" *ngIf="room.storage?.length == 0">
+  <p>
+    This room's storage is empty, you can add items to it by clicking button
+    above.
+  </p>
+</div>
+<div class="col-12 w-100 mb-2" *ngIf="room.storage?.length > 0">
+  <div class="mat-elevation-z8">
+    <mat-table
+      class="storage-table"
+      [dataSource]="roomStorageDataSource"
+      *ngIf="room.storage?.length > 0"
+      #storageTable
+      matSort
+    >
+      <ng-container matColumnDef="expirationStatus">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let item"></mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="itemName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Item name
+        </mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <span class="ellipsis">{{ item.item.name }}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Quantity
+        </mat-header-cell>
+        <mat-cell
+          *matCellDef="let item"
+          (click)="quantityFocusOn(item)"
+          (focusout)="quantityFocusOut(item)"
+        >
+          <span *ngIf="focusedStorageItem != item">{{ item.quantity }}</span>
+          <app-editable-cell
+            *ngIf="focusedStorageItem == item"
+            [quantity]="item.quantity"
+            (valueChange)="onQuantityChange(room, item, $event)"
+          ></app-editable-cell>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Expiration Column -->
+      <ng-container matColumnDef="expiration">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Expiration date</mat-header-cell
+        >
+        <mat-cell *matCellDef="let item">
+          {{ item.expiration | date: "d MMM yyyy" }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Menu Column -->
+      <ng-container matColumnDef="menu">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <button [matMenuTriggerFor]="menu" mat-icon-button>
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onStorageItemMoreInfo(room, item)">
+              More information
+            </button>
+            <button mat-menu-item (click)="onStorageItemEdit(room, item)">
+              Edit
+            </button>
+            <button mat-menu-item (click)="onStorageItemDelete(room, item)">
+              Delete
+            </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="[
+          'expirationStatus',
+          'itemName',
+          'quantity',
+          'expiration',
+          'menu'
+        ]"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="
+          let row;
+          columns: [
+            'expirationStatus',
+            'itemName',
+            'quantity',
+            'expiration',
+            'menu'
+          ]
+        "
+        [class.storage-alert]="isExpired(row)"
+        [class.storage-warning]="isNearlyExpired(row)"
+      ></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[10, 20, 50]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

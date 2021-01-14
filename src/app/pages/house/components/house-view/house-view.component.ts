@@ -26,14 +26,8 @@ import { NewRoomDialogComponent } from '../new-room-dialog/new-room-dialog.compo
 import { UserService } from '../../../../services/user.service';
 import { RoomService } from '../../../../services/room.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import {
-  RoomFullOutput,
-  StorageItemFullOutput,
-} from 'src/app/models/room.model';
-import { NewStorageItemDialogComponent } from '../new-storage-item-dialog/new-storage-item-dialog.component';
+import { RoomFullOutput, RoomSimpleOutput } from 'src/app/models/room.model';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { StorageItemBottomSheetComponent } from '../storage-item-bottom-sheet/storage-item-bottom-sheet.component';
-import { EditStorageItemDialogComponent } from '../edit-storage-item-dialog/edit-storage-item-dialog.component';
 import { RoomEditDialogComponent } from '../room-edit-dialog/room-edit-dialog.component';
 
 @Component({
@@ -56,10 +50,8 @@ export class HouseViewComponent implements OnInit {
   loggedInUser: string = null;
   houseOwner: boolean = false;
   expandedRoom: any | null = null;
-  roomsDataSource: MatTableDataSource<any>;
-  focusedStorageItem: any | null;
+  roomsDataSource: MatTableDataSource<RoomSimpleOutput> = new MatTableDataSource<RoomSimpleOutput>();
   @ViewChild('quantityInput') quantityInput: ElementRef;
-  @ViewChildren('storageTable') storageTables: QueryList<MatTable<any>>;
 
   constructor(
     private userService: UserService,
@@ -179,31 +171,6 @@ export class HouseViewComponent implements OnInit {
     });
   }
 
-  isExpired(storageItem: StorageItemFullOutput): boolean {
-    if (!storageItem.expiration) {
-      return false;
-    }
-
-    let today = new Date();
-
-    return today > new Date(storageItem.expiration);
-  }
-
-  isNearlyExpired(storageItem: StorageItemFullOutput): boolean {
-    if (!storageItem.expiration) {
-      return false;
-    }
-    // get UTC timestmap
-    let todayTimstamp = Date.now();
-    let expirationTimestamp = Date.parse(storageItem.expiration);
-
-    let diffTimeSeconds = (expirationTimestamp - todayTimstamp) / 1000;
-
-    let diffTimeDays = diffTimeSeconds / (60 * 60 * 24);
-
-    return diffTimeDays <= 7 && diffTimeDays > 0;
-  }
-
   roomExpanded(event: AnimationEvent): void {
     if (event.fromState != 'void' && event.toState != 'void') {
       this.router.navigate([], {
@@ -233,97 +200,5 @@ export class HouseViewComponent implements OnInit {
     //     queryParamsHandling: 'merge',
     //   });
     // }
-  }
-
-  quantityFocusOn(storageItem): void {
-    if (!this.focusedStorageItem) {
-      this.focusedStorageItem = storageItem;
-    }
-  }
-  quantityFocusOut(storageItem): void {
-    this.focusedStorageItem = null;
-  }
-
-  onQuantityChange(room, storageItem: StorageItemFullOutput, event): void {
-    this.roomService
-      .updateStorageItem(room._id, storageItem._id, {
-        description: storageItem.description,
-        quantity: event,
-        expiration: Date.parse(storageItem.expiration),
-      })
-      .subscribe(
-        (response) => {
-          storageItem.quantity = event;
-        },
-        (error: HttpErrorResponse) => {
-          this.snackBarService.open(error.error.message, null, {
-            duration: 1500,
-          });
-        }
-      );
-  }
-
-  onAddStorageItemClicked(room): void {
-    let dialogRef = this.dialog.open(NewStorageItemDialogComponent, {
-      data: { roomId: room._id },
-    });
-
-    dialogRef.afterClosed().subscribe((response) => {
-      if (response) {
-        room.storage.push(response);
-        this.storageTables.toArray().forEach((each) => each.renderRows());
-      }
-    });
-  }
-
-  onStorageItemDelete(
-    room: RoomFullOutput,
-    storageItem: StorageItemFullOutput
-  ): void {
-    let dialogRef = this.dialog.open(AcceptDialogComponent, {
-      data: {
-        title: 'Delete storage item?',
-        content:
-          'Do you really want to delete this storage item? This operation cannot be undone.',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((response: boolean) => {
-      if (response) {
-        this.roomService.deleteStorageItem(room._id, storageItem._id).subscribe(
-          (response) => {
-            //update room storage
-            room.storage = room.storage.filter(
-              (item) => item._id != storageItem._id
-            );
-            //update rows on storage tables
-            this.storageTables.toArray().forEach((each) => each.renderRows());
-          },
-          (error: HttpErrorResponse) => {
-            this.snackBarService.open(error.error.message, null, {
-              duration: 2000,
-            });
-          }
-        );
-      }
-    });
-  }
-
-  onStorageItemMoreInfo(
-    room: RoomFullOutput,
-    storageItem: StorageItemFullOutput
-  ): void {
-    this.bottomSheet.open(StorageItemBottomSheetComponent, {
-      data: { storageItem: storageItem },
-    });
-  }
-
-  onStorageItemEdit(
-    room: RoomFullOutput,
-    storageItem: StorageItemFullOutput
-  ): void {
-    const dialogRef = this.dialog.open(EditStorageItemDialogComponent, {
-      data: { roomId: room._id, storageItem: storageItem },
-    });
   }
 }

@@ -140,7 +140,7 @@ export class NewStorageItemDialogComponent implements OnInit {
           newStorageItem._id = response.id;
           newStorageItem.quantity = storageItemInfo.quantity;
           newStorageItem.description = storageItemInfo.description;
-          newStorageItem.expiration = isNaN(storageItemInfo.expiration)
+          newStorageItem.expiration = !isNaN(storageItemInfo.expiration)
             ? new Date(storageItemInfo.expiration).toISOString()
             : null;
           newStorageItem.item = {

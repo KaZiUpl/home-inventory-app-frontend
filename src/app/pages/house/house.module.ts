@@ -27,6 +27,8 @@ import { NewStorageItemDialogComponent } from './components/new-storage-item-dia
 import { StorageItemBottomSheetComponent } from './components/storage-item-bottom-sheet/storage-item-bottom-sheet.component';
 import { EditStorageItemDialogComponent } from './components/edit-storage-item-dialog/edit-storage-item-dialog.component';
 import { RoomEditDialogComponent } from './components/room-edit-dialog/room-edit-dialog.component';
+import { RoomListRoomDetailsComponent } from './components/room-list-room-details/room-list-room-details.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { RoomEditDialogComponent } from './components/room-edit-dialog/room-edit
     StorageItemBottomSheetComponent,
     EditStorageItemDialogComponent,
     RoomEditDialogComponent,
+    RoomListRoomDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +62,7 @@ import { RoomEditDialogComponent } from './components/room-edit-dialog/room-edit
     MatAutocompleteModule,
     MatMenuModule,
     MatBottomSheetModule,
+    MatSortModule,
   ],
   entryComponents: [
     NewHouseDialogComponent,

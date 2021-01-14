@@ -11,77 +11,6 @@
     padding: 0;
   }
 }
-.storage-table {
-  .mat-cell:last-of-type {
-    padding-right: 2px;
-  }
-  .mat-row {
-    &.storage-alert {
-      background-color: #ffcdd2;
-      .mat-cell.mat-column-expirationStatus {
-        &::before {
-          background-color: #f44336;
-        }
-      }
-    }
-
-    &.storage-warning {
-      background-color: #fff9c4;
-      .mat-cell.mat-column-expirationStatus {
-        &::before {
-          background-color: #ffeb3b;
-        }
-      }
-    }
-  }
-
-  .mat-header-cell {
-    &.mat-column-expirationStatus {
-      max-width: 25px;
-    }
-    &.mat-column-quantity {
-      max-width: 70px;
-      justify-content: flex-end;
-    }
-    &.mat-column-expiration {
-      max-width: 120px;
-      justify-content: flex-end;
-    }
-    &.mat-column-menu {
-      max-width: 50px;
-    }
-  }
-  .mat-cell {
-    &.mat-column-expirationStatus {
-      position: relative;
-      max-width: 25px;
-      &::before {
-        display: block;
-        position: absolute;
-        content: "";
-        left: 0;
-        top: 0;
-        width: 7px;
-        height: 100%;
-      }
-    }
-    &.mat-column-quantity {
-      max-width: 70px;
-      justify-content: flex-end;
-      cursor: pointer;
-    }
-
-    &.mat-column-expiration {
-      max-width: 120px;
-      justify-content: flex-end;
-    }
-
-    &.mat-column-menu {
-      max-width: 50px;
-      justify-content: flex-end;
-    }
-  }
-}
 
 .expanded {
   background-color: whitesmoke;
@@ -100,10 +29,4 @@
 
 .room-details-cell {
   min-height: 0;
-}
-
-app-editable-cell {
-  display: inline-block;
-  position: relative;
-  max-width: 100%;
 }
