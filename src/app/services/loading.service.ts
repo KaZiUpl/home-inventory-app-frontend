@@ -15,8 +15,6 @@ export class LoadingService {
   }
 
   set loading(status: boolean) {
-    console.log('loading set', status);
-
     this._loading = status;
     this.loadingStatus.next(status);
   }
