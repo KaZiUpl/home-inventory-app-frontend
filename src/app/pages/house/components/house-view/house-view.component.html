@@ -4,8 +4,10 @@
       <mat-card-title
         class="row d-flex align-items-center justify-content-between"
       >
-        <div class="col-12 col-sm-auto ellipsis">
-          {{ house.name }}
+        <div class="col-12 col-sm-auto">
+          <p class="ellipsis">
+            {{ house.name }}
+          </p>
         </div>
         <div
           class="col-12 col-sm-auto text-right text-sm-auto"
@@ -36,11 +38,13 @@
           </button>
         </div>
       </mat-card-title>
-      <mat-card-subtitle class="row"
-        ><div class="col-12">
-          <p>{{ house.description }}</p>
-        </div></mat-card-subtitle
-      >
+      <mat-card-subtitle>
+        <div class="row">
+          <div class="col-12">
+            <p>{{ house.description }}</p>
+          </div>
+        </div>
+      </mat-card-subtitle>
       <mat-card-content>
         <div class="row">
           <div class="col-12 col-lg-8 order-last order-sm-auto">

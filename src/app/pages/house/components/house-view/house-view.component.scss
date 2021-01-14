@@ -43,3 +43,7 @@ span.collab-login {
 .mat-chip.mat-standard-chip::after {
   background: none;
 }
+
+mat-card-subtitle {
+  word-wrap: break-word;
+}
