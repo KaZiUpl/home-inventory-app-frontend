@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,7 +22,7 @@ import { AcceptDialogComponent } from '../../../../components/accept-dialog/acce
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss'],
 })
-export class ItemListComponent implements OnInit, OnDestroy {
+export class ItemListComponent implements OnInit, AfterViewInit, OnDestroy {
   items: ItemSimpleOutput[];
   itemsDataSource: MatTableDataSource<ItemSimpleOutput>;
   searchValue: string;
@@ -61,7 +61,7 @@ export class ItemListComponent implements OnInit, OnDestroy {
       (items: ItemSimpleOutput[]) => {
         this.items = items;
 
-        this.itemsDataSource = new MatTableDataSource(items);
+        this.itemsDataSource = new MatTableDataSource<ItemSimpleOutput>(items);
         this.itemsDataSource.sort = this.sort;
         this.itemsDataSource.paginator = this.paginator;
 
@@ -113,7 +113,7 @@ export class ItemListComponent implements OnInit, OnDestroy {
         if (value.startsWith('code:')) {
           //search by code
           let code = value.split(':')[1];
-          this.itemService.getItemList({ ean: value }).subscribe(
+          this.itemService.getItemList({ ean: code }).subscribe(
             (response: ItemSimpleOutput[]) => {
               this.itemsDataSource.data = response;
               this.router.navigate([], {
@@ -154,6 +154,9 @@ export class ItemListComponent implements OnInit, OnDestroy {
         this.searchValue = value;
       });
   }
+
+  ngAfterViewInit(): void {}
+
   ngOnDestroy(): void {
     this.searchFieldSub.unsubscribe();
   }
