@@ -143,40 +143,54 @@
           <div class="col-12 col-lg-4 order-lg-last mb-2">
             <mat-card>
               <mat-card-title class="row">
-                <div class="col ellipsis">Collaborators</div>
+                <div
+                  class="col ellipsis"
+                  class="row d-flex align-items-center justify-content-between"
+                >
+                  <div class="col-12 ellipsis">Collaborators</div>
+                </div>
               </mat-card-title>
               <mat-card-content class="row">
-                <div class="col d-lg-none">
-                  <span
-                    >{{
-                      house.owner?.login +
-                        (loggedInUser == house.owner?._id ? "(You)" : "")
-                    }}
-                  </span>
-                  <span
-                    class="ml-2"
+                <mat-chip-list>
+                  <mat-chip [disabled]="true">
+                    <span class="collab-login">
+                      {{ house.owner?.login }}
+                    </span>
+                    <span>
+                      {{
+                        loggedInUser == house.owner?._id ? " (You)" : " (owner)"
+                      }}
+                    </span>
+                  </mat-chip>
+                  <mat-chip
+                    class="ellipsis"
+                    #collaboratorChip="matChip"
                     *ngFor="let collaborator of house.collaborators"
+                    [disabled]="!houseOwner"
+                    [removable]="houseOwner"
+                    [selectable]="false"
+                    (removed)="
+                      onCollaboratorRemove(collaborator, collaboratorChip)
+                    "
                   >
-                    {{
-                      collaborator.login +
-                        (loggedInUser == collaborator._id ? "(You)" : "")
-                    }}
-                  </span>
-                </div>
-                <div class="col-12 d-none d-lg-block">
-                  <p *ngIf="house.owner">
-                    {{
-                      house.owner?.login +
-                        (loggedInUser == house.owner?._id ? "(You)" : "")
-                    }}
-                  </p>
-                  <p *ngFor="let collaborator of house.collaborators">
-                    {{
-                      collaborator.login +
-                        (loggedInUser == collaborator._id ? "(You)" : "")
-                    }}
-                  </p>
-                </div>
+                    <span class="collab-login">
+                      {{ collaborator.login }}
+                    </span>
+                    <span>{{
+                      loggedInUser == collaborator._id ? " (You)" : ""
+                    }}</span>
+                    <mat-icon matChipRemove *ngIf="houseOwner">cancel</mat-icon>
+                  </mat-chip>
+
+                  <mat-chip
+                    color="accent"
+                    selected
+                    *ngIf="houseOwner && house.collaborators?.length < 10"
+                    (click)="onAddCollaborator()"
+                  >
+                    <mat-icon>add</mat-icon> new collaborator
+                  </mat-chip>
+                </mat-chip-list>
               </mat-card-content>
             </mat-card>
           </div>

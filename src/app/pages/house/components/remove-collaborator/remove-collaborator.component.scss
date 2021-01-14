@@ -1,0 +1,10 @@
+p {
+  display: inline-block;
+}
+span.collab-login {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

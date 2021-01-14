@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Delete a collaborator</h2>
+<mat-dialog-content>
+  <p>
+    Do you really want to remove
+    <span class="collab-login">{{ collaborator?.login }}</span
+    >from this house's collaborator's?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions class="row">
+  <div class="col-12 text-right">
+    <button mat-raised-button (click)="onCancelDialog()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onAcceptDialog()">
+      Confirm
+    </button>
+  </div>
+</mat-dialog-actions>

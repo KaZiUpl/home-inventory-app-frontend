@@ -14,6 +14,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatRippleModule } from '@angular/material/core';
 
 import { HouseRoutingModule } from './house-routing.module';
 import { HouseListComponent } from './components/house-list/house-list.component';
@@ -29,6 +31,9 @@ import { EditStorageItemDialogComponent } from './components/edit-storage-item-d
 import { RoomEditDialogComponent } from './components/room-edit-dialog/room-edit-dialog.component';
 import { RoomListRoomDetailsComponent } from './components/room-list-room-details/room-list-room-details.component';
 import { MatSortModule } from '@angular/material/sort';
+import { AddCollaboratorComponent } from './components/add-collaborator/add-collaborator.component';
+import { MatRipple } from '@angular/material/core';
+import { RemoveCollaboratorComponent } from './components/remove-collaborator/remove-collaborator.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +48,8 @@ import { MatSortModule } from '@angular/material/sort';
     EditStorageItemDialogComponent,
     RoomEditDialogComponent,
     RoomListRoomDetailsComponent,
+    AddCollaboratorComponent,
+    RemoveCollaboratorComponent,
   ],
   imports: [
     CommonModule,
@@ -63,6 +70,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatMenuModule,
     MatBottomSheetModule,
     MatSortModule,
+    MatChipsModule,
+    MatRippleModule,
   ],
   entryComponents: [
     NewHouseDialogComponent,

@@ -29,6 +29,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { RoomFullOutput, RoomSimpleOutput } from 'src/app/models/room.model';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { RoomEditDialogComponent } from '../room-edit-dialog/room-edit-dialog.component';
+import { AddCollaboratorComponent } from '../add-collaborator/add-collaborator.component';
+import { RemoveCollaboratorComponent } from '../remove-collaborator/remove-collaborator.component';
 
 @Component({
   selector: 'app-house-view',
@@ -200,5 +202,54 @@ export class HouseViewComponent implements OnInit {
     //     queryParamsHandling: 'merge',
     //   });
     // }
+  }
+
+  onAddCollaborator(): void {
+    let dialogRef = this.dialog.open(AddCollaboratorComponent, {
+      data: { house: this.house },
+    });
+
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response == true) {
+        this.houseService.getHouseCollaboratorsList(this.house._id).subscribe(
+          (collaboratorList) => {
+            this.house.collaborators = collaboratorList;
+          },
+          (error: HttpErrorResponse) => {
+            this.snackBarService.open(error.error.message, null, {
+              duration: 2000,
+            });
+          }
+        );
+      }
+    });
+  }
+
+  onCollaboratorRemove(collaborator: any, collabChip: any): void {
+    const dialogRef = this.dialog.open(RemoveCollaboratorComponent, {
+      data: {
+        collaborator: collaborator,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((response: boolean) => {
+      if (response) {
+        this.houseService
+          .removeCollaborator(this.house._id, collaborator._id)
+          .subscribe(
+            (response) => {
+              //update house collaborators list
+              this.house.collaborators = this.house.collaborators.filter(
+                (collab) => collab._id != collaborator._id
+              );
+            },
+            (error: HttpErrorResponse) => {
+              this.snackBarService.open(error.error.message, null, {
+                duration: 2000,
+              });
+            }
+          );
+      }
+    });
   }
 }

@@ -1,3 +1,5 @@
+@import "~@angular/material/theming";
+
 #room-table {
   & > .mat-row:not(.room-details-cell):hover {
     background-color: #efefef;
@@ -29,4 +31,15 @@
 
 .room-details-cell {
   min-height: 0;
+}
+
+span.collab-login {
+  display: inline-block;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-chip.mat-standard-chip::after {
+  background: none;
 }
