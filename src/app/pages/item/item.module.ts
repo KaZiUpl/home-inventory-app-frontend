@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { MatSortModule } from '@angular/material/sort';
 
 import { ItemRoutingModule } from './item-routing.module';
 import { ItemComponent } from './item.component';
@@ -44,6 +45,7 @@ import { BarcodeDialogComponent } from '../../components/barcode-dialog/barcode-
     MatDividerModule,
     MatDialogModule,
     MaterialFileInputModule,
+    MatSortModule,
   ],
 
   entryComponents: [BarcodeDialogComponent],
