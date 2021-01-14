@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Edit room - {{ editedRoom.name }}</h1>
+<h1 mat-dialog-title class="ellipsis">Edit room {{ editedRoom.name }}</h1>
 <form [formGroup]="editRoomForm" (ngSubmit)="onAccept()">
   <mat-dialog-content>
     <div class="row">
@@ -21,12 +21,15 @@
       <div class="col-12">
         <mat-form-field appearance="outline">
           <mat-label>Description</mat-label>
-          <input
+          <textarea
             type="text"
             matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="7"
+            cdkAutosizeMaxRows="7"
             formControlName="description"
             autocomplete="off"
-          />
+          ></textarea>
         </mat-form-field>
       </div>
     </div>
