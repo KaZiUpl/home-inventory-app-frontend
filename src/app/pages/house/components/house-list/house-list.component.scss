@@ -1,0 +1,26 @@
+#house-table {
+  & > .mat-row:not(.house-details-cell):hover {
+    background-color: #efefef;
+    cursor: pointer;
+  }
+  & > .mat-row:not(.expanded):not(.house-details-cell):hover {
+    background-color: #efefef;
+  }
+
+  .house-details-cell {
+    min-height: 0;
+    > .mat-cell:first-of-type {
+      padding: 0;
+    }
+  }
+  .house-data {
+    border-bottom-width: 0;
+  }
+  .house-details {
+    overflow: hidden;
+    display: flex;
+  }
+  .expanded {
+    background-color: whitesmoke;
+  }
+}

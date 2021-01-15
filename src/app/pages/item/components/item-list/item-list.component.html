@@ -55,7 +55,7 @@
                   Name
                 </mat-header-cell>
                 <mat-cell *matCellDef="let item">
-                  {{ item.name }}
+                  <span class="ellipsis">{{ item.name }}</span>
                 </mat-cell>
               </ng-container>
 
@@ -65,7 +65,7 @@
                   Description
                 </mat-header-cell>
                 <mat-cell *matCellDef="let item">
-                  {{ item.description }}
+                  <span class="ellipsis">{{ item.description }}</span>
                 </mat-cell>
               </ng-container>
 
@@ -73,7 +73,7 @@
               <ng-container matColumnDef="buttons">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let item" class="row">
-                  <div class="col-12 text-right" *ngIf="item.owner">
+                  <div class="w-100 text-right" *ngIf="item.owner">
                     <button
                       type="button"
                       mat-icon-button

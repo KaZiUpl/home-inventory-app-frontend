@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { HouseRoutingModule } from './house-routing.module';
 import { HouseListComponent } from './components/house-list/house-list.component';
@@ -72,6 +73,7 @@ import { RemoveCollaboratorComponent } from './components/remove-collaborator/re
     MatSortModule,
     MatChipsModule,
     MatRippleModule,
+    MatRadioModule,
   ],
   entryComponents: [
     NewHouseDialogComponent,
