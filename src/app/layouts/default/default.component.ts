@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { HouseService } from 'src/app/services/house.service';
 import { HouseSimpleOutput } from 'src/app/models/house.model';
+import { TokenOutput } from 'src/app/models/token.model';
 
 @Component({
   selector: 'app-default',
@@ -13,7 +14,8 @@ import { HouseSimpleOutput } from 'src/app/models/house.model';
   styleUrls: ['./default.component.scss'],
 })
 export class DefaultComponent implements OnInit {
-  public houseList: HouseSimpleOutput[];
+  loggedInUser: TokenOutput;
+  houseList: HouseSimpleOutput[];
   private houseListSubscription: Subscription;
 
   constructor(
@@ -21,10 +23,7 @@ export class DefaultComponent implements OnInit {
     private houseService: HouseService,
     private router: Router
   ) {
-    // //get house list
-    // houseService.getHouseList().subscribe((houseList: HouseSimpleOutput[]) => {
-    //   this.houseList = houseList;
-    // });
+    this.loggedInUser = userService.getLocalUser();
   }
 
   ngOnInit(): void {

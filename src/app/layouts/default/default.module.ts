@@ -15,6 +15,7 @@ import { ResponsiveSidenavModule } from '../../directives/responsive-sidenav/res
 import { HouseService } from '../../services/house.service';
 import { ItemService } from '../../services/item.service';
 import { RoomService } from '../../services/room.service';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [DefaultComponent],
   imports: [
@@ -24,6 +25,7 @@ import { RoomService } from '../../services/room.service';
     MatIconModule,
     MatButtonModule,
     MatListModule,
+    MatMenuModule,
     DefaultRoutingModule,
     ComponentsModule,
     AuthModule,

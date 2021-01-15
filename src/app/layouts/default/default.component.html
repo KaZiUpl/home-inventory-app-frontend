@@ -1,13 +1,45 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
+    <div class="row w-100 justify-content-between">
+      <div class="col-auto">
+        <button type="button" mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+          <mat-icon *ngIf="sidenav.opened">chevron_left</mat-icon>
+        </button>
+      </div>
+      <div class="col-auto">
+        <button type="button" mat-button [matMenuTriggerFor]="menu">
+          <mat-icon>person</mat-icon><span>{{ loggedInUser?.login }}</span>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button type="button" mat-menu-item routerLink="/profile">
+            Edit profile
+          </button>
+          <button type="button" mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+      </div>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav [permanentAt]="1300" #sidenav fixedInViewport="true">
     <mat-nav-list>
+      <a
+        mat-list-item
+        class="d-flex justify-content-between align-items-center"
+        [routerLink]="['/dashboard']"
+        routerLinkActive="active"
+        >Dashboard</a
+      >
+      <a
+        mat-list-item
+        class="d-flex justify-content-between align-items-center"
+        [routerLink]="['/items']"
+        routerLinkActive="active"
+      >
+        Items
+      </a>
+      <mat-divider></mat-divider>
       <h3
         matSubheader
         class="d-flex justify-content-between align-items-center"
@@ -24,25 +56,7 @@
         <mat-icon matListIcon>house</mat-icon>
         <h4 matLine>{{ house.name }}</h4>
       </a>
-      <mat-divider></mat-divider>
-      <a
-        mat-list-item
-        class="d-flex justify-content-between align-items-center"
-        [routerLink]="['/items']"
-        routerLinkActive="active"
-      >
-        Items
-      </a>
     </mat-nav-list>
-    <div class="container my-1">
-      <div class="row">
-        <div class="col text-center">
-          <button mat-raised-button type="button" (click)="logout()">
-            Logout
-          </button>
-        </div>
-      </div>
-    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <router-outlet></router-outlet>
