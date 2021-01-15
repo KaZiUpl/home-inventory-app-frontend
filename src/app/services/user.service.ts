@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { TokenOutput } from '../models/token.model';
@@ -97,14 +97,11 @@ export class UserService {
     return user.access_token;
   }
 
-  changeLogin(login: string): Observable<any> {
+  updateUserInfo(login: string): Observable<any> {
     let user = this.getLocalUser();
     const body = {
       login: login,
     };
-    return this.httpClient.put(
-      environment.apiUrl + '/users/' + user.id + '/login',
-      body
-    );
+    return this.httpClient.put(`${environment.apiUrl}/users/${user.id}`, body);
   }
 }

@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row h-100 justify-content-center my-1">
+    <mat-card class="col-12 col-md-10 col-lg-9 col-xl-6">
+      <mat-card-title>Profile</mat-card-title>
+      <mat-card-subtitle>
+        Here you can view and change your login
+      </mat-card-subtitle>
+      <form [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-12 col-sm-6 mx-auto">
+              <mat-form-field appearance="outline">
+                <mat-label>Login</mat-label>
+                <input matInput type="text" formControlName="login" />
+                <mat-error>This field is required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="row">
+            <div class="col text-right">
+              <button mat-raised-button type="submit" color="warn">Save</button>
+            </div>
+          </div>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+  </div>
+</div>

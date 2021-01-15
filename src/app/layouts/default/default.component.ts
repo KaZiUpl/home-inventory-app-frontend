@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { TokenOutput } from 'src/app/models/token.model';
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss'],
 })
-export class DefaultComponent implements OnInit {
+export class DefaultComponent implements OnInit, OnDestroy {
   loggedInUser: TokenOutput;
   houseList: HouseSimpleOutput[];
   private houseListSubscription: Subscription;
@@ -32,6 +32,10 @@ export class DefaultComponent implements OnInit {
       .subscribe((houseList: HouseSimpleOutput[]) => {
         this.houseList = houseList;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.houseListSubscription.unsubscribe();
   }
 
   addNewItem(): void {

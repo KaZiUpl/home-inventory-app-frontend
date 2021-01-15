@@ -17,7 +17,6 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-
         loadChildren: () =>
           import('./pages/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
@@ -32,6 +31,11 @@ const routes: Routes = [
         path: 'items',
         loadChildren: () =>
           import('./pages/item/item.module').then((m) => m.ItemModule),
+      },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./pages/profile/profile.module').then((m) => m.ProfileModule),
       },
     ],
   },
