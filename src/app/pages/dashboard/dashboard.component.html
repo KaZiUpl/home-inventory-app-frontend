@@ -145,6 +145,7 @@
                   [class.storage-alert]="isExpired(item)"
                   [class.storage-warning]="isNearlyExpired(item)"
                   [routerLink]="['/houses', item.house._id]"
+                  [queryParams]="{ room: item.room._id }"
                 ></mat-row>
               </mat-table>
               <mat-paginator

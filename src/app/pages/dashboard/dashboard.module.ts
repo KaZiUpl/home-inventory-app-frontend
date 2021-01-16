@@ -17,9 +17,16 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { StorageItemBottomSheetComponent } from './components/storage-item-bottom-sheet/storage-item-bottom-sheet.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { BarcodeDialogComponent } from 'src/app/components/barcode-dialog/barcode-dialog.component';
+import { EditStorageItemDialogComponent } from './components/edit-storage-item-dialog/edit-storage-item-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [DashboardComponent, StorageItemBottomSheetComponent],
+  declarations: [
+    DashboardComponent,
+    StorageItemBottomSheetComponent,
+    EditStorageItemDialogComponent,
+  ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -35,6 +42,8 @@ import { BarcodeDialogComponent } from 'src/app/components/barcode-dialog/barcod
     MatIconModule,
     MatPaginatorModule,
     MatBottomSheetModule,
+    MatDatepickerModule,
+    MatDialogModule,
   ],
   entryComponents: [StorageItemBottomSheetComponent, BarcodeDialogComponent],
 })

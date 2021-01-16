@@ -11,6 +11,11 @@ import { StorageItemBottomSheetComponent } from './components/storage-item-botto
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BarcodeDialogComponent } from 'src/app/components/barcode-dialog/barcode-dialog.component';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AcceptDialogComponent } from 'src/app/components/accept-dialog/accept-dialog.component';
+import { RoomService } from 'src/app/services/room.service';
+import { EditStorageItemDialogComponent } from './components/edit-storage-item-dialog/edit-storage-item-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,15 +32,18 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private houseService: HouseService,
+    private roomService: RoomService,
     private snackBarService: MatSnackBar,
     private bottomSheet: MatBottomSheet,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
-    this.houseService
-      .getAllStorage()
-      .subscribe((storage: StorageItemFullOutput[]) => {
+    this.houseService.getAllStorage().subscribe(
+      (storage: StorageItemFullOutput[]) => {
         this.storageItems = storage;
-        this.storageItemsDataSource.data = storage;
+        this.updateStorageItemsDataSource();
+
         this.storageItemsDataSource.paginator = this.paginator;
         this.storageItemsDataSource.sort = this.sort;
         this.storageItemsDataSource.sortingDataAccessor = (
@@ -51,17 +59,39 @@ export class DashboardComponent implements OnInit {
               return item[headerName];
           }
         };
-      });
+      },
+      (error: HttpErrorResponse) => {
+        snackBarService.open(error.error.message, null, { duration: 2000 });
+      }
+    );
   }
 
   ngOnInit(): void {
-    this.searchControl.valueChanges.subscribe((value: string) => {
-      this.storageItemsDataSource.data = this.storageItems.filter(
-        (item) =>
-          (item.item.ean && item.item.ean.includes(value)) ||
-          item.item.name.includes(value)
-      );
-    });
+    this.searchControl.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value: string) => {
+        value = value.toLowerCase();
+        this.storageItemsDataSource.data = this.storageItems.filter(
+          (item) =>
+            (item.item.ean && item.item.ean.includes(value)) ||
+            item.item.name.toLowerCase().includes(value)
+        );
+        if (value == '') {
+          this.router.navigate([], {
+            relativeTo: this.activatedRoute,
+            queryParams: { search: null },
+            queryParamsHandling: 'merge',
+          });
+        } else {
+          this.router.navigate([], {
+            relativeTo: this.activatedRoute,
+            queryParams: {
+              search: value,
+            },
+            queryParamsHandling: 'merge',
+          });
+        }
+      });
   }
 
   isExpired(storageItem: StorageItemFullOutput): boolean {
@@ -89,13 +119,65 @@ export class DashboardComponent implements OnInit {
     return diffTimeDays <= 7 && diffTimeDays > 0;
   }
 
+  updateStorageItemsDataSource() {
+    let search = this.activatedRoute.snapshot.queryParamMap.get('search');
+
+    if (search) {
+      //set form control value
+      this.searchControl.patchValue(search);
+      //filter items
+      this.storageItemsDataSource.data = this.storageItems.filter(
+        (item) =>
+          (item.item.ean && item.item.ean.includes(search)) ||
+          item.item.name.toLowerCase().includes(search)
+      );
+    } else {
+      this.storageItemsDataSource.data = this.storageItems;
+    }
+  }
+
   onStorageItemMoreInfo(storageItem: StorageItemFullOutput): void {
     this.bottomSheet.open(StorageItemBottomSheetComponent, {
       data: { storageItem: storageItem },
     });
   }
-  onStorageItemEdit(item: StorageItemFullOutput): void {}
-  onStorageItemDelete(item: StorageItemFullOutput): void {}
+  onStorageItemEdit(storageItem: StorageItemFullOutput): void {
+    const dialogRef = this.dialog.open(EditStorageItemDialogComponent, {
+      data: { storageItem: storageItem },
+    });
+  }
+
+  onStorageItemDelete(storageItem: StorageItemFullOutput): void {
+    const dialogRef = this.dialog.open(AcceptDialogComponent, {
+      data: {
+        title: 'Delete storage item?',
+        content:
+          'Do you really want to delete this storage item? This operation cannot be undone.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((response: boolean) => {
+      if (response) {
+        this.roomService
+          .deleteStorageItem(storageItem.room._id, storageItem._id)
+          .subscribe(
+            (response) => {
+              //update room storage
+              this.storageItems = this.storageItems.filter(
+                (item) => item._id != storageItem._id
+              );
+              //update data on storage table
+              this.updateStorageItemsDataSource();
+            },
+            (error: HttpErrorResponse) => {
+              this.snackBarService.open(error.error.message, null, {
+                duration: 2000,
+              });
+            }
+          );
+      }
+    });
+  }
 
   onSearchBarcode(): void {
     const dialogRef = this.dialog.open(BarcodeDialogComponent);
