@@ -10,7 +10,11 @@ import {
   HouseFullOutput,
   HouseUpdateInput,
 } from '../models/house.model';
-import { RoomSimpleOutput, RoomInput } from '../models/room.model';
+import {
+  RoomSimpleOutput,
+  RoomInput,
+  StorageItemFullOutput,
+} from '../models/room.model';
 import { UserSimpleOutput } from '../models/user.model';
 import { UserService } from './user.service';
 
@@ -106,6 +110,12 @@ export class HouseService {
   getHouseCollaboratorsList(houseId: string): Observable<UserSimpleOutput[]> {
     return this.httpClient.get<UserSimpleOutput[]>(
       `${environment.apiUrl}/houses/${houseId}/collaborators`
+    );
+  }
+
+  getAllStorage(): Observable<StorageItemFullOutput[]> {
+    return this.httpClient.get<StorageItemFullOutput[]>(
+      `${environment.apiUrl}/houses/storage`
     );
   }
 

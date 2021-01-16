@@ -30,6 +30,8 @@ export class StorageItemFullOutput {
   expiration: string;
   quantity: number;
   description: string;
+  room?: { _id: string; name: string };
+  house?: { _id: string; name: string };
 }
 
 export class StorageItemUpdateInput {

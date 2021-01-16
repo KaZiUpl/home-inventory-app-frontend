@@ -1,34 +1,160 @@
-<div class="container-fluid h-100">
-  <div class="row h-100 justify-content-center align-items-center">
-    <mat-card class="col-6">
-      <mat-card-title>Username</mat-card-title>
-      <mat-card-subtitle>
-        Here you can view and change your login
-      </mat-card-subtitle>
-      <form [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
-        <mat-card-content>
-          <div class="row">
-            <div class="col">
-              <mat-form-field appearance="outline">
-                <mat-label>Login</mat-label>
-                <input matInput type="text" formControlName="login" />
-                <mat-error *ngIf="profileForm.get('login').hasError('required')"
-                  >This field is required</mat-error
-                >
-              </mat-form-field>
+<div class="container-fluid">
+  <div class="row h-100 justify-content-center my-1">
+    <mat-card class="col-12 col-md-10 col-lg-9 col-xl-6">
+      <mat-card-title>Dashboard</mat-card-title>
+      <mat-card-subtitle
+        >Here you can browse all of your storage items</mat-card-subtitle
+      >
+      <mat-card-content>
+        <div class="row mb-2">
+          <div class="col-12 col-md-8">
+            <div class="row">
+              <div class="col-9">
+                <mat-form-field appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input
+                    type="search"
+                    matInput
+                    name="search"
+                    [formControl]="searchControl"
+                    autocomplete="off"
+                  />
+                  <button
+                    mat-button
+                    type="button"
+                    *ngIf="searchControl.value"
+                    matSuffix
+                    mat-icon-button
+                    (click)="searchControl.patchValue('')"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+              <div class="col-3 text-center">
+                <button mat-fab color="primary" (click)="onSearchBarcode()">
+                  <mat-icon>qr_code_scanner</mat-icon>
+                </button>
+              </div>
             </div>
           </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <div class="row">
-            <div class="col text-right">
-              <button mat-raised-button type="submit" color="warn">
-                Save
-              </button>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mat-elevation-z8">
+              <mat-table
+                class="storage-table"
+                [dataSource]="storageItemsDataSource"
+                matSort
+              >
+                <ng-container matColumnDef="expirationStatus">
+                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                  <mat-cell *matCellDef="let item"></mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="itemName">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Item name
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let item">
+                    <span class="ellipsis">{{ item.item.name }}</span>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Quantity Column -->
+                <ng-container matColumnDef="quantity">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Quantity
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let item">
+                    <span>{{ item.quantity }}</span>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- House Column -->
+                <ng-container matColumnDef="house">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    House
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let item">
+                    <span class="ellipsis">{{ item.house.name }}</span>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Expiration Column -->
+                <ng-container matColumnDef="expiration">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Expiration date</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let item">
+                    {{ item.expiration | date: "d MMM yyyy" }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Menu Column -->
+                <ng-container matColumnDef="menu">
+                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                  <mat-cell *matCellDef="let item">
+                    <button
+                      [matMenuTriggerFor]="menu"
+                      mat-icon-button
+                      (click)="onMenuClick($event)"
+                    >
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button
+                        mat-menu-item
+                        (click)="onStorageItemMoreInfo(item)"
+                      >
+                        More information
+                      </button>
+                      <button mat-menu-item (click)="onStorageItemEdit(item)">
+                        Edit
+                      </button>
+                      <button mat-menu-item (click)="onStorageItemDelete(item)">
+                        Delete
+                      </button>
+                    </mat-menu>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                  *matHeaderRowDef="[
+                    'expirationStatus',
+                    'itemName',
+                    'house',
+                    'quantity',
+                    'expiration',
+                    'menu'
+                  ]"
+                ></mat-header-row>
+                <mat-row
+                  *matRowDef="
+                    let item;
+                    columns: [
+                      'expirationStatus',
+                      'itemName',
+                      'house',
+                      'quantity',
+                      'expiration',
+                      'menu'
+                    ]
+                  "
+                  [class.storage-alert]="isExpired(item)"
+                  [class.storage-warning]="isNearlyExpired(item)"
+                  [routerLink]="['/houses', item.house._id]"
+                ></mat-row>
+              </mat-table>
+              <mat-paginator
+                [pageSizeOptions]="[10, 20, 50]"
+                showFirstLastButtons
+              ></mat-paginator>
             </div>
           </div>
-        </mat-card-actions>
-      </form>
+        </div>
+      </mat-card-content>
     </mat-card>
   </div>
 </div>
