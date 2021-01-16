@@ -126,8 +126,6 @@ export class HouseViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((newRoom) => {
       if (newRoom != undefined) {
-        console.log(newRoom);
-
         this.house.rooms.push(newRoom);
         this.roomsDataSource.data = this.house.rooms;
       }

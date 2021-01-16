@@ -43,12 +43,9 @@ export class DefaultComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.userService.logout().subscribe(
-      (response: any) => {
-        this.userService.removeLocalUser();
-        this.router.navigate(['auth']);
-      },
-      (error: HttpErrorResponse) => console.log(error)
-    );
+    this.userService.logout().subscribe((response: any) => {
+      this.userService.removeLocalUser();
+      this.router.navigate(['auth']);
+    });
   }
 }

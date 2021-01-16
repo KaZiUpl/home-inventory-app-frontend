@@ -118,8 +118,6 @@ export class RoomListRoomDetailsComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
-        console.log(response);
-
         room.storage.push(response);
         this.roomStorageDataSource.data = this.room.storage;
       }
