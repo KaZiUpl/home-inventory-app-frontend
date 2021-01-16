@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 import {
   Component,
   ElementRef,
@@ -126,10 +127,10 @@ export class NewStorageItemDialogComponent implements OnInit {
     storageItemInfo.expiration = Date.parse(
       this.storageItemDetailsForm.controls.expiration.value
     );
+
     if (isNaN(storageItemInfo.expiration)) {
       storageItemInfo.expiration = null;
     }
-
     //add new storage item
     this.roomService
       .createStorageItem(this.data.roomId, storageItemInfo)
@@ -140,9 +141,10 @@ export class NewStorageItemDialogComponent implements OnInit {
           newStorageItem._id = response.id;
           newStorageItem.quantity = storageItemInfo.quantity;
           newStorageItem.description = storageItemInfo.description;
-          newStorageItem.expiration = !isNaN(storageItemInfo.expiration)
-            ? new Date(storageItemInfo.expiration).toISOString()
-            : null;
+          newStorageItem.expiration =
+            this.storageItemDetailsForm.controls.expiration.value != null
+              ? new Date(storageItemInfo.expiration).toISOString()
+              : null;
           newStorageItem.item = {
             _id: storageItemInfo.item,
             name: this.choosenItem.name,
