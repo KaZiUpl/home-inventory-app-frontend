@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 import { UserService } from 'src/app/services/user.service';
@@ -36,10 +35,6 @@ export class DefaultComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.houseListSubscription.unsubscribe();
-  }
-
-  addNewItem(): void {
-    console.log('add new item clicked');
   }
 
   logout(): void {
