@@ -35,6 +35,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { AddCollaboratorComponent } from './components/add-collaborator/add-collaborator.component';
 import { MatRipple } from '@angular/material/core';
 import { RemoveCollaboratorComponent } from './components/remove-collaborator/remove-collaborator.component';
+import { MatDivider, MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { RemoveCollaboratorComponent } from './components/remove-collaborator/re
     MatChipsModule,
     MatRippleModule,
     MatRadioModule,
+    MatDividerModule,
   ],
   entryComponents: [
     NewHouseDialogComponent,

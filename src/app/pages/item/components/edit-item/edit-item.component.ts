@@ -10,6 +10,8 @@ import { from } from 'rxjs';
 import { ItemService } from '../../../../services/item.service';
 import { ItemFullOutput } from '../../../../models/item.model';
 import { BarcodeDialogComponent } from '../../../../components/barcode-dialog/barcode-dialog.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-item',
@@ -26,7 +28,8 @@ export class EditItemComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private snackBarService: MatSnackBar,
-    private barcodeDialog: MatDialog
+    private barcodeDialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {
     this.itemForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
@@ -40,6 +43,11 @@ export class EditItemComponent implements OnInit {
     itemService.getItem(this.item._id).subscribe(
       (item: ItemFullOutput) => {
         this.item = item;
+        if (item.photo) {
+          item.photoSafe = this.sanitizer.bypassSecurityTrustUrl(
+            `${environment.apiUrl}${item.photo}`
+          );
+        }
         this.itemForm.patchValue({
           name: this.item.name,
           description: this.item.description,
@@ -76,9 +84,29 @@ export class EditItemComponent implements OnInit {
 
     this.itemService.putItem(this.item._id, itemBody).subscribe(
       (response) => {
-        this.snackBarService.open(response.message, null, {
-          duration: 3000,
-        });
+        if (this.photoControl.value) {
+          let file: FileInput = this.photoControl.value;
+          let f: File = file.files[0];
+          let formData: FormData = new FormData();
+          formData.append('image', f, f.name);
+
+          this.itemService.uploadItemPhoto(this.item._id, formData).subscribe(
+            (data) => {
+              this.snackBarService.open(
+                response.message + ' and ' + data.message,
+                null,
+                { duration: 1500 }
+              );
+            },
+            (error: HttpErrorResponse) => {
+              this.snackBarService.open(error.error.message, null, {
+                duration: 3000,
+              });
+            }
+          );
+        } else {
+          this.snackBarService.open(response.message, null, { duration: 1500 });
+        }
       },
       (error: HttpErrorResponse) => {
         this.snackBarService.open(error.error.message, null, {
@@ -95,28 +123,6 @@ export class EditItemComponent implements OnInit {
       if (result) {
         this.itemForm.controls.code.patchValue(result);
       }
-    });
-  }
-
-  // TODO: Finish photo upload (send request)
-  onPhotoAdd(): void {
-    if (this.photoControl.invalid) return;
-
-    let fileInput: FileInput = this.photoControl.value;
-
-    let base = new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(fileInput.files[0]);
-      reader.onload = function () {
-        resolve(reader.result);
-      };
-      reader.onerror = function () {
-        reject(reader.error);
-      };
-    });
-
-    from(base).subscribe((data) => {
-      console.log(data);
     });
   }
 }

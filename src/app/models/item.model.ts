@@ -1,3 +1,4 @@
+import { SafeUrl } from '@angular/platform-browser';
 import { UserSimpleOutput } from './user.model';
 
 export class ItemSimpleOutput {
@@ -7,6 +8,8 @@ export class ItemSimpleOutput {
   manufacturer?: string;
   ean?: string;
   owner?: string;
+  photo?: string;
+  photoSafe?: SafeUrl;
 }
 
 export class ItemFullOutput {
@@ -15,6 +18,8 @@ export class ItemFullOutput {
   description?: string;
   manufacturer?: string;
   ean?: string;
+  photo?: string;
+  photoSafe?: SafeUrl;
   owner: UserSimpleOutput;
 }
 

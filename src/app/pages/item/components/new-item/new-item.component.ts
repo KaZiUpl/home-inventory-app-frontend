@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ItemService } from '../../../../services/item.service';
 import { ItemInput } from '../../../../models/item.model';
 import { BarcodeDialogComponent } from '../../../../components/barcode-dialog/barcode-dialog.component';
+import { FileInput } from 'ngx-material-file-input';
 
 @Component({
   selector: 'app-new-item',
@@ -61,16 +62,39 @@ export class NewItemComponent implements OnInit {
       })
       .subscribe(
         (response: any) => {
-          this.snackBarService.open(response.message, null, { duration: 1500 });
-          this.router.navigate(['/items']);
+          if (this.photoControl.value) {
+            console.log('asd');
+
+            let file: FileInput = this.photoControl.value;
+            let f: File = file.files[0];
+            let formData: FormData = new FormData();
+            formData.append('image', f, f.name);
+
+            this.itemService.uploadItemPhoto(response.id, formData).subscribe(
+              (data) => {
+                this.snackBarService.open(response.message, null, {
+                  duration: 1500,
+                });
+                this.router.navigate(['/items']);
+              },
+              (error: HttpErrorResponse) => {
+                this.snackBarService.open(error.error.message, null, {
+                  duration: 3000,
+                });
+              }
+            );
+          } else {
+            this.snackBarService.open(response.message, null, {
+              duration: 1500,
+            });
+            this.router.navigate(['/items']);
+          }
         },
         (error: HttpErrorResponse) => {
           this.snackBarService.open(error.error.message, null, {
-            duration: 2000,
+            duration: 3000,
           });
         }
       );
   }
-
-  //TODO: finish photo upload
 }

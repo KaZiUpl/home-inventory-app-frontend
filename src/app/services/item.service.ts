@@ -46,4 +46,11 @@ export class ItemService {
   deleteItem(id: string): Observable<any> {
     return this.httpClient.delete(`${environment.apiUrl}/items/${id}`);
   }
+
+  uploadItemPhoto(itemId: string, image: FormData): Observable<any> {
+    return this.httpClient.post(
+      `${environment.apiUrl}/items/${itemId}/photo`,
+      image
+    );
+  }
 }
