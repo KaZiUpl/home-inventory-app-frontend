@@ -44,9 +44,21 @@ export class RegisterComponent implements OnInit {
   ) {
     this.registerForm = new FormGroup(
       {
-        login: new FormControl(null, [Validators.required]),
+        login: new FormControl(null, [
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9]+$'),
+          Validators.minLength(5),
+          Validators.maxLength(20),
+        ]),
         email: new FormControl(null, [Validators.required, Validators.email]),
-        password: new FormControl(null, [Validators.required]),
+        password: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(20),
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{1,}$'
+          ),
+        ]),
         confirmPassword: new FormControl(null, [Validators.required]),
       },
       [this.passwordsNotEqual]
