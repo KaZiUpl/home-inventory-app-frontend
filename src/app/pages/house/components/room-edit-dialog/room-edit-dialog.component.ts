@@ -24,8 +24,13 @@ export class RoomEditDialogComponent implements OnInit {
     this.editedRoom = data.room;
 
     this.editRoomForm = new FormGroup({
-      name: new FormControl(this.editedRoom.name, [Validators.required]),
-      description: new FormControl(this.editedRoom.description, []),
+      name: new FormControl(this.editedRoom.name, [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
+      description: new FormControl(this.editedRoom.description, [
+        Validators.maxLength(250),
+      ]),
     });
   }
 

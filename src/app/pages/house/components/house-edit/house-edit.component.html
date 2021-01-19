@@ -15,11 +15,25 @@
                       matInput
                       required
                       formControlName="name"
+                      autocomplete="off"
                     />
                     <mat-error
                       *ngIf="houseEditForm.get('name').hasError('required')"
-                      >This field is required</mat-error
                     >
+                      This field is required
+                    </mat-error>
+                    <mat-error
+                      *ngIf="houseEditForm.get('name').hasError('maxlength')"
+                    >
+                      House name is too long
+                    </mat-error>
+                    <mat-hint align="end">
+                      {{
+                        houseEditForm.get("name").value == null
+                          ? 0
+                          : houseEditForm.get("name").value.length
+                      }}/30
+                    </mat-hint>
                   </mat-form-field>
                 </div>
               </div>
@@ -35,6 +49,20 @@
                       cdkAutosizeMaxRows="10"
                       formControlName="description"
                     ></textarea>
+                    <mat-error
+                      *ngIf="
+                        houseEditForm.get('description').hasError('maxlength')
+                      "
+                    >
+                      Description is too long
+                    </mat-error>
+                    <mat-hint align="end">
+                      {{
+                        houseEditForm.get("description").value == null
+                          ? 0
+                          : houseEditForm.get("description").value.length
+                      }}/250
+                    </mat-hint>
                   </mat-form-field>
                 </div>
               </div>

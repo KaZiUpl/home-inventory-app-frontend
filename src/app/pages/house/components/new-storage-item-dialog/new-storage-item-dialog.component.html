@@ -133,7 +133,23 @@
                     autocomplete="off"
                     formControlName="description"
                   ></textarea>
-                  <mat-error></mat-error>
+                  <mat-error
+                    *ngIf="
+                      storageItemDetailsForm
+                        .get('description')
+                        .hasError('maxlength')
+                    "
+                  >
+                    Description is too long
+                  </mat-error>
+                  <mat-hint align="end">
+                    {{
+                      storageItemDetailsForm.get("description").value == null
+                        ? 0
+                        : storageItemDetailsForm.get("description").value
+                            .length
+                    }}/250
+                  </mat-hint>
                 </mat-form-field>
               </div>
             </div>

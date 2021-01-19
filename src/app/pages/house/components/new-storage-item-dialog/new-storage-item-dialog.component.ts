@@ -71,7 +71,7 @@ export class NewStorageItemDialogComponent implements OnInit {
   });
   storageItemDetailsForm: FormGroup = new FormGroup({
     quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-    description: new FormControl(null, []),
+    description: new FormControl(null, [Validators.maxLength(250)]),
     expiration: new FormControl({ value: null, disabled: true }, []),
   });
 

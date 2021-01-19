@@ -24,8 +24,11 @@ export class HouseEditComponent implements OnInit {
     this.house._id = activatedRoute.snapshot.paramMap.get('id');
 
     this.houseEditForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, []),
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
+      description: new FormControl(null, [Validators.maxLength(250)]),
     });
   }
 

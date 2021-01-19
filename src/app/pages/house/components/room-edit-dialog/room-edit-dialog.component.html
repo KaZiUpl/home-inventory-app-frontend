@@ -11,9 +11,19 @@
             formControlName="name"
             autocomplete="off"
           />
-          <mat-error *ngIf="editRoomForm.get('name').hasError('required')"
-            >This field is required</mat-error
-          >
+          <mat-error *ngIf="editRoomForm.get('name').hasError('required')">
+            This field is required
+          </mat-error>
+          <mat-error *ngIf="editRoomForm.get('name').hasError('maxlength')">
+            Room name is too long
+          </mat-error>
+          <mat-hint align="end">
+            {{
+              editRoomForm.get("name").value == null
+                ? 0
+                : editRoomForm.get("name").value.length
+            }}/30
+          </mat-hint>
         </mat-form-field>
       </div>
     </div>
@@ -30,6 +40,18 @@
             formControlName="description"
             autocomplete="off"
           ></textarea>
+          <mat-error
+            *ngIf="editRoomForm.get('description').hasError('maxlength')"
+          >
+            Description is too long
+          </mat-error>
+          <mat-hint align="end">
+            {{
+              editRoomForm.get("description").value == null
+                ? 0
+                : editRoomForm.get("description").value.length
+            }}/250
+          </mat-hint>
         </mat-form-field>
       </div>
     </div>

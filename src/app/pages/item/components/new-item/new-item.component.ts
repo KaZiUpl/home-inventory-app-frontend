@@ -26,10 +26,13 @@ export class NewItemComponent implements OnInit {
     private router: Router
   ) {
     this.itemForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, []),
-      manufacturer: new FormControl(null, []),
-      code: new FormControl(null, []),
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
+      description: new FormControl(null, [Validators.maxLength(250)]),
+      manufacturer: new FormControl(null, [Validators.maxLength(50)]),
+      code: new FormControl(null, [Validators.maxLength(128)]),
       photo: new FormControl(null, []),
     });
   }

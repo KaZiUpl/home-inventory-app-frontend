@@ -16,7 +16,7 @@
     <p *ngIf="storageItem?.expiration">
       Expiration: {{ storageItem?.expiration | date: "d MMM yyyy" }}
     </p>
-    <p *ngIf="storageItem?.description">
+    <p *ngIf="storageItem?.description" class="text-break">
       Storage item description: {{ storageItem?.description }}
     </p>
   </div>

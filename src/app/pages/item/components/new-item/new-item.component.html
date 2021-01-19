@@ -17,9 +17,23 @@
                       formControlName="name"
                       autocomplete="off"
                     />
-                    <mat-error *ngIf="itemForm.get('name').hasError('required')"
-                      >This field is required</mat-error
+                    <mat-error
+                      *ngIf="itemForm.get('name').hasError('required')"
                     >
+                      This field is required
+                    </mat-error>
+                    <mat-error
+                      *ngIf="itemForm.get('name').hasError('maxlength')"
+                    >
+                      Item name is too long
+                    </mat-error>
+                    <mat-hint align="end">
+                      {{
+                        itemForm.get("name").value == null
+                          ? 0
+                          : itemForm.get("name").value.length
+                      }}/30
+                    </mat-hint>
                   </mat-form-field>
                 </div>
               </div>
@@ -37,6 +51,18 @@
                       formControlName="description"
                       autocomplete="off"
                     ></textarea>
+                    <mat-error
+                      *ngIf="itemForm.get('description').hasError('maxlength')"
+                    >
+                      Description is too long
+                    </mat-error>
+                    <mat-hint align="end">
+                      {{
+                        itemForm.get("description").value == null
+                          ? 0
+                          : itemForm.get("description").value.length
+                      }}/250
+                    </mat-hint>
                   </mat-form-field>
                 </div>
               </div>
@@ -50,6 +76,18 @@
                       name="manufacturer"
                       formControlName="manufacturer"
                     />
+                    <mat-error
+                      *ngIf="itemForm.get('manufacturer').hasError('maxlength')"
+                    >
+                      Manufacturer name is too long
+                    </mat-error>
+                    <mat-hint align="end">
+                      {{
+                        itemForm.get("manufacturer").value == null
+                          ? 0
+                          : itemForm.get("manufacturer").value.length
+                      }}/50
+                    </mat-hint>
                   </mat-form-field>
                 </div>
               </div>
@@ -65,6 +103,18 @@
                       formControlName="code"
                       autocomplete="off"
                     />
+                    <mat-error
+                      *ngIf="itemForm.get('code').hasError('maxlength')"
+                    >
+                      Code is too long
+                    </mat-error>
+                    <mat-hint align="end">
+                      {{
+                        itemForm.get("code").value == null
+                          ? 0
+                          : itemForm.get("code").value.length
+                      }}/128
+                    </mat-hint>
                   </mat-form-field>
                 </div>
                 <div class="col-4">

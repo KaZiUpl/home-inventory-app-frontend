@@ -53,6 +53,18 @@
             cdkAutosizeMaxRows="7"
             formControlName="description"
           ></textarea>
+          <mat-error
+            *ngIf="storageItemForm.get('description').hasError('maxlength')"
+          >
+            Description is too long
+          </mat-error>
+          <mat-hint align="end">
+            {{
+              storageItemForm.get("description").value == null
+                ? 0
+                : storageItemForm.get("description").value.length
+            }}/250
+          </mat-hint>
         </mat-form-field>
       </div>
     </div>

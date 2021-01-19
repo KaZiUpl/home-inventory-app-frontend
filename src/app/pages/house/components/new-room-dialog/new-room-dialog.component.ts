@@ -24,8 +24,11 @@ export class NewRoomDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: { houseId: string }
   ) {
     this.roomForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, []),
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
+      description: new FormControl(null, [Validators.maxLength(250)]),
     });
     this.houseId = data.houseId;
   }

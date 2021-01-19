@@ -21,8 +21,11 @@ export class NewHouseDialogComponent implements OnInit {
     private snackBarService: MatSnackBar
   ) {
     this.houseForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, []),
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(30),
+      ]),
+      description: new FormControl(null, [Validators.maxLength(250)]),
     });
   }
 

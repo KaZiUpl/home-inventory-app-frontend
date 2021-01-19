@@ -33,10 +33,17 @@ export class EditStorageItemDialogComponent implements OnInit {
         Validators.min(1),
       ]),
       expiration: new FormControl(
-        { value: this.storageItem.expiration, disabled: true },
+        {
+          value: this.storageItem.expiration
+            ? this.storageItem.expiration
+            : null,
+          disabled: true,
+        },
         []
       ),
-      description: new FormControl(this.storageItem.description, []),
+      description: new FormControl(this.storageItem.description, [
+        Validators.maxLength(250),
+      ]),
     });
   }
 
@@ -74,9 +81,12 @@ export class EditStorageItemDialogComponent implements OnInit {
           this.storageItem.description = this.storageItemForm.get(
             'description'
           ).value;
-          this.storageItem.expiration = new Date(
-            this.storageItemForm.get('expiration').value
-          ).toISOString();
+          this.storageItem.expiration = this.storageItemForm.get('expiration')
+            .value
+            ? new Date(
+                this.storageItemForm.get('expiration').value
+              ).toISOString()
+            : null;
 
           this.dialogRef.close(this.storageItem);
         },
