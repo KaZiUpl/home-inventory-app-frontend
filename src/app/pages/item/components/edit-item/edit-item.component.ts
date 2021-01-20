@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FileInput } from 'ngx-material-file-input';
 import { from } from 'rxjs';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 import { ItemService } from '../../../../services/item.service';
 import { ItemFullOutput } from '../../../../models/item.model';
@@ -29,7 +30,8 @@ export class EditItemComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackBarService: MatSnackBar,
     private barcodeDialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private imageService: NgxImageCompressService
   ) {
     this.itemForm = new FormGroup({
       name: new FormControl(null, [
@@ -91,22 +93,48 @@ export class EditItemComponent implements OnInit {
           let file: FileInput = this.photoControl.value;
           let f: File = file.files[0];
           let formData: FormData = new FormData();
-          formData.append('image', f, f.name);
 
-          this.itemService.uploadItemPhoto(this.item._id, formData).subscribe(
-            (data) => {
-              this.snackBarService.open(
-                response.message + ' and ' + data.message,
-                null,
-                { duration: 1500 }
-              );
-            },
-            (error: HttpErrorResponse) => {
-              this.snackBarService.open(error.error.message, null, {
-                duration: 3000,
+          let compressedFileUrl, compressedFile;
+
+          const uploadFile = new Promise((resolve) => {
+            let reader: FileReader = new FileReader();
+            reader.onloadend = () => {
+              resolve(reader.result);
+            };
+            reader.readAsDataURL(f);
+          });
+
+          uploadFile.then((fileBase64) => {
+            compressedFileUrl = fileBase64;
+
+            this.imageService
+              .compressFile(compressedFileUrl, -1)
+              .then((result) => {
+                compressedFile = result;
+                //converting string to blob
+
+                const blob = this.base64ToBlob(compressedFile);
+
+                formData.append('image', blob, f.name);
+
+                this.itemService
+                  .uploadItemPhoto(this.item._id, formData)
+                  .subscribe(
+                    (data) => {
+                      this.snackBarService.open(
+                        response.message + ' and ' + data.message,
+                        null,
+                        { duration: 1500 }
+                      );
+                    },
+                    (error: HttpErrorResponse) => {
+                      this.snackBarService.open(error.error.message, null, {
+                        duration: 3000,
+                      });
+                    }
+                  );
               });
-            }
-          );
+          });
         } else {
           this.snackBarService.open(response.message, null, { duration: 1500 });
         }
@@ -127,5 +155,20 @@ export class EditItemComponent implements OnInit {
         this.itemForm.controls.code.patchValue(result);
       }
     });
+  }
+
+  base64ToBlob(base64: string): Blob {
+    const byteString = atob(base64.split(',')[1]);
+    const mimeType = base64.split(',')[0].split(':')[1].split(';')[0];
+
+    const ab = new ArrayBuffer(byteString.length);
+    let ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    //write to blob
+    const blob = new Blob([ia], { type: mimeType });
+
+    return blob;
   }
 }

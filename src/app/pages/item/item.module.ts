@@ -21,6 +21,7 @@ import { NewItemComponent } from './components/new-item/new-item.component';
 import { EditItemComponent } from './components/edit-item/edit-item.component';
 import { ComponentsModule } from '../../components/components.module';
 import { BarcodeDialogComponent } from '../../components/barcode-dialog/barcode-dialog.component';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import { BarcodeDialogComponent } from '../../components/barcode-dialog/barcode-
     MaterialFileInputModule,
     MatSortModule,
   ],
-
+  providers: [NgxImageCompressService],
   entryComponents: [BarcodeDialogComponent],
 })
 export class ItemModule {}

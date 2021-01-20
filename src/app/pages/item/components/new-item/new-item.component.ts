@@ -9,6 +9,7 @@ import { ItemService } from '../../../../services/item.service';
 import { ItemInput } from '../../../../models/item.model';
 import { BarcodeDialogComponent } from '../../../../components/barcode-dialog/barcode-dialog.component';
 import { FileInput } from 'ngx-material-file-input';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-new-item',
@@ -23,7 +24,8 @@ export class NewItemComponent implements OnInit {
     private itemService: ItemService,
     private snackBarService: MatSnackBar,
     private barcodeDialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private imageService: NgxImageCompressService
   ) {
     this.itemForm = new FormGroup({
       name: new FormControl(null, [
@@ -64,30 +66,56 @@ export class NewItemComponent implements OnInit {
         ean: this.itemForm.value.code,
       })
       .subscribe(
-        (response: any) => {
+        (createItemResponse: any) => {
           if (this.photoControl.value) {
-            console.log('asd');
-
             let file: FileInput = this.photoControl.value;
             let f: File = file.files[0];
             let formData: FormData = new FormData();
-            formData.append('image', f, f.name);
 
-            this.itemService.uploadItemPhoto(response.id, formData).subscribe(
-              (data) => {
-                this.snackBarService.open(response.message, null, {
-                  duration: 1500,
+            let compressedFileUrl, compressedFile;
+
+            const uploadFile = new Promise((resolve) => {
+              let reader: FileReader = new FileReader();
+              reader.onloadend = () => {
+                resolve(reader.result);
+              };
+              reader.readAsDataURL(f);
+            });
+
+            uploadFile.then((fileBase64) => {
+              compressedFileUrl = fileBase64;
+
+              this.imageService
+                .compressFile(compressedFileUrl, -1)
+                .then((result) => {
+                  compressedFile = result;
+                  //converting string to blob
+
+                  const blob = this.base64ToBlob(compressedFile);
+
+                  formData.append('image', blob, f.name);
+
+                  this.itemService
+                    .uploadItemPhoto(createItemResponse.id, formData)
+                    .subscribe(
+                      (data) => {
+                        this.snackBarService.open(
+                          createItemResponse.message + ' and ' + data.message,
+                          null,
+                          { duration: 1500 }
+                        );
+                        this.router.navigate(['/items']);
+                      },
+                      (error: HttpErrorResponse) => {
+                        this.snackBarService.open(error.error.message, null, {
+                          duration: 3000,
+                        });
+                      }
+                    );
                 });
-                this.router.navigate(['/items']);
-              },
-              (error: HttpErrorResponse) => {
-                this.snackBarService.open(error.error.message, null, {
-                  duration: 3000,
-                });
-              }
-            );
+            });
           } else {
-            this.snackBarService.open(response.message, null, {
+            this.snackBarService.open(createItemResponse.message, null, {
               duration: 1500,
             });
             this.router.navigate(['/items']);
@@ -99,5 +127,20 @@ export class NewItemComponent implements OnInit {
           });
         }
       );
+  }
+
+  base64ToBlob(base64: string): Blob {
+    const byteString = atob(base64.split(',')[1]);
+    const mimeType = base64.split(',')[0].split(':')[1].split(';')[0];
+
+    const ab = new ArrayBuffer(byteString.length);
+    let ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    //write to blob
+    const blob = new Blob([ia], { type: mimeType });
+
+    return blob;
   }
 }
