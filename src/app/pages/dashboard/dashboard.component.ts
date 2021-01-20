@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HouseService } from 'src/app/services/house.service';
@@ -22,9 +22,13 @@ import { EditStorageItemDialogComponent } from './components/edit-storage-item-d
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+export class DashboardComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) set paginator(v: MatPaginator) {
+    this.storageItemsDataSource.paginator = v;
+  }
+  @ViewChild(MatSort) set sort(v: MatSort) {
+    this.storageItemsDataSource.sort = v;
+  }
 
   searchControl: FormControl = new FormControl(null);
   storageItems: StorageItemFullOutput[] = new Array<StorageItemFullOutput>();
@@ -43,22 +47,6 @@ export class DashboardComponent implements OnInit {
       (storage: StorageItemFullOutput[]) => {
         this.storageItems = storage;
         this.updateStorageItemsDataSource();
-
-        this.storageItemsDataSource.paginator = this.paginator;
-        this.storageItemsDataSource.sort = this.sort;
-        this.storageItemsDataSource.sortingDataAccessor = (
-          item,
-          headerName
-        ) => {
-          switch (headerName) {
-            case 'itemName':
-              return item.item.name;
-            case 'house':
-              return item.house.name;
-            default:
-              return item[headerName];
-          }
-        };
       },
       (error: HttpErrorResponse) => {
         snackBarService.open(error.error.message, null, { duration: 2000 });
@@ -92,6 +80,21 @@ export class DashboardComponent implements OnInit {
           });
         }
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.storageItemsDataSource.paginator = this.paginator;
+    this.storageItemsDataSource.sort = this.sort;
+    this.storageItemsDataSource.sortingDataAccessor = (item, headerName) => {
+      switch (headerName) {
+        case 'itemName':
+          return item.item.name;
+        case 'house':
+          return item.house.name;
+        default:
+          return item[headerName];
+      }
+    };
   }
 
   isExpired(storageItem: StorageItemFullOutput): boolean {
