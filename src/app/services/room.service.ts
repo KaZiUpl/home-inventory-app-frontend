@@ -3,12 +3,11 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
+import { RoomFullOutput, RoomUpdateInput } from '../models/room.model';
 import {
-  RoomFullOutput,
-  RoomUpdateInput,
   StorageItemInput,
   StorageItemUpdateInput,
-} from '../models/room.model';
+} from '../models/storage-item.model';
 
 @Injectable({
   providedIn: 'root',

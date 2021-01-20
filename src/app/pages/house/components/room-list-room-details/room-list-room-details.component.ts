@@ -13,10 +13,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AcceptDialogComponent } from 'src/app/components/accept-dialog/accept-dialog.component';
-import {
-  RoomFullOutput,
-  StorageItemFullOutput,
-} from 'src/app/models/room.model';
+import { RoomSimpleOutput } from 'src/app/models/room.model';
+import { StorageItemFullOutput } from 'src/app/models/storage-item.model';
 import { RoomService } from 'src/app/services/room.service';
 import { EditStorageItemDialogComponent } from '../edit-storage-item-dialog/edit-storage-item-dialog.component';
 import { NewStorageItemDialogComponent } from '../new-storage-item-dialog/new-storage-item-dialog.component';
@@ -28,7 +26,7 @@ import { StorageItemBottomSheetComponent } from '../storage-item-bottom-sheet/st
   styleUrls: ['./room-list-room-details.component.scss'],
 })
 export class RoomListRoomDetailsComponent implements OnInit, AfterViewInit {
-  @Input('room') room: RoomFullOutput;
+  @Input('room') room: RoomSimpleOutput;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -125,7 +123,7 @@ export class RoomListRoomDetailsComponent implements OnInit, AfterViewInit {
   }
 
   onStorageItemDelete(
-    room: RoomFullOutput,
+    room: RoomSimpleOutput,
     storageItem: StorageItemFullOutput
   ): void {
     let dialogRef = this.dialog.open(AcceptDialogComponent, {
@@ -158,7 +156,7 @@ export class RoomListRoomDetailsComponent implements OnInit, AfterViewInit {
   }
 
   onStorageItemMoreInfo(
-    room: RoomFullOutput,
+    room: RoomSimpleOutput,
     storageItem: StorageItemFullOutput
   ): void {
     this.bottomSheet.open(StorageItemBottomSheetComponent, {
@@ -167,7 +165,7 @@ export class RoomListRoomDetailsComponent implements OnInit, AfterViewInit {
   }
 
   onStorageItemEdit(
-    room: RoomFullOutput,
+    room: RoomSimpleOutput,
     storageItem: StorageItemFullOutput
   ): void {
     const dialogRef = this.dialog.open(EditStorageItemDialogComponent, {

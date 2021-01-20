@@ -1,4 +1,4 @@
-import { ItemSimpleOutput } from './item.model';
+import { StorageItemFullOutput } from './storage-item.model';
 
 export class RoomSimpleOutput {
   _id: string;
@@ -14,37 +14,6 @@ export class RoomFullOutput {
   description: string;
   house: { _id: string; name: string };
   storage: StorageItemFullOutput[];
-}
-
-export class StorageItemSimpleOutput {
-  _id: string;
-  item: string;
-  quantity: number;
-  expiration: string;
-  description: string;
-}
-
-export class StorageItemFullOutput {
-  _id: string;
-  item: ItemSimpleOutput;
-  expiration: string;
-  quantity: number;
-  description: string;
-  room?: { _id: string; name: string };
-  house?: { _id: string; name: string };
-}
-
-export class StorageItemUpdateInput {
-  quantity: number;
-  expiration: number;
-  description: string;
-}
-
-export class StorageItemInput {
-  item: string;
-  quantity: number;
-  description?: string;
-  expiration?: number;
 }
 
 export class RoomUpdateInput {

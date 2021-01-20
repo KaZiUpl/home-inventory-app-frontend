@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { DomSanitizer } from '@angular/platform-browser';
-import { StorageItemFullOutput } from 'src/app/models/room.model';
+import { StorageItemFullOutput } from 'src/app/models/storage-item.model';
 import { environment } from 'src/environments/environment';
 
 @Component({

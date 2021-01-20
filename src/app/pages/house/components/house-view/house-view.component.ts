@@ -25,8 +25,8 @@ import { AcceptDialogComponent } from '../../../../components/accept-dialog/acce
 import { NewRoomDialogComponent } from '../new-room-dialog/new-room-dialog.component';
 import { UserService } from '../../../../services/user.service';
 import { RoomService } from '../../../../services/room.service';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { RoomFullOutput, RoomSimpleOutput } from 'src/app/models/room.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { RoomSimpleOutput } from 'src/app/models/room.model';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { RoomEditDialogComponent } from '../room-edit-dialog/room-edit-dialog.component';
 import { AddCollaboratorComponent } from '../add-collaborator/add-collaborator.component';
@@ -165,7 +165,7 @@ export class HouseViewComponent implements OnInit {
     });
   }
 
-  onRoomEditClicked(room: RoomFullOutput): void {
+  onRoomEditClicked(room: RoomSimpleOutput): void {
     const dialogRef = this.dialog.open(RoomEditDialogComponent, {
       data: { room: room },
     });

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HouseService } from 'src/app/services/house.service';
-import { StorageItemFullOutput } from 'src/app/models/room.model';
+import { StorageItemFullOutput } from 'src/app/models/storage-item.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';

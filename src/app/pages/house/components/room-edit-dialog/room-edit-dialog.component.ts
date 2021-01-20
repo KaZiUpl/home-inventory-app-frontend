@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RoomFullOutput, RoomUpdateInput } from 'src/app/models/room.model';
+import { RoomSimpleOutput, RoomUpdateInput } from 'src/app/models/room.model';
 import { RoomService } from 'src/app/services/room.service';
 
 @Component({
@@ -12,12 +12,12 @@ import { RoomService } from 'src/app/services/room.service';
   styleUrls: ['./room-edit-dialog.component.scss'],
 })
 export class RoomEditDialogComponent implements OnInit {
-  editedRoom: RoomFullOutput;
+  editedRoom: RoomSimpleOutput;
   editRoomForm: FormGroup;
 
   constructor(
     private dialogRef: MatDialogRef<RoomEditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: { room: RoomFullOutput },
+    @Inject(MAT_DIALOG_DATA) private data: { room: RoomSimpleOutput },
     private roomService: RoomService,
     private snackBar: MatSnackBar
   ) {

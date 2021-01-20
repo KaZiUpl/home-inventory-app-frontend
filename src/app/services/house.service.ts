@@ -10,13 +10,10 @@ import {
   HouseFullOutput,
   HouseUpdateInput,
 } from '../models/house.model';
-import {
-  RoomSimpleOutput,
-  RoomInput,
-  StorageItemFullOutput,
-} from '../models/room.model';
+import { StorageItemFullOutput } from '../models/storage-item.model';
 import { UserSimpleOutput } from '../models/user.model';
 import { UserService } from './user.service';
+import { RoomInput, RoomSimpleOutput } from '../models/room.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,15 +28,7 @@ export class HouseService {
   constructor(
     private httpClient: HttpClient,
     private userService: UserService
-  ) {
-    //set initial value of subject
-    this.httpClient
-      .get<HouseSimpleOutput[]>(`${environment.apiUrl}/houses`)
-      .subscribe((list: HouseSimpleOutput[]) => {
-        this.houseList = list;
-        this.houseListSubject.next(this.houseList);
-      });
-  }
+  ) {}
 
   createNewHouse(name: string, description: string): Observable<any> {
     const body = {
@@ -93,6 +82,11 @@ export class HouseService {
 
   getHouseListSubject(): BehaviorSubject<HouseSimpleOutput[]> {
     return this.houseListSubject;
+  }
+
+  setHouseListSubject(value: HouseSimpleOutput[]): void {
+    this.houseList = value;
+    this.houseListSubject.next(value);
   }
 
   getHouse(houseId: string): Observable<HouseFullOutput> {

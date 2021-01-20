@@ -41,7 +41,10 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <div class="mat-elevation-z8">
+            <p *ngIf="storageItems?.length == 0">
+              You have no storage to display.
+            </p>
+            <div class="mat-elevation-z8" *ngIf="storageItems?.length > 0">
               <mat-table
                 class="storage-table"
                 [dataSource]="storageItemsDataSource"

@@ -23,6 +23,13 @@ export class DefaultComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.loggedInUser = userService.getLocalUser();
+
+    //set initial value for house list subject and house list in a service
+    this.houseService
+      .getHouseList()
+      .subscribe((houses: HouseSimpleOutput[]) => {
+        this.houseService.setHouseListSubject(houses);
+      });
   }
 
   ngOnInit(): void {
@@ -40,6 +47,7 @@ export class DefaultComponent implements OnInit, OnDestroy {
   logout(): void {
     this.userService.logout().subscribe((response: any) => {
       this.userService.removeLocalUser();
+      this.houseService.setHouseListSubject(null);
       this.router.navigate(['auth']);
     });
   }

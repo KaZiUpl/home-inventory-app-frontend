@@ -14,106 +14,123 @@
         </div>
       </mat-card-title>
       <mat-card-content>
-        <mat-radio-group
-          [(ngModel)]="displayOption"
-          (change)="onDisplayChange()"
-        >
-          <mat-radio-button value="all">All houses</mat-radio-button>
-          <mat-radio-button value="user" class="ml-2"
-            >Your houses</mat-radio-button
-          >
-        </mat-radio-group>
-        <div class="mat-elevation-z8">
-          <mat-table
-            id="house-table"
-            [dataSource]="housesDataSource"
-            multiTemplateDataRows
-          >
-            <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef>House name</mat-header-cell>
-              <mat-cell *matCellDef="let house">
-                <span class="ellipsis">{{ house.name }}</span>
-              </mat-cell>
-            </ng-container>
+        <div class="row">
+          <div class="col-12" *ngIf="houseList?.length == 0">
+            <p>You don't have any houses to display.</p>
+          </div>
+          <div class="col-12 w-100" *ngIf="houseList?.length > 0">
+            <mat-radio-group
+              [(ngModel)]="displayOption"
+              (change)="onDisplayChange()"
+            >
+              <mat-radio-button value="all">All houses</mat-radio-button>
+              <mat-radio-button value="user" class="ml-2"
+                >Your houses</mat-radio-button
+              >
+            </mat-radio-group>
+            <div class="mat-elevation-z8">
+              <mat-table
+                id="house-table"
+                [dataSource]="housesDataSource"
+                multiTemplateDataRows
+              >
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef
+                    >House name</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let house">
+                    <span class="ellipsis">{{ house.name }}</span>
+                  </mat-cell>
+                </ng-container>
 
-            <ng-container matColumnDef="owner">
-              <mat-header-cell *matHeaderCellDef>Owner</mat-header-cell>
-              <mat-cell *matCellDef="let house">
-                <span class="ellipsis">
-                  {{ house.owner.login }}
-                </span>
-              </mat-cell>
-            </ng-container>
+                <ng-container matColumnDef="owner">
+                  <mat-header-cell *matHeaderCellDef>Owner</mat-header-cell>
+                  <mat-cell *matCellDef="let house">
+                    <span class="ellipsis">
+                      {{ house.owner.login }}
+                    </span>
+                  </mat-cell>
+                </ng-container>
 
-            <!-- Expanded House Details Column-->
-            <ng-container matColumnDef="houseDetails">
-              <mat-cell *matCellDef="let house">
-                <div
-                  class="row w-100 house-details"
-                  [@houseExpand]="
-                    house == expandedHouse ? 'expanded' : 'collapsed'
+                <!-- Expanded House Details Column-->
+                <ng-container matColumnDef="houseDetails">
+                  <mat-cell *matCellDef="let house">
+                    <div
+                      class="row w-100 house-details"
+                      [@houseExpand]="
+                        house == expandedHouse ? 'expanded' : 'collapsed'
+                      "
+                    >
+                      <div class="w-100 my-2">
+                        <div class="row">
+                          <div class="col">
+                            <h2 class="d-flex justify-content-between">
+                              <span>House info</span>
+                              <button
+                                mat-raised-button
+                                color="primary"
+                                [routerLink]="['/houses/', house._id]"
+                              >
+                                Go to house view<mat-icon
+                                  >chevron_right</mat-icon
+                                >
+                              </button>
+                            </h2>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-4 col-sm-3 font-weight-bold">
+                            No of rooms
+                          </div>
+                          <div class="col-8 col-sm-9">
+                            {{ house.rooms.length }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-4 col-sm-3 font-weight-bold">
+                            No of collaborators
+                          </div>
+                          <div class="col-8 col-sm-9">
+                            {{ house.collaborators.length }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-4 col-sm-3 font-weight-bold">
+                            Description
+                          </div>
+                          <div class="col-8 col-sm-9">
+                            {{ house.description }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                  *matHeaderRowDef="['name', 'owner']"
+                ></mat-header-row>
+
+                <mat-row
+                  *matRowDef="let house; columns: ['name', 'owner']"
+                  class="house-data"
+                  [class.expanded]="expandedHouse == house"
+                  (click)="
+                    expandedHouse = expandedHouse == house ? null : house
                   "
-                >
-                  <div class="w-100 my-2">
-                    <div class="row">
-                      <div class="col">
-                        <h2 class="d-flex justify-content-between">
-                          <span>House info</span>
-                          <button
-                            mat-raised-button
-                            color="primary"
-                            [routerLink]="['/houses/', house._id]"
-                          >
-                            Go to house view<mat-icon>chevron_right</mat-icon>
-                          </button>
-                        </h2>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-4 col-sm-3 font-weight-bold">
-                        No of rooms
-                      </div>
-                      <div class="col-8 col-sm-9">{{ house.rooms.length }}</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-4 col-sm-3 font-weight-bold">
-                        No of collaborators
-                      </div>
-                      <div class="col-8 col-sm-9">
-                        {{ house.collaborators.length }}
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-4 col-sm-3 font-weight-bold">
-                        Description
-                      </div>
-                      <div class="col-8 col-sm-9">{{ house.description }}</div>
-                    </div>
-                  </div>
-                </div>
-              </mat-cell>
-            </ng-container>
+                ></mat-row>
 
-            <mat-header-row
-              *matHeaderRowDef="['name', 'owner']"
-            ></mat-header-row>
-
-            <mat-row
-              *matRowDef="let house; columns: ['name', 'owner']"
-              class="house-data"
-              [class.expanded]="expandedHouse == house"
-              (click)="expandedHouse = expandedHouse == house ? null : house"
-            ></mat-row>
-
-            <mat-row
-              *matRowDef="let house; columns: ['houseDetails']"
-              class="house-details-cell"
-            ></mat-row>
-          </mat-table>
-          <mat-paginator
-            [pageSizeOptions]="[5, 10, 20]"
-            showFirstLastButtons
-          ></mat-paginator>
+                <mat-row
+                  *matRowDef="let house; columns: ['houseDetails']"
+                  class="house-details-cell"
+                ></mat-row>
+              </mat-table>
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+              ></mat-paginator>
+            </div>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>

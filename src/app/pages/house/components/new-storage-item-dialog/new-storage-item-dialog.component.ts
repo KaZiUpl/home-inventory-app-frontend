@@ -30,8 +30,7 @@ import { ItemFullOutput, ItemSimpleOutput } from 'src/app/models/item.model';
 import {
   StorageItemFullOutput,
   StorageItemInput,
-  StorageItemSimpleOutput,
-} from 'src/app/models/room.model';
+} from 'src/app/models/storage-item.model';
 import { ItemService } from 'src/app/services/item.service';
 import { RoomService } from 'src/app/services/room.service';
 

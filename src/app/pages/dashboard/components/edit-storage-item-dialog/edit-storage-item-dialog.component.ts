@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter } from 'rxjs/operators';
-import { StorageItemFullOutput } from 'src/app/models/room.model';
+import { StorageItemFullOutput } from 'src/app/models/storage-item.model';
 import { RoomService } from 'src/app/services/room.service';
 
 @Component({
