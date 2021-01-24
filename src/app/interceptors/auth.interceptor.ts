@@ -4,6 +4,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import {
@@ -79,7 +80,17 @@ export class AuthInterceptor implements HttpInterceptor {
         })
       );
     }
-    return next.handle(this.addAuthHeaders(req));
+    return next.handle(this.addAuthHeaders(req)).pipe(
+      tap(
+        () => {},
+        (error) => {
+          if (error instanceof HttpErrorResponse && error.status == 401) {
+            this.userService.removeLocalUser();
+            this.router.navigate(['auth']);
+          }
+        }
+      )
+    );
   }
 
   addAuthHeaders(req: HttpRequest<any>) {
