@@ -67,9 +67,8 @@ export class HouseViewComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe((routeParams) => {
       this.house._id = this.activatedRoute.snapshot.paramMap.get('id');
-      this.houseService
-        .getHouse(this.house._id)
-        .subscribe((houseInfo: HouseFullOutput) => {
+      this.houseService.getHouse(this.house._id).subscribe(
+        (houseInfo: HouseFullOutput) => {
           let userId = this.userService.getLocalUser().id;
           this.houseOwner = houseInfo.owner._id == userId;
           this.loggedInUser = userId;
@@ -84,7 +83,14 @@ export class HouseViewComponent implements OnInit {
           if (queryRoom.length > 0) {
             this.expandedRoom = queryRoom[0];
           }
-        });
+        },
+        (error: HttpErrorResponse) => {
+          this.snackBarService.open(error.error.message, null, {
+            duration: 3000,
+          });
+          this.router.navigate(['/houses']);
+        }
+      );
     });
   }
 

@@ -23,6 +23,7 @@ import {
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, pipe } from 'rxjs';
 import { filter, startWith, map, tap } from 'rxjs/operators';
 import { BarcodeDialogComponent } from 'src/app/components/barcode-dialog/barcode-dialog.component';
@@ -33,6 +34,7 @@ import {
 } from 'src/app/models/storage-item.model';
 import { ItemService } from 'src/app/services/item.service';
 import { RoomService } from 'src/app/services/room.service';
+import { environment } from 'src/environments/environment';
 
 export class NoItemErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -80,7 +82,8 @@ export class NewStorageItemDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: { roomId: string },
     private snackBarService: MatSnackBar,
     private roomService: RoomService,
-    private itemService: ItemService
+    private itemService: ItemService,
+    private sanitizer: DomSanitizer
   ) {
     //get items list
     this.itemService.getItemList().subscribe((items: ItemSimpleOutput[]) => {
@@ -144,10 +147,7 @@ export class NewStorageItemDialogComponent implements OnInit {
             this.storageItemDetailsForm.controls.expiration.value != null
               ? new Date(storageItemInfo.expiration).toISOString()
               : null;
-          newStorageItem.item = {
-            _id: storageItemInfo.item,
-            name: this.choosenItem.name,
-          };
+          newStorageItem.item = this.choosenItem;
 
           //close dialog
           this.snackBarService.open(response.message, null, { duration: 1500 });

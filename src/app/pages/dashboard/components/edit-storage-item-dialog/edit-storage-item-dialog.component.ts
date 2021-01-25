@@ -24,7 +24,6 @@ export class EditStorageItemDialogComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.storageItem = data.storageItem;
-    console.log(this.storageItem);
 
     this.storageItemForm = new FormGroup({
       quantity: new FormControl(this.storageItem.quantity, [

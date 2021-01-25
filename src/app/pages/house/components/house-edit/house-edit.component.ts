@@ -33,13 +33,21 @@ export class HouseEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.houseService.getHouse(this.house._id).subscribe((houseOutput) => {
-      this.house = houseOutput;
-      this.houseEditForm.patchValue({
-        name: this.house.name,
-        description: this.house.description,
-      });
-    });
+    this.houseService.getHouse(this.house._id).subscribe(
+      (houseOutput) => {
+        this.house = houseOutput;
+        this.houseEditForm.patchValue({
+          name: this.house.name,
+          description: this.house.description,
+        });
+      },
+      (error: HttpErrorResponse) => {
+        this.snackBarService.open(error.error.message, null, {
+          duration: 3000,
+        });
+        this.router.navigate(['/houses']);
+      }
+    );
   }
 
   onCancel(): void {
