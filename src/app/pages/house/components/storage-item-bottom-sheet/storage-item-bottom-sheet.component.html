@@ -2,19 +2,26 @@
   <div class="col-12">
     <h2>{{ storageItem?.item.name }}</h2>
   </div>
-  <div class="col-12 text-center">
+  <div class="col-12 col-md-6">
+    <p *ngIf="storageItem?.item.manufacturer">
+      Manufacturer: {{ storageItem?.item.manufacturer }}
+    </p>
+    <p *ngIf="storageItem?.item.description" class="text-break">
+      Item description: {{ storageItem?.item.description }}
+    </p>
+  </div>
+  <div class="col-12 col-md-6 text-center">
     <img
       *ngIf="storageItem?.item.photo"
       [src]="this.storageItem.item.photoSafe"
       alt="item photo"
-      height="150px"
     />
   </div>
   <mat-divider></mat-divider>
   <div class="col-12">
     <p>Quantity: {{ storageItem?.quantity }}</p>
     <p *ngIf="storageItem?.expiration">
-      Expiration: {{ storageItem?.expiration | date: "d MMM yyyy" }}
+      Expiration: {{ storageItem?.expiration | date: "EEEE, d MMMM yyyy" }}
     </p>
     <p *ngIf="storageItem?.description" class="text-break">
       Storage item description: {{ storageItem?.description }}
