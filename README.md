@@ -1,6 +1,6 @@
-<center>
+<p align="center">
     <img src="./src/assets/img/logo_wide.png" width="65%" alt="application logo">
-</center>
+</p>
 
 # About
 
