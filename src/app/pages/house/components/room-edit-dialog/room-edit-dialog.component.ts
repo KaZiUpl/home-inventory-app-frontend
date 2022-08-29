@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RoomSimpleOutput, RoomUpdateInput } from 'src/app/models/room.model';
@@ -13,7 +13,7 @@ import { RoomService } from 'src/app/services/room.service';
 })
 export class RoomEditDialogComponent implements OnInit {
   editedRoom: RoomSimpleOutput;
-  editRoomForm: FormGroup;
+  editRoomForm: UntypedFormGroup;
 
   constructor(
     private dialogRef: MatDialogRef<RoomEditDialogComponent>,
@@ -23,12 +23,12 @@ export class RoomEditDialogComponent implements OnInit {
   ) {
     this.editedRoom = data.room;
 
-    this.editRoomForm = new FormGroup({
-      name: new FormControl(this.editedRoom.name, [
+    this.editRoomForm = new UntypedFormGroup({
+      name: new UntypedFormControl(this.editedRoom.name, [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      description: new FormControl(this.editedRoom.description, [
+      description: new UntypedFormControl(this.editedRoom.description, [
         Validators.maxLength(250),
       ]),
     });

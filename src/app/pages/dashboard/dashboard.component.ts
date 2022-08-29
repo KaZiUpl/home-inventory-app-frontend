@@ -8,7 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { StorageItemBottomSheetComponent } from './components/storage-item-bottom-sheet/storage-item-bottom-sheet.component';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BarcodeDialogComponent } from 'src/app/components/barcode-dialog/barcode-dialog.component';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.storageItemsDataSource.sort = v;
   }
 
-  searchControl: FormControl = new FormControl(null);
+  searchControl: UntypedFormControl = new UntypedFormControl(null);
   storageItems: StorageItemFullOutput[] = new Array<StorageItemFullOutput>();
   storageItemsDataSource: MatTableDataSource<StorageItemFullOutput> = new MatTableDataSource<StorageItemFullOutput>();
 

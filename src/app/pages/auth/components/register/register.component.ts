@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormControl,
+  UntypedFormGroup,
+  UntypedFormControl,
   Validators,
   NgForm,
   FormGroupDirective,
@@ -15,7 +15,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 
 class CrossFieldErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
-    control: FormControl | null,
+    control: UntypedFormControl | null,
     form: FormGroupDirective | NgForm | null
   ): boolean {
     return (
@@ -33,7 +33,7 @@ class CrossFieldErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RegisterComponent implements OnInit {
   hidePassword: boolean = true;
-  registerForm: FormGroup;
+  registerForm: UntypedFormGroup;
 
   crossFieldErrorMatcher = new CrossFieldErrorStateMatcher();
 
@@ -42,16 +42,16 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private snackBarService: MatSnackBar
   ) {
-    this.registerForm = new FormGroup(
+    this.registerForm = new UntypedFormGroup(
       {
-        login: new FormControl(null, [
+        login: new UntypedFormControl(null, [
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9]+$'),
           Validators.minLength(5),
           Validators.maxLength(20),
         ]),
-        email: new FormControl(null, [Validators.required, Validators.email]),
-        password: new FormControl(null, [
+        email: new UntypedFormControl(null, [Validators.required, Validators.email]),
+        password: new UntypedFormControl(null, [
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(20),
@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
             '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{1,}$'
           ),
         ]),
-        confirmPassword: new FormControl(null, [Validators.required]),
+        confirmPassword: new UntypedFormControl(null, [Validators.required]),
       },
       [this.passwordsNotEqual]
     );
@@ -104,7 +104,7 @@ export class RegisterComponent implements OnInit {
       );
   }
 
-  passwordsNotEqual(signUpForm: FormGroup) {
+  passwordsNotEqual(signUpForm: UntypedFormGroup) {
     const condition =
       signUpForm.get('password').value !==
       signUpForm.get('confirmPassword').value;

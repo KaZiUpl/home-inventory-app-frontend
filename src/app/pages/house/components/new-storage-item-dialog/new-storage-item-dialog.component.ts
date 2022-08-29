@@ -8,8 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   FormGroupDirective,
   NgForm,
   Validators,
@@ -38,7 +38,7 @@ import { environment } from 'src/environments/environment';
 
 export class NoItemErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
-    control: FormControl | null,
+    control: UntypedFormControl | null,
     form: FormGroupDirective | NgForm | null
   ): boolean {
     const isSubmitted = form && form.submitted;
@@ -67,13 +67,13 @@ export class NewStorageItemDialogComponent implements OnInit {
 
   matcher: NoItemErrorStateMatcher = new NoItemErrorStateMatcher();
 
-  itemForm: FormGroup = new FormGroup({
-    item: new FormControl('', [Validators.required, this.itemNotChoosen]),
+  itemForm: UntypedFormGroup = new UntypedFormGroup({
+    item: new UntypedFormControl('', [Validators.required, this.itemNotChoosen]),
   });
-  storageItemDetailsForm: FormGroup = new FormGroup({
-    quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-    description: new FormControl(null, [Validators.maxLength(250)]),
-    expiration: new FormControl({ value: null, disabled: true }, []),
+  storageItemDetailsForm: UntypedFormGroup = new UntypedFormGroup({
+    quantity: new UntypedFormControl(1, [Validators.required, Validators.min(1)]),
+    description: new UntypedFormControl(null, [Validators.maxLength(250)]),
+    expiration: new UntypedFormControl({ value: null, disabled: true }, []),
   });
 
   constructor(
@@ -205,7 +205,7 @@ export class NewStorageItemDialogComponent implements OnInit {
     });
   }
 
-  itemNotChoosen(control: FormControl) {
+  itemNotChoosen(control: UntypedFormControl) {
     return typeof control.value === 'string' ? { itemNotChoosen: true } : null;
   }
 

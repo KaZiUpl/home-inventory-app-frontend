@@ -4,7 +4,7 @@ import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Subscription, pipe } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { OnDestroy } from '@angular/core';
@@ -27,7 +27,7 @@ export class ItemListComponent implements OnInit, AfterViewInit, OnDestroy {
   itemsDataSource: MatTableDataSource<ItemSimpleOutput>;
   searchValue: string;
   searchFieldSub: Subscription;
-  searchForm: FormGroup;
+  searchForm: UntypedFormGroup;
 
   pageSizes = [10, 25, 50].sort();
 
@@ -41,8 +41,8 @@ export class ItemListComponent implements OnInit, AfterViewInit, OnDestroy {
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {
-    this.searchForm = new FormGroup({
-      search: new FormControl(null, []),
+    this.searchForm = new UntypedFormGroup({
+      search: new UntypedFormControl(null, []),
     });
 
     let searchFilters = {};

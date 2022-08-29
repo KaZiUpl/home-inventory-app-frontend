@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { pipe } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { HouseService } from '../../../../services/house.service';
   styleUrls: ['./new-room-dialog.component.scss'],
 })
 export class NewRoomDialogComponent implements OnInit {
-  roomForm: FormGroup;
+  roomForm: UntypedFormGroup;
   houseId: string;
 
   constructor(
@@ -23,12 +23,12 @@ export class NewRoomDialogComponent implements OnInit {
     private snackBarService: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) private data: { houseId: string }
   ) {
-    this.roomForm = new FormGroup({
-      name: new FormControl(null, [
+    this.roomForm = new UntypedFormGroup({
+      name: new UntypedFormControl(null, [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      description: new FormControl(null, [Validators.maxLength(250)]),
+      description: new UntypedFormControl(null, [Validators.maxLength(250)]),
     });
     this.houseId = data.houseId;
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UserService } from 'src/app/services/user.service';
@@ -14,17 +14,17 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   hidePassword: boolean = true;
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
 
   constructor(
     private userService: UserService,
     private router: Router,
     private snackBarService: MatSnackBar
   ) {
-    this.loginForm = new FormGroup({
-      login: new FormControl(null, [Validators.required]),
-      password: new FormControl(null, [Validators.required]),
-      remember: new FormControl(null, []),
+    this.loginForm = new UntypedFormGroup({
+      login: new UntypedFormControl(null, [Validators.required]),
+      password: new UntypedFormControl(null, [Validators.required]),
+      remember: new UntypedFormControl(null, []),
     });
   }
 

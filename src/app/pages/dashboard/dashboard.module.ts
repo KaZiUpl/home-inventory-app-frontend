@@ -22,29 +22,28 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    StorageItemBottomSheetComponent,
-    EditStorageItemDialogComponent,
-  ],
-  imports: [
-    CommonModule,
-    DashboardRoutingModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTableModule,
-    MatSortModule,
-    MatDividerModule,
-    MatMenuModule,
-    MatIconModule,
-    MatPaginatorModule,
-    MatBottomSheetModule,
-    MatDatepickerModule,
-    MatDialogModule,
-  ],
-  entryComponents: [StorageItemBottomSheetComponent, BarcodeDialogComponent],
+    declarations: [
+        DashboardComponent,
+        StorageItemBottomSheetComponent,
+        EditStorageItemDialogComponent,
+    ],
+    imports: [
+        CommonModule,
+        DashboardRoutingModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTableModule,
+        MatSortModule,
+        MatDividerModule,
+        MatMenuModule,
+        MatIconModule,
+        MatPaginatorModule,
+        MatBottomSheetModule,
+        MatDatepickerModule,
+        MatDialogModule,
+    ]
 })
 export class DashboardModule {}
