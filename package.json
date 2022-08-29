@@ -24,7 +24,7 @@
     "@angular/router": "^10.0.14",
     "bootstrap": "^4.5.3",
     "ngx-image-compress": "^11.0.3",
-    "ngx-material-file-input": "^2.1.1",
+    "ngx-material-file-input": "^4.0.0",
     "quagga": "^0.12.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.1.0",
