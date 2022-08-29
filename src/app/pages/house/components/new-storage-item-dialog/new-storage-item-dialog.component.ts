@@ -1,5 +1,4 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { isNull } from '@angular/compiler/src/output/output_ast';
 import {
   Component,
   ElementRef,
@@ -68,10 +67,16 @@ export class NewStorageItemDialogComponent implements OnInit {
   matcher: NoItemErrorStateMatcher = new NoItemErrorStateMatcher();
 
   itemForm: UntypedFormGroup = new UntypedFormGroup({
-    item: new UntypedFormControl('', [Validators.required, this.itemNotChoosen]),
+    item: new UntypedFormControl('', [
+      Validators.required,
+      this.itemNotChoosen,
+    ]),
   });
   storageItemDetailsForm: UntypedFormGroup = new UntypedFormGroup({
-    quantity: new UntypedFormControl(1, [Validators.required, Validators.min(1)]),
+    quantity: new UntypedFormControl(1, [
+      Validators.required,
+      Validators.min(1),
+    ]),
     description: new UntypedFormControl(null, [Validators.maxLength(250)]),
     expiration: new UntypedFormControl({ value: null, disabled: true }, []),
   });
@@ -124,8 +129,10 @@ export class NewStorageItemDialogComponent implements OnInit {
   onAccept(): void {
     let storageItemInfo = new StorageItemInput();
     storageItemInfo.item = this.choosenItem._id;
-    storageItemInfo.quantity = this.storageItemDetailsForm.controls.quantity.value;
-    storageItemInfo.description = this.storageItemDetailsForm.controls.description.value;
+    storageItemInfo.quantity =
+      this.storageItemDetailsForm.controls.quantity.value;
+    storageItemInfo.description =
+      this.storageItemDetailsForm.controls.description.value;
     storageItemInfo.expiration = Date.parse(
       this.storageItemDetailsForm.controls.expiration.value
     );
