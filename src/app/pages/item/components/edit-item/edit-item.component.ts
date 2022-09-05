@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FileInput } from 'ngx-material-file-input';
 import { from } from 'rxjs';
@@ -21,8 +21,8 @@ import { environment } from 'src/environments/environment';
 })
 export class EditItemComponent implements OnInit {
   item: ItemFullOutput = new ItemFullOutput();
-  itemForm: FormGroup;
-  photoControl: FormControl = new FormControl();
+  itemForm: UntypedFormGroup;
+  photoControl: UntypedFormControl = new UntypedFormControl();
 
   constructor(
     private itemService: ItemService,
@@ -33,15 +33,15 @@ export class EditItemComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private imageService: NgxImageCompressService
   ) {
-    this.itemForm = new FormGroup({
-      name: new FormControl(null, [
+    this.itemForm = new UntypedFormGroup({
+      name: new UntypedFormControl(null, [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      description: new FormControl(null, [Validators.maxLength(250)]),
-      manufacturer: new FormControl(null, [Validators.maxLength(50)]),
-      code: new FormControl(null, [Validators.maxLength(128)]),
-      photo: new FormControl(null, []),
+      description: new UntypedFormControl(null, [Validators.maxLength(250)]),
+      manufacturer: new UntypedFormControl(null, [Validators.maxLength(50)]),
+      code: new UntypedFormControl(null, [Validators.maxLength(128)]),
+      photo: new UntypedFormControl(null, []),
     });
     this.item._id = activatedRoute.snapshot.paramMap.get('id');
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { pipe } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -13,19 +13,19 @@ import { HouseService } from '../../../../services/house.service';
   styleUrls: ['./new-house-dialog.component.scss'],
 })
 export class NewHouseDialogComponent implements OnInit {
-  houseForm: FormGroup;
+  houseForm: UntypedFormGroup;
 
   constructor(
     private houseService: HouseService,
     public dialogRef: MatDialogRef<NewHouseDialogComponent>,
     private snackBarService: MatSnackBar
   ) {
-    this.houseForm = new FormGroup({
-      name: new FormControl(null, [
+    this.houseForm = new UntypedFormGroup({
+      name: new UntypedFormControl(null, [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      description: new FormControl(null, [Validators.maxLength(250)]),
+      description: new UntypedFormControl(null, [Validators.maxLength(250)]),
     });
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -17,8 +17,8 @@ import { NgxImageCompressService } from 'ngx-image-compress';
   styleUrls: ['./new-item.component.scss'],
 })
 export class NewItemComponent implements OnInit {
-  itemForm: FormGroup;
-  photoControl: FormControl = new FormControl();
+  itemForm: UntypedFormGroup;
+  photoControl: UntypedFormControl = new UntypedFormControl();
 
   constructor(
     private itemService: ItemService,
@@ -27,15 +27,15 @@ export class NewItemComponent implements OnInit {
     private router: Router,
     private imageService: NgxImageCompressService
   ) {
-    this.itemForm = new FormGroup({
-      name: new FormControl(null, [
+    this.itemForm = new UntypedFormGroup({
+      name: new UntypedFormControl(null, [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      description: new FormControl(null, [Validators.maxLength(250)]),
-      manufacturer: new FormControl(null, [Validators.maxLength(50)]),
-      code: new FormControl(null, [Validators.maxLength(128)]),
-      photo: new FormControl(null, []),
+      description: new UntypedFormControl(null, [Validators.maxLength(250)]),
+      manufacturer: new UntypedFormControl(null, [Validators.maxLength(50)]),
+      code: new UntypedFormControl(null, [Validators.maxLength(128)]),
+      photo: new UntypedFormControl(null, []),
     });
   }
 

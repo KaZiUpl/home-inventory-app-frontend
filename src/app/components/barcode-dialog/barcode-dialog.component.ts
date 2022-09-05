@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { pipe, from } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import Quagga from 'quagga';
 
@@ -15,7 +15,7 @@ import Quagga from 'quagga';
 export class BarcodeDialogComponent implements AfterViewInit {
   quaggaStatus: number = 1;
   private torchStatus: boolean = false;
-  barcodeForm: FormGroup;
+  barcodeForm: UntypedFormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<BarcodeDialogComponent>,
@@ -34,8 +34,8 @@ export class BarcodeDialogComponent implements AfterViewInit {
       this.onCancelDialog();
     });
 
-    this.barcodeForm = new FormGroup({
-      barcode: new FormControl(null, [Validators.required]),
+    this.barcodeForm = new UntypedFormGroup({
+      barcode: new UntypedFormControl(null, [Validators.required]),
     });
 
     if (

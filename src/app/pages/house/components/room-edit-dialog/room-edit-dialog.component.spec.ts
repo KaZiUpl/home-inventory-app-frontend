@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RoomEditDialogComponent } from './room-edit-dialog.component';
 
@@ -6,7 +6,7 @@ describe('RoomEditDialogComponent', () => {
   let component: RoomEditDialogComponent;
   let fixture: ComponentFixture<RoomEditDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ RoomEditDialogComponent ]
     })

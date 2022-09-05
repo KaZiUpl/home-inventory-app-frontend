@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HouseFullOutput } from 'src/app/models/house.model';
@@ -12,7 +12,7 @@ import { HouseService } from 'src/app/services/house.service';
   styleUrls: ['./house-edit.component.scss'],
 })
 export class HouseEditComponent implements OnInit {
-  houseEditForm: FormGroup;
+  houseEditForm: UntypedFormGroup;
   house: HouseFullOutput = new HouseFullOutput();
 
   constructor(
@@ -23,12 +23,12 @@ export class HouseEditComponent implements OnInit {
   ) {
     this.house._id = activatedRoute.snapshot.paramMap.get('id');
 
-    this.houseEditForm = new FormGroup({
-      name: new FormControl(null, [
+    this.houseEditForm = new UntypedFormGroup({
+      name: new UntypedFormControl(null, [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      description: new FormControl(null, [Validators.maxLength(250)]),
+      description: new UntypedFormControl(null, [Validators.maxLength(250)]),
     });
   }
 

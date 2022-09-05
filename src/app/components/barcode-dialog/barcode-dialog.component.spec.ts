@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BarcodeDialogComponent } from './barcode-dialog.component';
 
@@ -6,7 +6,7 @@ describe('BarcodeDialogComponent', () => {
   let component: BarcodeDialogComponent;
   let fixture: ComponentFixture<BarcodeDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BarcodeDialogComponent ]
     })

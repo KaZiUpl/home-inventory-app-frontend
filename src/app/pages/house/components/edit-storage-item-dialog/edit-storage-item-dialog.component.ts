@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { RoomService } from 'src/app/services/room.service';
   styleUrls: ['./edit-storage-item-dialog.component.scss'],
 })
 export class EditStorageItemDialogComponent implements OnInit {
-  storageItemForm: FormGroup;
+  storageItemForm: UntypedFormGroup;
   storageItem: StorageItemFullOutput;
 
   constructor(
@@ -24,12 +24,12 @@ export class EditStorageItemDialogComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.storageItem = data.storageItem;
-    this.storageItemForm = new FormGroup({
-      quantity: new FormControl(this.storageItem.quantity, [
+    this.storageItemForm = new UntypedFormGroup({
+      quantity: new UntypedFormControl(this.storageItem.quantity, [
         Validators.required,
         Validators.min(1),
       ]),
-      expiration: new FormControl(
+      expiration: new UntypedFormControl(
         {
           value: this.storageItem.expiration
             ? this.storageItem.expiration
@@ -38,7 +38,7 @@ export class EditStorageItemDialogComponent implements OnInit {
         },
         []
       ),
-      description: new FormControl(this.storageItem.description, [
+      description: new UntypedFormControl(this.storageItem.description, [
         Validators.maxLength(250),
       ]),
     });

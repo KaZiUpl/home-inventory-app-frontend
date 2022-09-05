@@ -11,7 +11,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Subscription, pipe } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -22,7 +22,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class EditableCellComponent implements AfterViewInit, OnInit, OnDestroy {
   show: boolean = false;
-  control: FormControl;
+  control: UntypedFormControl;
 
   @ViewChild('input') input: ElementRef;
 
@@ -30,7 +30,7 @@ export class EditableCellComponent implements AfterViewInit, OnInit, OnDestroy {
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private cd: ChangeDetectorRef) {
-    this.control = new FormControl();
+    this.control = new UntypedFormControl();
   }
   ngOnInit(): void {
     this.control.patchValue(this.quantity);

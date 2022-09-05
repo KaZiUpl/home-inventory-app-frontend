@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TokenOutput } from 'src/app/models/token.model';
 import { UserFullOutput } from 'src/app/models/user.model';
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  profileForm: FormGroup;
+  profileForm: UntypedFormGroup;
   user: TokenOutput;
 
   constructor(
@@ -20,8 +20,8 @@ export class ProfileComponent implements OnInit {
     private snackBarService: MatSnackBar
   ) {
     this.user = this.userService.getLocalUser();
-    this.profileForm = new FormGroup({
-      login: new FormControl(this.user.login, [Validators.required]),
+    this.profileForm = new UntypedFormGroup({
+      login: new UntypedFormControl(this.user.login, [Validators.required]),
     });
   }
 
